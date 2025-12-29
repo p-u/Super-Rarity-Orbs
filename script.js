@@ -1,6 +1,6 @@
 const illions = ["thousand", "million", "billion", "trillion", "quadrillion", "quintillion", "sextillion", "septillion", "octillion", "nonillion", "decillion", "undecillion", "duodecillion", "tredecillion", "quattuordecillion", "quindecillion", "sexdecillion", "septendecillion", "octodecillion", "novemdecillion", "vigintillion"]
 const illionsShort = ["K", "M", "B", "T", "Qa", "Qt", "Sx", "Sp", "Oc", "No", "Dc", "UDc", "DDc", "TDc", "QaDc", "QiDc", "SxDc", "SpDc", "OcDc", "NoDc", "Vg"]
-const rarities     = [1, 3, 10, 50, 250, 1200,7000, 30000,140000,750000,6e6, 2e7, 4.5e8, 5e9, Infinity, Infinity, Infinity];
+const rarities     = [1, 3, 10, 50, 250, 1200,7000, 30000,140000,750000,6e6, 2e7, 4.5e8, 7e9, Infinity, Infinity, Infinity];
 const rarityNames = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythical', 'Exotic', 'Ethereal', 'Galactic', 'Transcendental', 'Angelic', 'Demonic', 'Void', 'Antimatter', 'UNDEFINED 1', 'UNDEFINED 2', 'UNDEFINED 3'];
 const raritySizes = [7, 8, 9, 10, 11, 12, 13, 14, 14, 14, 14, 14, 14, 14]
 const rarityValues = [1, 3, 10, 25, 100, 300, 1000, 3000, 10000, 40000, 2.5e5, 5e5, 7e6, 4e7, 2e8, 1e9, 5e9, 4e10]
