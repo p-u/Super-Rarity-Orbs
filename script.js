@@ -1,9 +1,9 @@
 const illions = ["thousand", "million", "billion", "trillion", "quadrillion", "quintillion", "sextillion", "septillion", "octillion", "nonillion", "decillion", "undecillion", "duodecillion", "tredecillion", "quattuordecillion", "quindecillion", "sexdecillion", "septendecillion", "octodecillion", "novemdecillion", "vigintillion"]
 const illionsShort = ["K", "M", "B", "T", "Qa", "Qt", "Sx", "Sp", "Oc", "No", "Dc", "UDc", "DDc", "TDc", "QaDc", "QiDc", "SxDc", "SpDc", "OcDc", "NoDc", "Vg"]
-const rarities     = [1, 3, 10, 50, 250, 1200,7000, 30000,140000,750000,6e6, 2e7, 4.5e8, 6e9, Infinity, Infinity, Infinity];
+const rarities     = [1, 3, 10, 50, 250, 1200,7000, 30000,140000,750000,6e6, 2e7, 4.5e8, 5e9, Infinity, Infinity, Infinity];
 const rarityNames = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythical', 'Exotic', 'Ethereal', 'Galactic', 'Transcendental', 'Angelic', 'Demonic', 'Void', 'Antimatter', 'UNDEFINED 1', 'UNDEFINED 2', 'UNDEFINED 3'];
 const raritySizes = [7, 8, 9, 10, 11, 12, 13, 14, 14, 14, 14, 14, 14, 14]
-const rarityValues = [1, 3, 10, 25, 100, 300, 1000, 3000, 10000, 40000, 2e5, 4e5, 5e6, 4e7, 2e8, 1e9, 5e9, 4e10]
+const rarityValues = [1, 3, 10, 25, 100, 300, 1000, 3000, 10000, 40000, 2.5e5, 5e5, 7e6, 4e7, 2e8, 1e9, 5e9, 4e10]
 const rarityColours = ['#bbbbbb', '#bbbbbb', '#45bb45', '#45bb45', '#4545bb', '#4545bb', '#8845bb', '#8845bb', '#ff8800', '#ff8800', '#ff0000', '#ff0000', '#ff7b00', '#bb24bb', '#4800ff', '#000000', '#8200ff', '#000042', '#82ff49', '#14c98d', '#ffffff', '#ffe500', '#ff0000', '#5c0000', '#333333', '#111111', '#c307eb', '#11053a']
 
 setAutoSave()
@@ -178,18 +178,21 @@ function loadGame(loadgame) {
 }
 
 function spawn1() {
-    if (currentOrbs < 100) createOrb(1)
-    setTimeout(spawn1, game.spawnIntervals[0])
+    if (document.hidden) return
+    if (currentOrbs < 100) createOrb(1);
+    setTimeout(spawn1, game.spawnIntervals[0]);
 }
 setTimeout(spawn1, game.spawnIntervals[0])
 
 function spawn2() {
+    if (document.hidden) return
     if (currentOrbs < 100) createOrb(2)
     setTimeout(spawn2, game.spawnIntervals[1])
 }
 
 function spawn3() {
-    if (currentOrbs < 100) createOrb(3)
+    if (document.hidden) return
+    if (currentOrbs < 100) createOrb(3);
     setTimeout(spawn3, game.spawnIntervals[2])
 }
 
@@ -506,7 +509,7 @@ function unlockRebirth() {
 }
 
 function rebirth() {
-    if (game.money > 3.63 ** game.rebirths * 5000) {
+    if (game.money > 3.5 ** game.rebirths * 5000) {
         game.rebirths++
         game.money = 0
         game.moneyMultiplier = 1
@@ -529,4 +532,22 @@ function rebirth() {
         updateVisuals()
         updateRarityList()
     }
+}
+
+document.addEventListener("visibilitychange", function() {
+    if (document.hidden) {
+        // Stop spawning when change tabs.
+        game.isPaused = true;
+        console.log("Game paused.");
+    } else {
+        game.isPaused = false;
+        console.log("Game resumed.");
+        restartSpawners();
+    }
+});
+
+function restartSpawners() {
+    spawn1(); 
+    if (game.spawnersUnlocked >= 2) spawn2();
+    if (game.spawnersUnlocked >= 3) spawn3();
 }
