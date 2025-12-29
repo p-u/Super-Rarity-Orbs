@@ -1,0 +1,177 @@
+@font-face{
+    font-family:"Pixelated MS Sans Serif";
+    font-style:normal;
+    font-weight:400;
+    src:url(fonts/ms_sans_serif.woff) format("woff");
+    src:url(fonts/ms_sans_serif.woff2) format("woff2")
+}
+@font-face{
+    font-family:"Pixelated MS Sans Serif";
+    font-style:normal;
+    font-weight:700;
+    src:url(fonts/ms_sans_serif_bold.woff) format("woff");
+    src:url(fonts/ms_sans_serif_bold.woff2) format("woff2")
+}
+@font-face{
+    font-family:"Alagard";
+    font-style:normal;
+    font-weight:700;
+    src:url(fonts/alagard.woff) format("woff");
+}
+@font-face{
+    font-family:"VCR OSD MONO";
+    font-style:normal;
+    font-weight:700;
+    src:url(fonts/VCR_OSD_MONO.woff) format("woff");
+}
+
+body {
+    background-color: #222233;
+    color: #ffffff;
+}
+
+p {
+    margin: 8px;
+    font-family: "Pixelated MS Sans Serif", Arial;
+}
+
+button {
+    background-image: linear-gradient(#fff, #bbb);
+    border: 2px solid #666;
+    margin-left: 4px;
+    cursor: pointer;
+    margin-bottom: 4px;
+}
+
+#field {
+    display: inline-block;
+    vertical-align: top;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+#info {
+    display: inline-block;
+    margin-left: 8px;
+    margin-bottom: 20px;
+    height: 800px;
+    width: 500px;
+    overflow-y: auto;
+    border: 2px solid #666;
+}
+
+.spawnerTabBuyButton {
+    background-image: linear-gradient(#9dd, #7bb);
+    border: 2px solid #066;
+}
+
+#unlockBoostsButton {
+    background-image: linear-gradient(#fe8, #ec6);
+    border: 3px solid #860;
+}
+
+#unlockRebirthButton {
+    display: none;
+    background-image: linear-gradient(#caf, #a7c);
+    border: 3px solid #50a;
+}
+
+#boosts {
+    display: none;
+    margin-left: 8px;
+    margin-bottom: 20px;
+    height: 800px;
+    width: 350px;
+    overflow-y: auto;
+    border: 2px solid #666;
+}
+
+.boostButton {
+    background-image: linear-gradient(#fe8, #ec6);
+    border: 3px solid #860;
+}
+
+#rebirth {
+    width: 100%;
+    display: none;
+}
+
+#rebirthButton {
+    background-image: linear-gradient(#caf, #a7c);
+    border: 3px solid #50a;
+    min-width: 150px;
+}
+
+#rarities {
+    display: inline-block;
+    margin-left: 8px;
+    margin-bottom: 20px;
+    height: 800px;
+    width: 300px;
+    overflow-y: auto;
+    border: 2px solid #666;
+}
+
+#raritiesHeader {
+    width: 100%;
+    height: 80px;
+    background-image: linear-gradient(#eee, #bbb);
+    border-bottom: 2px solid #666;
+}
+
+.raritySlot {
+    width: 100%;
+    height: 100px;
+    margin: 0;
+    border-bottom: 2px solid #666;
+    position: relative;
+}
+
+.raritySlotImage {
+    position: absolute;
+    top: 18px;
+    left: 15px;
+    filter: drop-shadow(0 0 4px #000000);
+    display: inline-block;
+    width: 64px;
+}
+
+.raritySlotText {
+    color: white;
+    font-size: 32px;
+    text-shadow: 0 0 4px black;
+    float: right;
+    text-align: right;
+}
+
+.nextRarity {
+    width: 100%;
+    height: 100px;
+    margin: 0;
+    border-bottom: 2px solid #666;
+    position: relative;
+    background-image: linear-gradient(#666, #444);
+}
+
+.nextRarityText {
+    color: #ddd;
+    font-size: 32px;
+    text-shadow: 0 0 4px black;
+    float: right;
+    text-align: right;
+}
+
+#settings {
+    display: inline-block;
+    margin-left: 8px;
+    margin-bottom: 20px;
+    border: 2px solid #666;
+    vertical-align: top;
+    padding-right: 4px;
+}
+
+@media only screen and (max-width: 600px) {
+    #info, #boosts, #rarities {
+        width: calc(100% - 16px);
+    }
+}
