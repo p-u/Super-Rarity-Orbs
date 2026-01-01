@@ -643,7 +643,7 @@ function unlockRebirth() {
 }
 
 function unlockRBM() {
-    if (game.diamonds >= 300 && !game.mechanicsUnlocked==2) {
+    if (game.diamonds >= 300 && game.mechanicsUnlocked==2) {
         game.diamonds -= 300
         game.mechanicsUnlocked = 3
         updateText()
@@ -653,7 +653,7 @@ function unlockRBM() {
 }
 
 function unlockTier() {
-    if (game.diamonds >= 1000 && !game.mechanicsUnlocked==3 && game.rebirths >= 16) {
+    if (game.diamonds >= 1000 && game.mechanicsUnlocked==3 && game.rebirths >= 16) {
         game.diamonds -= 1000
         game.mechanicsUnlocked = 4
         updateText()
