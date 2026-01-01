@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rarity Orbs XL</title>
+    <title>Super Rarity Orbs</title>
     <link rel="stylesheet" href="style.css?v011=1">
     <link rel="icon" href="img/ball7.png">
 </head>
 <body>
     <div id="field">
-        <p style="position: absolute; bottom: 4px; left: 23px; margin: 0; z-index: 1; color: #8f8">x2.0</p>
-        <p style="position: absolute; bottom: 4px; left: 97px; margin: 0; z-index: 1; color: #ccc">x1.0</p>
-        <p style="position: absolute; bottom: 4px; left: 186px; margin: 0; z-index: 1; color: #bdf">x1.5</p>
-        <p style="position: absolute; bottom: 4px; left: 276px; margin: 0; z-index: 1; color: #ccc">x1.0</p>
-        <p style="position: absolute; bottom: 4px; left: 350px; margin: 0; z-index: 1; color: #8f8">x2.0</p>
+        <p id="mult1" style="position:absolute; bottom:4px; left:23px; margin:0; z-index:1">x2.0</p>
+        <p id="mult2" style="position:absolute; bottom:4px; left:97px; margin:0; z-index:1">x1.0</p>
+        <p id="mult3" style="position:absolute; bottom:4px; left:186px; margin:0; z-index:1">x1.5</p>
+        <p id="mult4" style="position:absolute; bottom:4px; left:276px; margin:0; z-index:1">x1.0</p>
+        <p id="mult5" style="position:absolute; bottom:4px; left:350px; margin:0; z-index:1">x2.0</p>
     </div>
     <div id="info">
         <p style="font-size: 48px" id="money">Money: $0</p>
@@ -22,37 +22,57 @@
         <p style="font-size: 36px; color: #bff; margin-top: 20px" id="diamonds">Diamonds: 0</p>
         <p style="font-size: 24px; color: #bff" id="diamondChance">Diamond chance: 0.75%</p>
         <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
-        <button id="increaseMultiplierButton" onclick="increaseMultiplier()">Increase money multiplier<br>x1.00 - x1.15<br>Costs $50</button>
-        <button id="increaseLuckButton" onclick="increaseLuck()">Increase base luck<br>x1.00 - x1.20<br>Costs $100</button>
-        <button id="increaseDiamondChanceButton" onclick="increaseDiamondChance()">Increase diamond chance<br>0.50% - 0.60%<br>Costs $500</button>
+        <button id="increaseMultiplierButton" onclick="increaseMultiplier()">Increase money multiplier<br>x1.00 >> x1.15<br>Costs $50</button>
+        <button id="increaseLuckButton" onclick="increaseLuck()">Increase base luck<br>x1.00 >> x1.20<br>Costs $100</button>
+        <button id="increaseDiamondChanceButton" onclick="increaseDiamondChance()">Increase diamond chance<br>0.75% >> 0.85%<br>Costs $500</button>
         <button id="unlockBoostsButton" onclick="unlockBoosts()">Unlock boosts<br>Costs 20 diamonds</button>
         <button id="unlockRebirthButton" onclick="unlockRebirth()">Unlock rebirth<br>Costs 50 diamonds</button>
+        <button id="unlockRBM" onclick="unlockRBM()">Total rarities unlocked boost Money<br>Costs 300 diamonds</button>
+        <button id="unlockTierButton" onclick="unlockTier()">Unlock Tiers<br>Costs 1,000 diamonds and Rebirth 16</button>
         <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
         <div class="spawnerTab">
             <p style="font-size: 36px">Spawner 1</p>
             <p class="spawnerInterval" style="font-size: 16px">Spawn interval: 1.000s</p>
-            <p class="spawnerLuck" style="font-size: 16px">Luck: x1.00</p>
+            <p class="spawnerLuck" style="font-size: 16px">Total Luck: x1.00</p>
             <button class="decreaseIntervalButton" onclick="decreaseInterval(1)">Decrease interval<br>1.000s - 0.950s<br>Costs $250</button>
-            <button class="increaseSpawnerLuckButton" onclick="increaseSpawnerLuck(1)">Increase luck<br>x1.00 - x1.10<br>Costs $2,000</button>
+            <button class="increaseSpawnerLuckButton" onclick="increaseSpawnerLuck(1)">Increase Spawner luck<br>x1.00 - x1.10<br>Costs $2,000</button>
         </div>
         <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
         <div class="spawnerTab" style="display: none">
             <p style="font-size: 36px">Spawner 2</p>
             <p class="spawnerInterval" style="font-size: 16px">Spawn interval: 2.000s</p>
-            <p class="spawnerLuck" style="font-size: 16px">Luck: x1.50</p>
+            <p class="spawnerLuck" style="font-size: 16px">Total Luck: x1.50</p>
             <button class="decreaseIntervalButton" onclick="decreaseInterval(2)">Decrease interval<br>2.000s - 1.900s<br>Costs $1,500</button>
-            <button class="increaseSpawnerLuckButton" onclick="increaseSpawnerLuck(2)">Increase luck<br>x1.50 - x1.65<br>Costs $8,000</button>
+            <button class="increaseSpawnerLuckButton" onclick="increaseSpawnerLuck(2)">Increase Spawner luck<br>x1.50 - x1.65<br>Costs $8,000</button>
         </div>
         <button class="spawnerTabBuyButton" onclick="buySpawner2()">Buy spawner 2<br>Costs $1,000</button>
         <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
         <div class="spawnerTab" style="display: none">
             <p style="font-size: 36px">Spawner 3</p>
             <p class="spawnerInterval" style="font-size: 16px">Spawn interval: 4.000s</p>
-            <p class="spawnerLuck" style="font-size: 16px">Luck: x2.00</p>
+            <p class="spawnerLuck" style="font-size: 16px">Total Luck: x2.00</p>
             <button class="decreaseIntervalButton" onclick="decreaseInterval(3)">Decrease interval<br>4.000s - 3.800s<br>Costs $25,000</button>
-            <button class="increaseSpawnerLuckButton" onclick="increaseSpawnerLuck(3)">Increase luck<br>x2.00 - x2.20<br>Costs $75,000</button>
+            <button class="increaseSpawnerLuckButton" onclick="increaseSpawnerLuck(3)">Increase Spawner luck<br>x2.50 - x2.75<br>Costs $75,000</button>
         </div>
         <button class="spawnerTabBuyButton" onclick="buySpawner3()">Buy spawner 3<br>Costs $20,000</button>
+        <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
+        <div class="spawnerTab" style="display: none">
+            <p style="font-size: 36px">Spawner 4</p>
+            <p class="spawnerInterval" style="font-size: 16px">Spawn interval: 10.000s</p>
+            <p class="spawnerLuck" style="font-size: 16px">Total Luck: x10.00</p>
+            <button class="decreaseIntervalButton" onclick="decreaseInterval(4)">Decrease interval<br>10.000s - 9.500s<br>Costs $10B</button>
+            <button class="increaseSpawnerLuckButton" onclick="increaseSpawnerLuck(4)">Increase Spawner luck<br>x10 - x11<br>Costs $1B</button>
+        </div>
+        <button class="spawnerTabBuyButton" onclick="buySpawner4()">Buy spawner 4<br>Costs $1B</button>
+        <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
+        <div class="spawnerTab" style="display: none">
+            <p style="font-size: 36px">Spawner 5</p>
+            <p class="spawnerInterval" style="font-size: 16px">Spawn interval: 60.000s</p>
+            <p class="spawnerLuck" style="font-size: 16px">Total Luck: x100.00</p>
+            <button class="decreaseIntervalButton" onclick="decreaseInterval(5)">Decrease interval<br>50.000s - 47.500s<br>Costs $50T</button>
+            <button class="increaseSpawnerLuckButton" onclick="increaseSpawnerLuck(5)">Increase Spawner luck<br>x100 - x110<br>Costs $25T</button>
+        </div>
+        <button class="spawnerTabBuyButton" onclick="buySpawner5()">Buy spawner 5<br>Costs $10T</button>
     </div>
     <div id="boosts">
         <p style="font-size: 48px">Boosts</p>
@@ -75,6 +95,7 @@
             <p style="color: #dbf">Rebirthing will reset your money, diamonds and upgrades! It will also half your boost times.</p>
         </div>
     </div>
+    <p style="font-size: 30px" id="raritiesUnlocked">You unlocked 0 rarities</p>
     <div id="rarities">
         <div id="raritiesHeader"><p style="margin: 0; text-align: center; line-height: 80px; color: #444; font-size: 48px; font-weight: bold">Rarity list</p></div>
         <div id="raritiesList" style="width: 100%; margin: 0"></div>
@@ -82,16 +103,33 @@
         <div class="nextRarity"><p class="nextRarityText">To be discovered...</p></div>
         <div class="nextRarity"><p class="nextRarityText">To be discovered...</p></div>
     </div>
+    <div id="tier">
+        <p style="vertical-align: middle; font-size: 64px; color: #6b7c93; display: inline-block">Tier</p><img src="img/TierUp.png" style="vertical-align: middle">
+        <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
+        <p id="tierText" style="color: rgb(201, 201, 201); font-size: 22.5px; margin-bottom: 20px">Your Tier is 0 >> 1<br>Tier Luck Multiplier x1 >> x3<br>Tier Money Multiplier x1 >> x2</p>
+        <button id="tierButton" style="font-size: 22.5px; margin-bottom: 20px" onclick="tier()"><b>Tier Up</b><br>Cost: 100 Antimatter Orbs</button>
+         <p style="color: rgb(184, 184, 184); font-size: 22.5px; margin-bottom: 20px">Tiering will reset everything prior! It will reset Boost usage and hence Boost Cost, and unlock a new Board with more multipliers and new rarities. Additionally, it gives a Money and Luck Multiplier.</p>
+    </div>
     <div id="settings">
         <p style="font-size: 24px">Settings</p>
         <button onclick="exportGame()">Export</button>
         <button onclick="importGame()">Import</button>
         <button style="background-color: #eaa; background-image: none" onclick="hardReset()">Hard reset</button>
+        <p style="font-size: 16px" id="timePlayed">Your Time Played is 0:00:00<br> Your last Rebirth was 0:00:00 ago<br>You are in Tier 0 for 0:00:00</p>
     </div>
-    <p style="position: fixed; bottom: 0px; right: 0px; color: #bbb">Rarity Orbs Super XL v0.2</p>
+    <p style="position: fixed; bottom: 0px; right: 0px; color: #bbb">Super Rarity Orbs v0.3, an<br>extension of Demonin's Rarity Orbs<br>Made by randim82</p>
     <script src="matter.js?v012=1"></script>
-    <script src="script.js?v012=1"></script>
+    <script src="init.js?v012=1"></script>
     <script src="board.js?v012=1"></script>
+    <script src="script.js?v012=1"></script>
     <script defer>//setAutoSave()</script>
+	<!-- Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-T59EVR5986"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'G-T59EVR5986');
+	</script>
 </body>
 </html>

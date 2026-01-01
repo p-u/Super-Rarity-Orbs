@@ -22,23 +22,42 @@ var render = Render.create({
     }
 });
 
-// create two boxes and a ground
-var ground = Bodies.rectangle(200, 810, 410, 60, { isStatic: true });
-var ceiling = Bodies.rectangle(200, -10, 410, 60, { isStatic: true });
-var wall1 = Bodies.rectangle(410, 400, 60, 800, { isStatic: true });
-var wall2 = Bodies.rectangle(-10, 400, 60, 800, { isStatic: true });
-var pegs = Composites.stack(10, 220, 5, 7, 66, 80, function(x, y) {
-    return Bodies.circle(x, y, 12, { isStatic: true });
-});
-var pegs2 = Composites.stack(54, 167, 4, 7, 66, 80, function(x, y) {
-    return Bodies.circle(x, y, 12, { isStatic: true });
-});
-var pegs3 = Composites.stack(54, 805, 4, 1, 66, 80, function(x, y) {
-    return Bodies.circle(x, y, 12, { isStatic: true });
-});
+var ground, ceiling, wall1, wall2;
+var pegs, pegs2, pegs3, pegs4, pegs5, funnelL, funnelR, upgradedPegs;
 
-// add all of the bodies to the world
-Composite.add(engine.world, [ceiling, wall1, wall2, pegs, pegs2, pegs3]);
+function buildBoard() {
+    // Clear current world to prepare for new board
+    Composite.clear(engine.world, true);
+
+    var ground = Bodies.rectangle(200, 825, 410, 60, { isStatic: true });
+    var ceiling = Bodies.rectangle(200, -10, 410, 60, { isStatic: true });
+    var wall1 = Bodies.rectangle(410, 400, 60, 800, { isStatic: true });
+    var wall2 = Bodies.rectangle(-10, 400, 60, 800, { isStatic: true });
+    
+    let boardElements = [ground, ceiling, wall1, wall2];
+
+    if (game.tiers == 0) { // Board 1
+        pegs = Composites.stack(10, 220, 5, 6, 66, 80, (x, y) => Bodies.circle(x, y, 12, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
+        pegs2 = Composites.stack(54, 167, 4, 6, 66, 80, (x, y) => Bodies.circle(x, y, 12, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
+        pegs3 = Composites.stack(54, 775, 4, 1, 66, 80, (x, y) => Bodies.circle(x, y, 12, { isStatic: true, render: { fillStyle: '#6a6a6aff' }  })); 
+        boardElements.push(pegs, pegs2, pegs3);
+    } else {
+        // Board 2 (1 Prestige, later)
+        funnelL = Bodies.rectangle(80, 125, 200, 20, { isStatic: true, angle: Math.PI / 4 });
+        funnelR = Bodies.rectangle(320, 125, 200, 20, { isStatic: true, angle: -Math.PI / 4 });
+        deflectorBall = Bodies.circle(200, 267, 25, { 
+            isStatic: true, 
+            restitution: 1.2, 
+            render: { fillStyle: '#8e8e8eff' } 
+        });
+        pegs4 = Composites.stack(10, 325, 5, 4, 66, 100, (x, y) => Bodies.circle(x, y, 12, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
+        pegs5 = Composites.stack(54, 385, 5, 4, 66, 100, (x, y) => Bodies.circle(x, y, 12, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
+        boardElements.push(funnelL, funnelR, pegs4, pegs5, deflectorBall);
+    }
+    const finalElements = boardElements.filter(item => item != null);
+    Composite.add(engine.world, finalElements);
+}
+buildBoard();
 
 // run the renderer
 Render.run(render);
@@ -54,7 +73,6 @@ function createBox() {
     Composite.add(engine.world, [box]);
 }
 
-let currentOrbs = 0
 function createOrb(spawner) {
     if (Math.random() < game.diamondChance) {createDiamond(); return}
     let chosenRarity = getRarity(spawner);
@@ -102,24 +120,27 @@ function createDiamond() {
 function checkCollisions() {
     var bodies = Composite.allBodies(engine.world);
     for (var i = 0; i < bodies.length; i++) {
-        if (bodies[i].category === 'ball' && bodies[i].position.y > 800) {
-            //console.log(bodies[i].rarity)
-            let slotMultiplier = 1;
+        let slotMultiplier = 1;
+        if (game.tiers < 1) {
             if (bodies[i].position.x < 66) {slotMultiplier = 2;}
             else if (bodies[i].position.x > 155 && bodies[i].position.x < 244) {slotMultiplier = 1.5;}
             else if (bodies[i].position.x > 333) {slotMultiplier = 2;}
-            game.money += rarityValues[bodies[i].rarity - 1] * game.moneyMultiplier * slotMultiplier * (game.boostTimes[0] ? 2 : 1);
+        } else {
+            if (bodies[i].position.x > 155 && bodies[i].position.x < 244) {slotMultiplier = 7;}     
+        }
+        if (bodies[i].category === 'ball' && bodies[i].position.y > 775) {
+            let moneyGain = rarityValues[bodies[i].rarity - 1] * game.moneyMultiplier * slotMultiplier * (game.boostTimes[0] ? 2 : 1);
+            if (game.mechanicsUnlocked >= 3) {
+                moneyGain *= (1.06**game.highestRarity)
+            }
+            game.orbsObtained[bodies[i].rarity - 1] += 1
+            game.money += moneyGain
             updateText()
             updateVisuals()
             Composite.remove(engine.world, bodies[i]);
             currentOrbs = countOrbs()
         }
-        else if (bodies[i].category === 'diamond' && bodies[i].position.y > 800) {
-            //console.log(bodies[i].rarity)
-            let slotMultiplier = 1;
-            if (bodies[i].position.x < 66) {slotMultiplier = 2;}
-            else if (bodies[i].position.x > 155 && bodies[i].position.x < 244) {slotMultiplier = 1.5;}
-            else if (bodies[i].position.x > 333) {slotMultiplier = 2;}
+        else if (bodies[i].category === 'diamond' && bodies[i].position.y > 775) {
             game.diamonds += 10 * slotMultiplier;
             updateText()
             updateVisuals()

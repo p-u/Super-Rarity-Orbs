@@ -31,7 +31,7 @@ body {
 }
 
 p {
-    margin: 8px;
+    margin: 6px;
     font-family: "Pixelated MS Sans Serif", Arial;
 }
 
@@ -107,7 +107,7 @@ button {
     margin-left: 8px;
     margin-bottom: 20px;
     height: 800px;
-    width: 300px;
+    width: 400px;
     overflow-y: auto;
     border: 2px solid #666;
 }
@@ -170,6 +170,20 @@ button {
     padding-right: 4px;
 }
 
+#tier {
+    display: none;
+    margin-left: 8px;
+    margin-bottom: 20px;
+    height: 800px;
+    width: 350px;
+    overflow-y: auto;
+    border: 2px solid #666;
+}
+
+.tierButton {
+    background-image: linear-gradient(#fe8, #ec6);
+    border: 3px solid #860;
+}
 @media only screen and (max-width: 600px) {
     #info, #boosts, #rarities {
         width: calc(100% - 16px);
