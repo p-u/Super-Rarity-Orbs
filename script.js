@@ -719,6 +719,9 @@ function tier() {
         game.diamondChance = 0.01
         game.spawnersUnlocked = 1
         game.timeSpentinTier = 0
+        for (let i=1; i<=5; i++) {
+            game.boostData[i]['uses'] = 0
+        }
         game.timeSpentinReb = 0
         game.spawnIntervals = [1000, 2000, 4000, 10000, 60000]
         game.spawnerLuck = [1, 1.5, 2.5, 10, 100]
@@ -744,5 +747,6 @@ function tier() {
         updateAllUpgradeText()
         updateVisuals()
         updateRarityList()
+        updateBoostButtons()
     }
 }
