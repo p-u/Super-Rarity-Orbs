@@ -14,6 +14,8 @@ function reset() {
         spawnerLuck: [1, 1.5, 2.5, 10, 100],
         numberFormat: "standard",
         upgradeCosts: [50, 100, 500, 250, 1500, 25000, 2000, 8000, 75000, 1e10, 1e9, 5e13, 2.5e13],
+        newUpgCosts: [200],
+        diamondLuck: 1,
         spawnersUnlocked: 1, 
         boostTimes: [0,0,0],
         boostsUnlocked: false,

@@ -230,7 +230,7 @@ function format(x,precision=0,forceLargeFormat=false) {
 }
 
 function getRarity(spawner) {
-    let totalLuck = game.baseLuck * game.spawnerLuck[spawner-1] * (game.boostTimes[1] ? 2 : 1);
+    let totalLuck = game.baseLuck * game.spawnerLuck[spawner-1] * (game.boostTimes[1] ? 2 : 1) * game.diamondLuck;
     //Find the highest rarity smaller than totalLuck*100000
     let highestRarity = 0;
     while (rarities[highestRarity] < totalLuck*100000) {
@@ -255,7 +255,7 @@ function formatTime(x) {
 function updateText() {
     document.getElementById('money').innerText = "Money: $" + format(game.money);
     document.getElementById("multiplier").innerText = "Money multiplier: x" + format(game.moneyMultiplier * (game.boostTimes[0] ? 2 : 1),2);
-    document.getElementById("luck").innerText = "Luck: x" + format(game.baseLuck * (game.boostTimes[1] ? 2 : 1),2);
+    document.getElementById("luck").innerText = "Luck: x" + format(game.baseLuck * (game.boostTimes[1] ? 2 : 1) * game.diamondLuck,2);
     document.getElementById('diamonds').innerText = "Diamonds: " + format(game.diamonds);
     document.getElementById('diamondChance').innerText = "Diamond chance: " + format(game.diamondChance*100, 2) + "%";
     for (let i=0; i<=4; i++) {
@@ -302,6 +302,7 @@ function updateAllUpgradeText() {
     document.getElementById("increaseMultiplierButton").innerHTML = "Increase money multiplier<br>x" + format(game.moneyMultiplier,2) + " >> x" + format(game.moneyMultiplier*1.15,2) + "<br>Costs $" + format(game.upgradeCosts[0])
     document.getElementById("increaseLuckButton").innerHTML = "Increase base luck<br>x" + format(game.baseLuck,2) + " >> x" + format(game.baseLuck*1.2,2) + "<br>Costs $" + format(game.upgradeCosts[1])
     document.getElementById("increaseDiamondChanceButton").innerHTML = "Increase diamond chance<br>" + format(game.diamondChance*100, 2) + "% >> " + format((game.diamondChance+0.001)*100, 2) + "%<br>Costs $" + format(game.upgradeCosts[2])
+    document.getElementById("xLuckBODiamondButton").innerHTML = "Multiply luck further! (Keep on Tier)<br>x" + format(game.diamondLuck,2) + " >> x" + format(game.diamondLuck*1.1,2) + "<br>Costs " + format(game.newUpgCosts[0]) + " Diamonds"
     for (let i=1; i<=3; i++) {
         if (game.spawnIntervals[i-1]*0.95 < 100) {
             document.getElementsByClassName("decreaseIntervalButton")[i-1].innerHTML = "Decrease interval<br>" + (game.spawnIntervals[i-1]/1000).toFixed(3) + "s >> " + "0.100s<br>Costs $" + format(game.upgradeCosts[2+i])
@@ -379,6 +380,13 @@ function updateVisuals() {
             document.getElementsByClassName("increaseSpawnerLuckButton")[i-1].style.backgroundImage = "linear-gradient(#fff, #bbb)";
             document.getElementsByClassName("increaseSpawnerLuckButton")[i-1].style.border = "2px solid #888";
         }
+    }
+    if (game.diamonds >= game.newUpgCosts[0]) {
+        document.getElementById("xLuckBODiamondButton").style.backgroundImage = "linear-gradient(#9e9, #7c7)";
+        document.getElementById("xLuckBODiamondButton").style.border = "2px solid #060";
+    } else {
+        document.getElementById("xLuckBODiamondButton").style.backgroundImage = "linear-gradient(#fff, #bbb)";
+        document.getElementById("xLuckBODiamondButton").style.border = "2px solid #888";
     }
     let rarUnl = "You unlocked " + game.highestRarity + " Rarities."
     if (game.mechanicsUnlocked >= 3) {
@@ -612,21 +620,21 @@ function buyBoost(x) {
 function updateRarityList() {
     //Update pre-existing rarity slot text
     for (let i=0; i<game.raritiesDisplayed; i++) {
-        document.getElementsByClassName("raritySlotText")[i].innerHTML = rarityNames[i] + "<br><span style='font-size: 17.5px'>$" + format(rarityValues[i]) + " • 1 in " + format(Math.max(rarities[i] / game.baseLuck / (game.boostTimes[1] ? 2 : 1), 1), 1) + " • Obtained: "+ game.orbsObtained[i] + "</span>";
+        document.getElementsByClassName("raritySlotText")[i].innerHTML = rarityNames[i] + "<br><span style='font-size: 17.5px'>$" + format(rarityValues[i]) + " • 1 in " + format(Math.max(rarities[i] / game.baseLuck / (game.boostTimes[1] ? 2 : 1) / game.diamondLuck, 1), 1) + " • Obtained: "+ game.orbsObtained[i] + "</span>";
     }
     while (game.raritiesDisplayed < game.highestRarity || game.raritiesDisplayed < 4) {
         //Create a div with the class 'raritySlot'
         let newSlot = document.createElement("div");
         newSlot.className = "raritySlot";
         newSlot.style.backgroundImage = "linear-gradient(" + rarityColours[game.raritiesDisplayed*2] + ", " + rarityColours[game.raritiesDisplayed*2+1] + ")";
-        newSlot.innerHTML = "<img src='img/ball" + (game.raritiesDisplayed+1) + ".png' class='raritySlotImage'><p class='raritySlotText'>" + rarityNames[game.raritiesDisplayed] + "<br><span style='font-size: 20px'>$" + format(rarityValues[game.raritiesDisplayed]) + " • 1 in " + format(Math.max(rarities[game.raritiesDisplayed]/game.baseLuck, 1), 1) + "</span></p>";
+        newSlot.innerHTML = "<img src='img/ball" + (game.raritiesDisplayed+1) + ".png' class='raritySlotImage'><p class='raritySlotText'>" + rarityNames[game.raritiesDisplayed] + "<br><span style='font-size: 20px'>$" + format(rarityValues[game.raritiesDisplayed]) + " • 1 in " + format(Math.max(rarities[game.raritiesDisplayed]/game.baseLuck/game.diamondLuck/ (game.boostTimes[1] ? 2 : 1), 1), 1) + "</span></p>";
         document.getElementById("raritiesList").appendChild(newSlot);
         game.raritiesDisplayed++
     }
     //Update the next rarity text
     let cap = rarities.length - game.raritiesDisplayed
     for (let i=0; i<3; i++) {
-        document.getElementsByClassName("nextRarityText")[i].innerHTML = "To be discovered...<br><span style='font-size: 20px'>$" + format(rarityValues[game.raritiesDisplayed+i]) + " • 1 in " + format(Math.max(rarities[game.raritiesDisplayed+i] / game.baseLuck / (game.boostTimes[1] ? 2 : 1), 1), 1) + "</span>";
+        document.getElementsByClassName("nextRarityText")[i].innerHTML = "To be discovered...<br><span style='font-size: 20px'>$" + format(rarityValues[game.raritiesDisplayed+i]) + " • 1 in " + format(Math.max(rarities[game.raritiesDisplayed+i] / game.baseLuck / (game.boostTimes[1] ? 2 : 1) / game.diamondLuck, 1), 1) + "</span>";
     }
 }
 updateRarityList()
@@ -686,6 +694,17 @@ function rebirth() {
         updateAllUpgradeText()
         updateVisuals()
         updateRarityList()
+    }
+}
+
+function xLuckBODiamondUp() {
+    if (game.diamonds >= game.newUpgCosts[0]) {
+        game.diamonds -= game.newUpgCosts[0]
+        game.newUpgCosts[0] *= 2
+        game.diamondLuck *= 1.1
+        updateAllUpgradeText()
+        updateText()
+        updateVisuals()
     }
 }
 
