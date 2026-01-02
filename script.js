@@ -643,8 +643,8 @@ function unlockRebirth() {
 }
 
 function unlockRBM() {
-    if (game.diamonds >= 300 && game.mechanicsUnlocked==2) {
-        game.diamonds -= 300
+    if (game.diamonds >= 250 && game.mechanicsUnlocked==2) {
+        game.diamonds -= 250
         game.mechanicsUnlocked = 3
         updateText()
         document.getElementById("unlockRBM").style.display = "none";
@@ -653,8 +653,8 @@ function unlockRBM() {
 }
 
 function unlockTier() {
-    if (game.diamonds >= 1000 && game.mechanicsUnlocked==3 && game.rebirths >= 16) {
-        game.diamonds -= 1000
+    if (game.diamonds >= 800 && game.mechanicsUnlocked==3 && game.rebirths >= 16) {
+        game.diamonds -= 800
         game.mechanicsUnlocked = 4
         updateText()
         document.getElementById("tier").style.display = "inline-block";
@@ -668,8 +668,8 @@ function rebirth() {
         game.money = 0
         game.moneyMultiplier = 2 ** game.tiers
         game.baseLuck = (2 ** game.rebirths) * (3 ** game.tiers)
-        game.diamonds = Math.floor(game.diamonds / 2)
-        game.diamondChance = 0.0075
+        game.diamonds = Math.floor(game.diamonds / 10)*5
+        game.diamondChance = 0.01
         game.timeSpentinReb = 0
         game.spawnIntervals = [1000, 2000, 4000, 10000, 60000]
         game.spawnerLuck = [1, 1.5, 2.5, 10, 100]
@@ -697,7 +697,7 @@ function tier() {
         game.moneyMultiplier = 2 ** game.tiers
         game.baseLuck = 3 ** game.tiers
         game.diamonds = 0
-        game.diamondChance = 0.0075
+        game.diamondChance = 0.01
         game.spawnersUnlocked = 1
         game.timeSpentinTier = 0
         game.timeSpentinReb = 0

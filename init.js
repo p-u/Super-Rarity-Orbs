@@ -8,7 +8,7 @@ function reset() {
         highestRarity: 0,
         raritiesDisplayed: 0,
         diamonds: 0,
-        diamondChance: 0.0075,
+        diamondChance: 0.01,
         spawnIntervals: [1000, 2000, 4000, 10000, 60000],
         baseLuck: 1,
         spawnerLuck: [1, 1.5, 2.5, 10, 100],

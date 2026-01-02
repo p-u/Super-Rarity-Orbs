@@ -141,7 +141,7 @@ function checkCollisions() {
             currentOrbs = countOrbs()
         }
         else if (bodies[i].category === 'diamond' && bodies[i].position.y > 775) {
-            game.diamonds += 10 * slotMultiplier;
+            game.diamonds += 10;
             updateText()
             updateVisuals()
             Composite.remove(engine.world, bodies[i]);
