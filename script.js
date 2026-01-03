@@ -277,13 +277,15 @@ function formatTime(x) {
 function updateText() {
     if (game.inSkillTree) return;
     document.getElementById('money').innerText = "Money: $" + format(game.money);
-    document.getElementById("multiplier").innerText = "Money multiplier: x" + format(game.moneyMultiplier * (game.boostTimes[0] ? 2 : 1) * 2**game.tiers * 1.06**game.highestRarity,2);
+    let moneyMult = game.moneyMultiplier * (game.boostTimes[0] ? 2 : 1) * 2**game.tiers
+    if (game.mechanicsUnlocked>=3) moneyMult *= 1.06**game.highestRarity
+    document.getElementById("multiplier").innerText = "Money multiplier: x" + format(moneyMult,2);
     document.getElementById("luck").innerText = "Luck: x" + format(game.baseLuck * (game.boostTimes[1] ? 2 : 1) * game.diamondLuck,2);
     document.getElementById('diamonds').innerText = "Diamonds: " + format(game.diamonds);
     document.getElementById('diamondChance').innerText = "Diamond chance: " + format(game.diamondChance*100, 2) + "%";
     for (let i=0; i<=4; i++) {
         document.getElementsByClassName("spawnerInterval")[i].innerText = "Spawn interval: " + (game.spawnIntervals[i]/1000).toFixed(3) + "s";
-        document.getElementsByClassName("spawnerLuck")[i].innerText = "Luck: x" + format(game.spawnerLuck[i]*game.baseLuck*2,2);
+        document.getElementsByClassName("spawnerLuck")[i].innerText = "Luck: x" + format(game.spawnerLuck[i]*game.baseLuck*game.diamondLuck*(game.boostTimes[1] ? 2 : 1),2);
     }
     document.getElementById('rebirthText').innerText = "You have rebirthed " + format(game.rebirths) + " times\nRebirth luck multiplier: x" + format(2 ** game.rebirths)
     document.getElementById('tierText').innerHTML = `Your Tier is ${game.tiers} >> ${game.tiers+1}<br>Tier Luck Multiplier x${3**game.tiers} >> x${3**(game.tiers+1)}<br>Tier Money Multiplier x${2**game.tiers} >> x${2**(game.tiers+1)}`
