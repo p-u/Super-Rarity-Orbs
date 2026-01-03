@@ -202,6 +202,33 @@ button {
     border: 2px solid #666;
 }
 
+#skillTree {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    z-index: 100;
+    color: white;
+}
+
+#closeSkillTree {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 32px;
+    background: #333;
+    color: white;
+    border: 1px solid #666;
+    padding: 10px;
+}
+
+#skillTreeToggle {
+    display: none;
+}
+
 .tierButton {
     background-image: linear-gradient(#fe8, #ec6);
     border: 3px solid #860;

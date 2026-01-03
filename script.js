@@ -110,6 +110,8 @@ function loadGame(loadgame) {
         if (game.tierUnlocked) game.mechanicsUnlocked = 4
     }
 
+    game.maxTP = game.tiers
+    game.currentTP = game.tiers - game.spentTP
     //Update upgrade text
     updateAllUpgradeText()
 
@@ -181,26 +183,46 @@ function loadGame(loadgame) {
 }
 
 function spawn5() {
+    if (game.inSkillTree) {
+        setTimeout(spawn5, game.spawnIntervals[4]);
+        return;
+    }
     if (game.spawnersUnlocked >= 5) if (currentOrbs < 100) createOrb(5);
     setTimeout(spawn5, game.spawnIntervals[4])
 }
 
 function spawn4() {
+    if (game.inSkillTree) {
+        setTimeout(spawn4, game.spawnIntervals[3]);
+        return;
+    }
     if (game.spawnersUnlocked >= 4) if (currentOrbs < 100) createOrb(4);
     setTimeout(spawn4, game.spawnIntervals[3])
 }
 
 function spawn3() {
+    if (game.inSkillTree) {
+        setTimeout(spawn3, game.spawnIntervals[2]);
+        return;
+    }
     if (game.spawnersUnlocked >= 3) if (currentOrbs < 100) createOrb(3);
     setTimeout(spawn3, game.spawnIntervals[2])
 }
 
 function spawn2() {
+    if (game.inSkillTree) {
+        setTimeout(spawn2, game.spawnIntervals[1]);
+        return;
+    }
     if (game.spawnersUnlocked >= 2) if (currentOrbs < 100) createOrb(2)
     setTimeout(spawn2, game.spawnIntervals[1])
 }
 
 function spawn1() {
+    if (game.inSkillTree) {
+        setTimeout(spawn1, game.spawnIntervals[0]);
+        return;
+    }
     if (currentOrbs < 100) createOrb(1);
     setTimeout(spawn1, game.spawnIntervals[0]);
 }
@@ -253,8 +275,9 @@ function formatTime(x) {
 }
 
 function updateText() {
+    if (game.inSkillTree) return;
     document.getElementById('money').innerText = "Money: $" + format(game.money);
-    document.getElementById("multiplier").innerText = "Money multiplier: x" + format(game.moneyMultiplier * (game.boostTimes[0] ? 2 : 1),2);
+    document.getElementById("multiplier").innerText = "Money multiplier: x" + format(game.moneyMultiplier * (game.boostTimes[0] ? 2 : 1) * 2**game.tiers * 1.06**game.highestRarity,2);
     document.getElementById("luck").innerText = "Luck: x" + format(game.baseLuck * (game.boostTimes[1] ? 2 : 1) * game.diamondLuck,2);
     document.getElementById('diamonds').innerText = "Diamonds: " + format(game.diamonds);
     document.getElementById('diamondChance').innerText = "Diamond chance: " + format(game.diamondChance*100, 2) + "%";
@@ -269,6 +292,7 @@ updateText()
 setInterval(updateText, 100);
 
 function updateBoosts() {
+    if (game.inSkillTree) return;
     if (game.boostTimes[0] > 0) game.boostTimes[0]--
     if (game.boostTimes[1] > 0) game.boostTimes[1]--
     if (game.boostTimes[2] > 0) game.boostTimes[2]--
@@ -393,6 +417,12 @@ function updateVisuals() {
         rarUnl = rarUnl + " Total rarities unlocked boost Money by " + (1.06**game.highestRarity).toFixed(2) + "x"
     }
     document.getElementById("raritiesUnlocked").innerText = rarUnl
+    
+    if (game.tiers >= 2) {
+        document.getElementById("skillTreeToggle").style.display = "inline-block"
+    } else {
+        document.getElementById("skillTreeToggle").style.display = "none"
+    }
 
     let values = ["x2.0", "x1.0", "x1.5", "x1.0", "x2.0"]
     let colors = ["#8f8", "#ccc", "#bdf", "#ccc", "#8f8"]
@@ -749,4 +779,13 @@ function tier() {
         updateRarityList()
         updateBoostButtons()
     }
+}
+function skillTreeToggle() {
+    game.inSkillTree = true;
+    document.getElementById("skillTree").style.display = "block";
+}
+
+function closeSkillTree() {
+    game.inSkillTree = false;
+    document.getElementById("skillTree").style.display = "none";
 }

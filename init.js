@@ -34,7 +34,11 @@ function reset() {
             3: { baseCost: 100, increment: 10, uses: 0 },
             4: { baseCost: 400, increment: 50, uses: 0 },
             5: { baseCost: 500, increment: 100, uses: 0 }
-        }
+        },
+        inSkillTree: false,
+        maxTP: 0,
+        spentTP: 0,
+        currentTP: 0,
     };
     document.getElementById("boosts").style.display = "none"
     document.getElementById("rebirth").style.display = "none"
