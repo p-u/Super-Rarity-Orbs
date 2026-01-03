@@ -1,28 +1,31 @@
-@font-face{
-    font-family:"Pixelated MS Sans Serif";
-    font-style:normal;
-    font-weight:400;
-    src:url(fonts/ms_sans_serif.woff) format("woff");
-    src:url(fonts/ms_sans_serif.woff2) format("woff2")
+@font-face {
+    font-family: "Pixelated MS Sans Serif";
+    font-style: normal;
+    font-weight: 400;
+    src: url(fonts/ms_sans_serif.woff) format("woff");
+    src: url(fonts/ms_sans_serif.woff2) format("woff2")
 }
-@font-face{
-    font-family:"Pixelated MS Sans Serif";
-    font-style:normal;
-    font-weight:700;
-    src:url(fonts/ms_sans_serif_bold.woff) format("woff");
-    src:url(fonts/ms_sans_serif_bold.woff2) format("woff2")
+
+@font-face {
+    font-family: "Pixelated MS Sans Serif";
+    font-style: normal;
+    font-weight: 700;
+    src: url(fonts/ms_sans_serif_bold.woff) format("woff");
+    src: url(fonts/ms_sans_serif_bold.woff2) format("woff2")
 }
-@font-face{
-    font-family:"Alagard";
-    font-style:normal;
-    font-weight:700;
-    src:url(fonts/alagard.woff) format("woff");
+
+@font-face {
+    font-family: "Alagard";
+    font-style: normal;
+    font-weight: 700;
+    src: url(fonts/alagard.woff) format("woff");
 }
-@font-face{
-    font-family:"VCR OSD MONO";
-    font-style:normal;
-    font-weight:700;
-    src:url(fonts/VCR_OSD_MONO.woff) format("woff");
+
+@font-face {
+    font-family: "VCR OSD MONO";
+    font-style: normal;
+    font-weight: 700;
+    src: url(fonts/VCR_OSD_MONO.woff) format("woff");
 }
 
 body {
@@ -103,13 +106,32 @@ button {
 }
 
 #rarities {
-    display: inline-block;
+    display: inline-flex;
+    flex-direction: column;
     margin-left: 8px;
     margin-bottom: 20px;
     height: 800px;
     width: 400px;
-    overflow-y: auto;
     border: 2px solid #666;
+    vertical-align: top;
+}
+
+#raritiesScrollable {
+    flex: 1;
+    overflow-y: auto;
+    width: 100%;
+}
+
+#raritiesUnlockedContainer {
+    background-color: #262638;
+    padding: 10px;
+    border-top: 2px solid #666;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#raritiesUnlocked {
+    margin: 0;
 }
 
 #raritiesHeader {
@@ -184,8 +206,12 @@ button {
     background-image: linear-gradient(#fe8, #ec6);
     border: 3px solid #860;
 }
+
 @media only screen and (max-width: 600px) {
-    #info, #boosts, #rarities {
+
+    #info,
+    #boosts,
+    #rarities {
         width: calc(100% - 16px);
     }
 }
