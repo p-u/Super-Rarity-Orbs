@@ -46,21 +46,48 @@ button {
     margin-bottom: 4px;
 }
 
-#field {
+#boardContainer {
     display: inline-block;
     vertical-align: top;
     margin-bottom: 20px;
+    border: 2px solid #666;
+}
+
+#field {
     position: relative;
+    width: 400px;
+    height: 800px;
+}
+
+#orbCapContainer {
+    background-color: #262638;
+    padding: 10px;
+    border-top: 2px solid #666;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+#orbCapText {
+    margin: 0;
+    font-size: 18px;
+    color: #bff;
 }
 
 #info {
     display: inline-block;
     margin-left: 8px;
     margin-bottom: 20px;
-    height: 800px;
+    height: 842px;
     width: 500px;
     overflow-y: auto;
     border: 2px solid #666;
+}
+
+.spawnerTab,
+#spawner1,
+#spawner2 {
+    padding-left: 12px;
 }
 
 .spawnerTabBuyButton {
@@ -83,7 +110,7 @@ button {
     display: none;
     margin-left: 8px;
     margin-bottom: 20px;
-    height: 800px;
+    height: 842px;
     width: 350px;
     overflow-y: auto;
     border: 2px solid #666;
@@ -209,9 +236,12 @@ button {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #000;
+    background-color: #1a1a1a;
     z-index: 100;
     color: white;
+    overflow-y: auto;
+    padding-bottom: 50px;
+    font-family: 'Lexend Deca', sans-serif;
 }
 
 #closeSkillTree {
@@ -223,15 +253,119 @@ button {
     color: white;
     border: 1px solid #666;
     padding: 10px;
+    cursor: pointer;
 }
 
-#skillTreeToggle {
-    display: none;
+#skillTreeColumns {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    gap: 15px;
+    flex-wrap: wrap;
 }
 
-.tierButton {
-    background-image: linear-gradient(#fe8, #ec6);
-    border: 3px solid #860;
+.skillTreeColumn {
+    flex: 1;
+    min-width: 180px;
+    max-width: 250px;
+    background: #2a2a2a;
+    border-radius: 6px;
+    padding: 7px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.columnTitle {
+    font-size: 32px;
+    text-align: center;
+    border-bottom: 2px solid #444;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    color: #ddd;
+    font-family: 'Lexend Deca', sans-serif;
+}
+
+.upgradeList {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.upgradeCard {
+    background: #4a4a4a;
+    padding: 10px;
+    border-radius: 3px;
+    position: relative;
+    transition: background 0.2s, transform 0.1s;
+    user-select: none;
+    border: 1px solid #555;
+    height: 170px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.upgradeCard:hover:not(.locked) {
+    background: #5a5a5a;
+    transform: translateY(-2px);
+}
+
+.upgradeCard:active:not(.locked) {
+    transform: translateY(0);
+}
+
+.upgradeCard.locked {
+    background: #333;
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+.upgradeCard.bought {
+    border: 2px solid #45bb45;
+}
+
+.upgradeId {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    font-size: 14px;
+    color: #bbb;
+    font-family: 'Lexend Deca', sans-serif;
+}
+
+.upgradeTitle {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 5px;
+    font-family: 'Lexend Deca', sans-serif;
+}
+
+.upgradeDesc {
+    font-size: 16px;
+    text-align: center;
+    color: #ccc;
+    font-family: 'Lexend Deca', sans-serif;
+}
+
+.upgradeStatus {
+    font-size: 18px;
+    text-align: center;
+    margin-top: 10px;
+    font-weight: bold;
+    font-family: 'Lexend Deca', sans-serif;
+}
+
+.upgradeStatus.boughtText {
+    color: #45bb45;
+}
+
+.upgradeStatus.lockedText {
+    color: #aaa;
+}
+
+.upgradeStatus.costText {
+    color: #fe8;
 }
 
 @media only screen and (max-width: 600px) {
@@ -241,4 +375,78 @@ button {
     #rarities {
         width: calc(100% - 16px);
     }
+
+    #skillTreeColumns {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .skillTreeColumn {
+        width: 100%;
+        max-width: none;
+    }
+}
+
+.variantSlot {
+    width: 100%;
+    height: 100px;
+    margin: 0;
+    border-bottom: 2px solid #666;
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: #262638;
+}
+
+.variantSlotIcon {
+    margin-left: 15px;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    filter: drop-shadow(0 0 4px #000000);
+}
+
+.variantSlotInfo {
+    flex: 1;
+    text-align: right;
+    padding-right: 15px;
+}
+
+.variantSlotName {
+    color: white;
+    font-size: 32px;
+    text-shadow: 0 0 4px black;
+    margin: 0;
+}
+
+.variantSlotDesc {
+    color: #bbb;
+    font-size: 18px;
+    text-shadow: 0 0 4px black;
+    margin: 0;
+}
+
+#maxBuyButtonsArea {
+    gap: 8px;
+    margin: 8px;
+    width: calc(100% - 16px);
+}
+
+.maxBuyButton {
+    background-image: linear-gradient(#ffe88e, #d4af37);
+    border: 2px solid #860;
+    font-weight: bold;
+    color: #430;
+    padding: 10px 5px;
+    flex: 1;
+    margin: 0;
+}
+
+.maxBuySpawnerButton {
+    background-image: linear-gradient(#ffe88e, #d4af37);
+    border: 2px solid #860;
+    font-weight: bold;
+    color: #430;
+    margin-right: 4px;
+    padding: 5px;
 }

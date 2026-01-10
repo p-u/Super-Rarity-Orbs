@@ -7,15 +7,23 @@
     <title>Super Rarity Orbs</title>
     <link rel="stylesheet" href="style.css?v011=1">
     <link rel="icon" href="img/ball7.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <div id="field">
-        <p id="mult1" style="position:absolute; bottom:4px; left:23px; margin:0; z-index:1">x2.0</p>
-        <p id="mult2" style="position:absolute; bottom:4px; left:97px; margin:0; z-index:1">x1.0</p>
-        <p id="mult3" style="position:absolute; bottom:4px; left:186px; margin:0; z-index:1">x1.5</p>
-        <p id="mult4" style="position:absolute; bottom:4px; left:276px; margin:0; z-index:1">x1.0</p>
-        <p id="mult5" style="position:absolute; bottom:4px; left:350px; margin:0; z-index:1">x2.0</p>
+    <div id="boardContainer">
+        <div id="field">
+            <p id="mult1" style="position:absolute; bottom:4px; left:23px; margin:0; z-index:1">x2.0</p>
+            <p id="mult2" style="position:absolute; bottom:4px; left:97px; margin:0; z-index:1">x1.0</p>
+            <p id="mult3" style="position:absolute; bottom:4px; left:186px; margin:0; z-index:1">x1.5</p>
+            <p id="mult4" style="position:absolute; bottom:4px; left:276px; margin:0; z-index:1">x1.0</p>
+            <p id="mult5" style="position:absolute; bottom:4px; left:350px; margin:0; z-index:1">x2.0</p>
+        </div>
+        <div id="orbCapContainer">
+            <p id="orbCapText">Orbs: 0 / 100</p>
+        </div>
     </div>
     <div id="info">
         <p style="font-size: 48px" id="money">Money: $0</p>
@@ -32,81 +40,141 @@
             1.10%<br>Costs $500</button>
         <button id="xLuckBODiamondButton" onclick="xLuckBODiamondUp()">Multiply luck further! (Keep on Tier)<br>x1.00 >>
             x1.10<br>Costs 200 Diamonds</button>
+        <div id="maxBuyButtonsArea" style="display: none;">
+            <button id="maxBuyMainButton" class="maxBuyButton" onclick="maxBuyMain()" style="display: none">Max Buy Main
+                Upgrades</button>
+            <button id="maxBuyAllSpawnersButton" class="maxBuyButton" onclick="maxBuyAllSpawners()"
+                style="display: none">Max Buy All Spawner Upgrades</button>
+        </div>
         <button id="unlockBoostsButton" onclick="unlockBoosts()">Unlock boosts<br>Costs 20 diamonds</button>
         <button id="unlockRebirthButton" onclick="unlockRebirth()">Unlock rebirth<br>Costs 50 diamonds</button>
         <button id="unlockRBM" onclick="unlockRBM()">Total rarities unlocked boost Money<br>Costs 250 diamonds</button>
         <button id="unlockTierButton" onclick="unlockTier()">Unlock Tiers<br>Costs 800 diamonds and Rebirth 16</button>
         <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
         <div class="spawnerTab">
-            <p style="font-size: 36px">Spawner 1</p>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <p style="font-size: 36px; margin: 0;">Spawner 1</p>
+                <button class="maxBuySpawnerButton" onclick="maxBuySpawner(1)" style="display: none">Max Buy</button>
+            </div>
             <p class="spawnerInterval" style="font-size: 16px">Spawn interval: 1.000s</p>
             <p class="spawnerLuck" style="font-size: 16px">Total Luck: x1.00</p>
-            <button class="decreaseIntervalButton" onclick="decreaseInterval(1)">Decrease interval<br>1.000s -
+            <button class="decreaseIntervalButton" onclick="decreaseInterval(1)">Decrease interval<br>1.000s >>
                 0.950s<br>Costs $250</button>
-            <button class="increaseSpawnerLuckButton" onclick="increaseSpawnerLuck(1)">Increase Spawner luck<br>x1.00 -
+            <button class="increaseSpawnerLuckButton" onclick="increaseSpawnerLuck(1)">Increase Spawner luck<br>x1.00 >>
                 x1.10<br>Costs $2,000</button>
         </div>
         <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
         <div class="spawnerTab" style="display: none">
-            <p style="font-size: 36px">Spawner 2</p>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <p style="font-size: 36px; margin: 0;">Spawner 2</p>
+                <button class="maxBuySpawnerButton" onclick="maxBuySpawner(2)" style="display: none">Max Buy</button>
+            </div>
             <p class="spawnerInterval" style="font-size: 16px">Spawn interval: 2.000s</p>
             <p class="spawnerLuck" style="font-size: 16px">Total Luck: x1.50</p>
-            <button class="decreaseIntervalButton" onclick="decreaseInterval(2)">Decrease interval<br>2.000s -
+            <button class="decreaseIntervalButton" onclick="decreaseInterval(2)">Decrease interval<br>2.000s >>
                 1.900s<br>Costs $1,500</button>
-            <button class="increaseSpawnerLuckButton" onclick="increaseSpawnerLuck(2)">Increase Spawner luck<br>x1.50 -
+            <button class="increaseSpawnerLuckButton" onclick="increaseSpawnerLuck(2)">Increase Spawner luck<br>x1.50 >>
                 x1.65<br>Costs $8,000</button>
         </div>
         <button class="spawnerTabBuyButton" onclick="buySpawner2()">Buy spawner 2<br>Costs $1,000</button>
         <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
         <div class="spawnerTab" style="display: none">
-            <p style="font-size: 36px">Spawner 3</p>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <p style="font-size: 36px; margin: 0;">Spawner 3</p>
+                <button class="maxBuySpawnerButton" onclick="maxBuySpawner(3)" style="display: none">Max Buy</button>
+            </div>
             <p class="spawnerInterval" style="font-size: 16px">Spawn interval: 4.000s</p>
             <p class="spawnerLuck" style="font-size: 16px">Total Luck: x2.00</p>
-            <button class="decreaseIntervalButton" onclick="decreaseInterval(3)">Decrease interval<br>4.000s -
+            <button class="decreaseIntervalButton" onclick="decreaseInterval(3)">Decrease interval<br>4.000s >>
                 3.800s<br>Costs $25,000</button>
-            <button class="increaseSpawnerLuckButton" onclick="increaseSpawnerLuck(3)">Increase Spawner luck<br>x2.50 -
+            <button class="increaseSpawnerLuckButton" onclick="increaseSpawnerLuck(3)">Increase Spawner luck<br>x2.50 >>
                 x2.75<br>Costs $75,000</button>
         </div>
         <button class="spawnerTabBuyButton" onclick="buySpawner3()">Buy spawner 3<br>Costs $20,000</button>
         <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
         <div class="spawnerTab" style="display: none">
-            <p style="font-size: 36px">Spawner 4</p>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <p style="font-size: 36px; margin: 0;">Spawner 4</p>
+                <button class="maxBuySpawnerButton" onclick="maxBuySpawner(4)" style="display: none">Max Buy</button>
+            </div>
             <p class="spawnerInterval" style="font-size: 16px">Spawn interval: 10.000s</p>
             <p class="spawnerLuck" style="font-size: 16px">Total Luck: x10.00</p>
-            <button class="decreaseIntervalButton" onclick="decreaseInterval(4)">Decrease interval<br>10.000s -
+            <button class="decreaseIntervalButton" onclick="decreaseInterval(4)">Decrease interval<br>10.000s >>
                 9.500s<br>Costs $10B</button>
-            <button class="increaseSpawnerLuckButton" onclick="increaseSpawnerLuck(4)">Increase Spawner luck<br>x10 -
+            <button class="increaseSpawnerLuckButton" onclick="increaseSpawnerLuck(4)">Increase Spawner luck<br>x10 >>
                 x11<br>Costs $1B</button>
         </div>
         <button class="spawnerTabBuyButton" onclick="buySpawner4()">Buy spawner 4<br>Costs $1B</button>
         <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
         <div class="spawnerTab" style="display: none">
-            <p style="font-size: 36px">Spawner 5</p>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <p style="font-size: 36px; margin: 0;">Spawner 5</p>
+                <button class="maxBuySpawnerButton" onclick="maxBuySpawner(5)" style="display: none">Max Buy</button>
+            </div>
             <p class="spawnerInterval" style="font-size: 16px">Spawn interval: 60.000s</p>
             <p class="spawnerLuck" style="font-size: 16px">Total Luck: x100.00</p>
-            <button class="decreaseIntervalButton" onclick="decreaseInterval(5)">Decrease interval<br>50.000s -
+            <button class="decreaseIntervalButton" onclick="decreaseInterval(5)">Decrease interval<br>50.000s >>
                 47.500s<br>Costs $50T</button>
-            <button class="increaseSpawnerLuckButton" onclick="increaseSpawnerLuck(5)">Increase Spawner luck<br>x100 -
+            <button class="increaseSpawnerLuckButton" onclick="increaseSpawnerLuck(5)">Increase Spawner luck<br>x100 >>
                 x110<br>Costs $25T</button>
         </div>
         <button class="spawnerTabBuyButton" onclick="buySpawner5()">Buy spawner 5<br>Costs $10T</button>
+        <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
+        <div class="spawnerTab" style="display: none">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <p style="font-size: 36px; margin: 0;">Spawner 6</p>
+                <button class="maxBuySpawnerButton" onclick="maxBuySpawner(6)" style="display: none">Max Buy</button>
+            </div>
+            <p class="spawnerInterval" style="font-size: 16px">Spawn interval: 120.000s</p>
+            <p class="spawnerLuck" style="font-size: 16px">Total Luck: x1,000.00</p>
+            <button class="decreaseIntervalButton" onclick="decreaseInterval(6)">Decrease interval<br>120.000s >>
+                114.000s<br>Costs $100Qi</button>
+            <button class="increaseSpawnerLuckButton" onclick="increaseSpawnerLuck(6)">Increase Spawner luck<br>x1000 >>
+                x1100<br>Costs $10Sx</button>
+        </div>
+        <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
+        <div class="spawnerTab" style="display: none">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <p style="font-size: 36px; margin: 0;">Spawner 7</p>
+                <button class="maxBuySpawnerButton" onclick="maxBuySpawner(7)" style="display: none">Max Buy</button>
+            </div>
+            <p class="spawnerInterval" style="font-size: 16px">Spawn interval: 300.000s</p>
+            <p class="spawnerLuck" style="font-size: 16px">Total Luck: x10,000.00</p>
+            <button class="decreaseIntervalButton" onclick="decreaseInterval(7)">Decrease interval<br>300.000s >>
+                285.000s<br>Costs $1Dc</button>
+            <button class="increaseSpawnerLuckButton" onclick="increaseSpawnerLuck(7)">Increase Spawner luck<br>x10000
+                >>
+                x11000<br>Costs $10Dc</button>
+        </div>
     </div>
     <div id="boosts">
         <p style="font-size: 48px">Boosts</p>
         <hr style="background-color: #666; margin-left: 8px; margin-right: 8px"><br>
-        <p class="boostText" style="font-size: 24px">2x money gain - 0:00 (not active)</p>
+        <p id="moneyBoostText" class="boostText" style="font-size: 24px">2x money gain - 0:00 (not active)</p>
         <img src="img/moneyIcon.png" style="vertical-align: top; margin: 4px"><button id="boost1" class="boostButton"
             onclick="buyBoost(1)"></button><br>
         <img src="img/moneyIcon.png" style="vertical-align: top; margin: 4px"><button id="boost2" class="boostButton"
             onclick="buyBoost(2)"></button><br><br>
-        <p class="boostText" style="font-size: 24px">2x luck - 0:00 (not active)</p>
+        <p id="luckBoostText" class="boostText" style="font-size: 24px">2x luck - 0:00 (not active)</p>
         <img src="img/luckIcon.png" style="vertical-align: top; margin: 4px"><button id="boost3" class="boostButton"
             onclick="buyBoost(3)"></button><br>
         <img src="img/luckIcon.png" style="vertical-align: top; margin: 4px"><button id="boost4" class="boostButton"
             onclick="buyBoost(4)"></button><br><br>
-        <p class="boostText" style="font-size: 24px">Duplicate cooldown: 0s</p>
+        <p id="dupeBoostText" class="boostText" style="font-size: 24px">Duplicate cooldown: 0s</p>
         <img src="img/duplicateIcon.png" style="vertical-align: top; margin: 4px"><button id="boost5"
-            class="boostButton" onclick="buyBoost(5)"></button>
+            class="boostButton" onclick="buyBoost(5)"></button><br><br>
+        <div id="obstacleRemoverArea" style="display: none;">
+            <p id="ruoBoostText" class="boostText" style="font-size: 24px">Obstacle Remover - 0:00 (not active)</p>
+            <img src="img/rebirthIcon.png" style="vertical-align: top; margin: 4px"><button id="boost6"
+                class="boostButton" onclick="buyBoost(6)"></button>
+        </div>
+        <div id="autoPotionContainer">
+            <input type="checkbox" id="autoPotion" name="interest" value="autoPotion" />
+            <label for="autoPotion" style="font-family: Lexend Deca">
+                Auto 1min Luck/Money Potion
+            </label>
+        </div>
+
 
         <div id="rebirth">
             <hr style="background-color: #666; margin-left: 8px; margin-right: 8px; margin-top: 40px">
@@ -114,9 +182,16 @@
                 src="img/rebirthIcon.png" style="vertical-align: middle">
             <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
             <p id="rebirthText" style="color: #dbf">You have rebirthed 0 times<br>Rebirth luck multiplier: x1</p>
-            <button id="rebirthButton" onclick="rebirth()"><b>Rebirth</b><br>Costs $5,000<br>Luck x1 - x2</button>
-            <p style="color: #dbf">Rebirthing will reset your money, upgrades and boost times! It will also halve your
+            <button id="rebirthButton" onclick="rebirth()"><b>Rebirth</b><br>Costs $5,000<br>Luck x1 >> x2</button>
+            <p style="color: #dbf">Rebirthing will reset your money, upgrades and boost times! It will also halve
+                your
                 diamonds</p>
+        </div>
+        <div id="bulkRebContainer">
+            <input type="checkbox" id="bulkReb" name="reb" value="bulkReb" />
+            <label for="bulkReb" style="font-family: Lexend Deca">
+                Bulk Rebirths
+            </label>
         </div>
     </div>
     <div id="rarities">
@@ -147,18 +222,58 @@
         <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
         <p id="tierText" style="color: rgb(201, 201, 201); font-size: 22.5px; margin-bottom: 20px">Your Tier is 0 >>
             1<br>Tier Luck Multiplier x1 >> x3<br>Tier Money Multiplier x1 >> x2</p>
-        <button id="tierButton" style="font-size: 22.5px; margin-bottom: 20px" onclick="tier()"><b>Tier Up</b><br>Cost:
+        <button id="tierButton" style="font-size: 22.5px; margin-bottom: 20px" onclick="tier()"><b>Tier
+                Up</b><br>Cost:
             100 Antimatter Orbs</button>
         <p style="color: rgb(184, 184, 184); font-size: 22.5px; margin-bottom: 20px">Tiering will reset everything
-            prior! It will reset Boost usage and hence Boost Cost, and unlock a new Board with more multipliers and new
-            rarities. Additionally, it gives a Money and Luck Multiplier.</p>
-        <button id="skillTreeToggle" style="font-size: 22.5px; margin-bottom: 20px"
-            onclick="skillTreeToggle()">Go to the Skill Tree (can buy QOL Upgrades)</button>
+            prior! It will reset Boost usage and hence Boost Cost, and unlock a new Board with more multipliers and
+            new
+            rarities. Additionally, it gives a Money and Luck Multiplier. Each Tier gives a Tier Point (TP), with the
+            first Tier giving 2 TP. These TP can be spent on the Skill Tree to buy upgrades like Max buy, unlocking new
+            spawners etc.</p>
+        <button id="skillTreeToggle" style="font-size: 22.5px; margin-bottom: 20px" onclick="skillTreeToggle()">Go
+            to
+            the Skill Tree (can buy QOL Upgrades)</button>
+        <div id="variantIndex"
+            style="display: none; max-height: 400px; height: auto; border: 2px solid #666; flex-direction: column; margin-top: 20px;">
+            <div class="variantHeader"
+                style="width: 100%; height: 60px; background-image: linear-gradient(#eee, #bbb); border-bottom: 2px solid #666;">
+                <p
+                    style="margin: 0; text-align: center; line-height: 60px; color: #444; font-size: 32px; font-weight: bold">
+                    Variant Index</p>
+            </div>
+            <div id="variantList" style="flex: 1; overflow-y: auto; width: 100%; background-color: #222233;">
+                <!-- Variant items will be added here -->
+            </div>
+        </div>
     </div>
     <div id="skillTree">
         <button id="closeSkillTree" onclick="closeSkillTree()">&lt;&lt;</button>
         <p style="font-size: 64px; text-align: center; margin-top: 50px;">Skill Tree</p>
-        <p style="font-size: 32px; text-align: center; margin-top: 15px;">You have 0 Tier Points (TP). You can spend TP on Upgrades to aid your progression!</p>
+        <p id="skillPtsText" style="font-size: 32px; text-align: center; margin-top: 15px;">You have 0/0 Tier Points
+            (TP). You can spend TP on Upgrades to aid your progression!</p>
+        <div id="skillTreeColumns">
+            <div class="skillTreeColumn" id="column-main">
+                <p class="columnTitle">Main</p>
+                <div class="upgradeList"></div>
+            </div>
+            <div class="skillTreeColumn" id="column-spawner">
+                <p class="columnTitle">Spawner</p>
+                <div class="upgradeList"></div>
+            </div>
+            <div class="skillTreeColumn" id="column-boost">
+                <p class="columnTitle">Boosts</p>
+                <div class="upgradeList"></div>
+            </div>
+            <div class="skillTreeColumn" id="column-rless">
+                <p class="columnTitle">Reset Less</p>
+                <div class="upgradeList"></div>
+            </div>
+            <div class="skillTreeColumn" id="column-max">
+                <p class="columnTitle">Max Buy</p>
+                <div class="upgradeList"></div>
+            </div>
+        </div>
     </div>
     <div id="settings">
         <p style="font-size: 24px">Settings</p>
@@ -167,8 +282,10 @@
         <button style="background-color: #eaa; background-image: none" onclick="hardReset()">Hard reset</button>
         <p style="font-size: 16px" id="timePlayed">Your Time Played is 0:00:00<br> Your last Rebirth was 0:00:00
             ago<br>You are in Tier 0 for 0:00:00</p>
+        <a href="https://discord.com/invite/RRK9Dwzf6P" target="_blank"><button>Join Discord</button></a><br><br>
+        <button id="notationButton" onclick="changeNotation()">Notation: standard</button>
     </div>
-    <p style="position: fixed; bottom: 0px; text-align: right; right: 0px; color: #bbb">Super Rarity Orbs v0.3a,
+    <p style="position: fixed; bottom: 0px; text-align: right; right: 0px; color: #bbb">Super Rarity Orbs v0.4,
         an<br>extension of Demonin's Rarity Orbs<br>Made by randim82</p>
     <script src="matter.js?v012=1"></script>
     <script src="init.js?v012=1"></script>

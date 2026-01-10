@@ -4,7 +4,8 @@ var Engine = Matter.Engine,
     Runner = Matter.Runner,
     Bodies = Matter.Bodies,
     Composites = Matter.Composites,
-    Composite = Matter.Composite;
+    Composite = Matter.Composite,
+    Events = Matter.Events;
 
 // create an engine
 var engine = Engine.create();
@@ -12,7 +13,7 @@ world = engine.world;
 
 // create a renderer
 var render = Render.create({
-    element: document.body,
+    element: document.getElementById('field'),
     engine: engine,
     options: {
         width: 400,
@@ -23,11 +24,13 @@ var render = Render.create({
 });
 
 var ground, ceiling, wall1, wall2;
-var pegs, pegs2, pegs3, pegs4, pegs5, funnelL, funnelR, upgradedPegs;
+var pegs, pegs2, pegs3, pegs4, pegs5, funnelL, funnelR, funnel2L, funnel2R, funnel3L, funnel3R, funnel4L, funnel4R, funnel5L, funnel5R, funnel6L, funnel6R, upgradedPegs;
 
 function buildBoard() {
-    // Clear current world to prepare for new board
-    Composite.clear(engine.world, true);
+    // Save current orbs
+    let currentBodies = Composite.allBodies(engine.world);
+    let savedOrbs = currentBodies.filter(b => b.category === 'ball' || b.category === 'diamond');
+    Composite.clear(engine.world, false);
 
     var ground = Bodies.rectangle(200, 825, 410, 60, { isStatic: true });
     var ceiling = Bodies.rectangle(200, -10, 410, 60, { isStatic: true });
@@ -37,12 +40,13 @@ function buildBoard() {
     let boardElements = [ground, ceiling, wall1, wall2];
 
     if (game.tiers == 0) { // Board 1
-        pegs = Composites.stack(10, 220, 5, 6, 66, 80, (x, y) => Bodies.circle(x, y, 12, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
-        pegs2 = Composites.stack(54, 167, 4, 6, 66, 80, (x, y) => Bodies.circle(x, y, 12, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
+        let rows = game.boostTimes[3] > 15 ? 4 : 6;
+        pegs = Composites.stack(10, 220, 5, rows, 66, 80, (x, y) => Bodies.circle(x, y, 12, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
+        pegs2 = Composites.stack(54, 167, 4, rows, 66, 80, (x, y) => Bodies.circle(x, y, 12, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
         pegs3 = Composites.stack(54, 775, 4, 1, 66, 80, (x, y) => Bodies.circle(x, y, 12, { isStatic: true, render: { fillStyle: '#6a6a6aff' }  })); 
         boardElements.push(pegs, pegs2, pegs3);
-    } else {
-        // Board 2 (1 Prestige, later)
+    } else if (game.tiers == 1) {
+        // Board 2
         funnelL = Bodies.rectangle(80, 125, 200, 20, { isStatic: true, angle: Math.PI / 4 });
         funnelR = Bodies.rectangle(320, 125, 200, 20, { isStatic: true, angle: -Math.PI / 4 });
         deflectorBall = Bodies.circle(200, 267, 25, { 
@@ -52,10 +56,38 @@ function buildBoard() {
         });
         pegs4 = Composites.stack(10, 325, 5, 4, 66, 100, (x, y) => Bodies.circle(x, y, 12, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
         pegs5 = Composites.stack(54, 385, 5, 4, 66, 100, (x, y) => Bodies.circle(x, y, 12, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
-        boardElements.push(funnelL, funnelR, pegs4, pegs5, deflectorBall);
+        
+        if (game.boostTimes[3] < 15) {
+            boardElements.push(funnelL, funnelR);
+        }
+        boardElements.push(pegs4, pegs5, deflectorBall);
+    } else {
+        // Board 3
+        funnelL = Bodies.rectangle(80, 125, 200, 20, { isStatic: true, angle: Math.PI / 4 });
+        funnelR = Bodies.rectangle(320, 125, 200, 20, { isStatic: true, angle: -Math.PI / 4 });
+        funnel2L = Bodies.rectangle(40, 300, 125, 15, { isStatic: true, angle: Math.PI / 3 });
+        funnel2R = Bodies.rectangle(175, 300, 125, 15, { isStatic: true, angle: -Math.PI / 3 });
+        funnel3L = Bodies.rectangle(230, 300, 125, 15, { isStatic: true, angle: Math.PI / 3 });
+        funnel3R = Bodies.rectangle(360, 300, 125, 15, { isStatic: true, angle: -Math.PI / 3 });
+        funnel4L = Bodies.rectangle(80, 450, 200, 20, { isStatic: true, angle: Math.PI / 4 });
+        funnel4R = Bodies.rectangle(320, 450, 200, 20, { isStatic: true, angle: -Math.PI / 4 });
+        funnel5L = Bodies.rectangle(40, 625, 125, 15, { isStatic: true, angle: Math.PI / 3 });
+        funnel5R = Bodies.rectangle(175, 625, 125, 15, { isStatic: true, angle: -Math.PI / 3 });
+        funnel6L = Bodies.rectangle(230, 625, 125, 15, { isStatic: true, angle: Math.PI / 3 });
+        funnel6R = Bodies.rectangle(360, 625, 125, 15, { isStatic: true, angle: -Math.PI / 3 });
+        
+        boardElements.push(funnelL, funnelR);
+        if (game.boostTimes[3] < 15) {
+            boardElements.push(funnel2L, funnel2R, funnel3L, funnel3R);
+        }
+        boardElements.push(funnel4L, funnel4R, funnel5L, funnel5R, funnel6L, funnel6R);
     }
     const finalElements = boardElements.filter(item => item != null);
     Composite.add(engine.world, finalElements);
+    
+    if (savedOrbs.length > 0) {
+        Composite.add(engine.world, savedOrbs);
+    }
 }
 buildBoard();
 
@@ -80,15 +112,38 @@ function createOrb(spawner) {
         game.highestRarity = chosenRarity;
         updateRarityList();
     }
-    var circle = Bodies.circle(Math.random() * 300 + 50, 30, raritySizes[chosenRarity - 1], { category: 'ball', rarity: chosenRarity, restitution: 0.9, render: {
-        //strokeStyle: 'white',
-        //fillStyle: rarityColours[chosenRarity - 1],
-        sprite: {
-            texture: "img/ball" + chosenRarity + ".png",
-            xScale: 0.025 * raritySizes[chosenRarity - 1],
-            yScale: 0.025 * raritySizes[chosenRarity - 1],
+    
+    let variant = null;
+    if (getSTUpAmt("SPW-3") > 0) {
+        let mn4Level = getSTUpAmt("MN-4");
+        let rand = Math.random();
+        
+        if (mn4Level >= 5 && rand < 0.001) {
+            variant = "rainbow";
+        } else if (mn4Level >= 2 && rand < 0.005) {
+            variant = "glowing";
+        } else if (rand < (0.025 + mn4Level * 0.0025)) {
+            variant = "shiny";
         }
-    }});
+    }
+
+    if (currentOrbs >= 100 + getSTUpAmt("SPW-2") * 25) return;
+
+    var circle = Bodies.circle(Math.random() * 300 + 50, 30, raritySizes[chosenRarity - 1], { 
+        category: 'ball', 
+        rarity: chosenRarity, 
+        variant: variant,
+        restitution: 0.9, 
+        frictionStatic: 0,
+
+        render: {
+            sprite: {
+                texture: "img/ball" + chosenRarity + ".png",
+                xScale: 0.025 * raritySizes[chosenRarity - 1],
+                yScale: 0.025 * raritySizes[chosenRarity - 1],
+            }
+        }
+    });
     Composite.add(engine.world, [circle]);
     currentOrbs = countOrbs()
 }
@@ -125,13 +180,23 @@ function checkCollisions() {
             if (bodies[i].position.x < 66) {slotMultiplier = 2;}
             else if (bodies[i].position.x > 155 && bodies[i].position.x < 244) {slotMultiplier = 1.5;}
             else if (bodies[i].position.x > 333) {slotMultiplier = 2;}
+        } else if (game.tiers < 2) {
+            if (bodies[i].position.x > 155 && bodies[i].position.x < 244) {slotMultiplier = 5;}     
         } else {
-            if (bodies[i].position.x > 155 && bodies[i].position.x < 244) {slotMultiplier = 7;}     
+            slotMultiplier = 2;
         }
         if (bodies[i].category === 'ball' && bodies[i].position.y > 775) {
-            let moneyGain = rarityValues[bodies[i].rarity - 1] * game.moneyMultiplier * slotMultiplier * (game.boostTimes[0] ? 2 : 1);
+            let variantMult = 1;
+            if (bodies[i].variant === "shiny") variantMult = 2;
+            else if (bodies[i].variant === "glowing") variantMult = 3;
+            else if (bodies[i].variant === "rainbow") variantMult = 5;
+
+            let moneyGain = rarityValues[bodies[i].rarity - 1] * game.moneyMultiplier * slotMultiplier * variantMult * (game.boostTimes[0] ? 2 : 1);
             if (game.mechanicsUnlocked >= 3) {
                 moneyGain *= (1.06**game.highestRarity)
+            }
+            if (game.tiers >= 1) {
+                moneyGain *= (1.05 ** getSTUpAmt("MN-1"))
             }
             game.orbsObtained[bodies[i].rarity - 1] += 1
             game.money += moneyGain
@@ -141,7 +206,7 @@ function checkCollisions() {
             currentOrbs = countOrbs()
         }
         else if (bodies[i].category === 'diamond' && bodies[i].position.y > 775) {
-            game.diamonds += 10;
+            game.diamonds += 10 * (1.05 ** getSTUpAmt("MN-3"));
             updateText()
             updateVisuals()
             Composite.remove(engine.world, bodies[i]);
@@ -156,15 +221,21 @@ function duplicateOrbs() {
     var bodies = Composite.allBodies(engine.world);
     for (var i = 0; i < bodies.length; i++) {
         if (bodies[i].category === 'ball') {
-            //Create a new orb with the same rarity
             let chosenRarity = bodies[i].rarity;
-            var circle = Bodies.circle(bodies[i].position.x, bodies[i].position.y, raritySizes[chosenRarity - 1], { category: 'ball', rarity: chosenRarity, restitution: 0.9, render: {
-                sprite: {
-                    texture: "img/ball" + chosenRarity + ".png",
-                    xScale: 0.025 * raritySizes[chosenRarity - 1],
-                    yScale: 0.025 * raritySizes[chosenRarity - 1],
+            let variant = bodies[i].variant;
+            var circle = Bodies.circle(bodies[i].position.x, bodies[i].position.y, raritySizes[chosenRarity - 1], { 
+                category: 'ball', 
+                rarity: chosenRarity, 
+                variant: variant,
+                restitution: 0.9, 
+                render: {
+                    sprite: {
+                        texture: "img/ball" + chosenRarity + ".png",
+                        xScale: 0.025 * raritySizes[chosenRarity - 1],
+                        yScale: 0.025 * raritySizes[chosenRarity - 1],
+                    }
                 }
-            }});
+            });
             Composite.add(engine.world, [circle]);
             currentOrbs = countOrbs()
         }
@@ -191,3 +262,102 @@ function deleteAllOrbs() {
     }
     currentOrbs = countOrbs()
 }
+
+Events.on(render, 'afterRender', function() {
+    var context = render.context,
+        bodies = Composite.allBodies(engine.world);
+
+    for (var i = 0; i < bodies.length; i++) {
+        var body = bodies[i];
+
+        if (body.category === 'ball' && body.variant) {
+            context.save();
+            context.translate(body.position.x, body.position.y);
+            context.rotate(body.angle);
+            
+            context.beginPath();
+            let radius = raritySizes[body.rarity - 1] + 2;
+            context.arc(0, 0, radius, 0, 2 * Math.PI);
+            
+            if (body.variant === "shiny") {
+                let gradient = context.createRadialGradient(0, 0, radius * 0.5, 0, 0, radius * 1.5);
+                gradient.addColorStop(0, "rgba(255, 255, 255, 0.33)");
+                gradient.addColorStop(0.2, "rgba(255, 255, 150, 0.16)");
+                gradient.addColorStop(1, "rgba(255, 255, 200, 0)");
+                
+                context.fillStyle = gradient;
+                context.globalCompositeOperation = 'lighter';
+                context.beginPath();
+                context.arc(0, 0, radius * 2, 0, 2 * Math.PI);
+                context.fill();
+                context.fillStyle = "white";
+                context.globalCompositeOperation = 'source-over';
+            } else if (body.variant === "glowing") {
+                let pulse = Math.sin(Date.now() / 300) * 5;
+                context.globalCompositeOperation = 'lighter';
+                
+                context.shadowBlur = 25 + pulse;
+                context.shadowColor = "rgba(0, 100, 255, 1)";
+                context.strokeStyle = "rgba(0, 150, 255, 0.8)";
+                context.lineWidth = 4;
+                context.stroke();
+                
+                context.beginPath();
+                context.arc(0, 0, radius + 5 + pulse, 0, 2 * Math.PI);
+                context.strokeStyle = "rgba(0, 150, 255, 0.5)";
+                context.lineWidth = 2;
+                context.stroke();
+                
+                context.globalCompositeOperation = 'source-over';
+            } else if (body.variant === "rainbow") {
+                let hue = (Date.now() / 5) % 360;
+                context.globalCompositeOperation =  'lighter';
+                
+                let innerGrad = context.createRadialGradient(0, 0, 0, 0, 0, radius);
+                innerGrad.addColorStop(0, `hsla(${hue}, 100%, 80%, 0.5)`);
+                innerGrad.addColorStop(0.5, `hsla(${(hue + 120) % 360}, 100%, 60%, 0.3)`);
+                innerGrad.addColorStop(1, `hsla(${(hue + 240) % 360}, 100%, 50%, 0.1)`);
+                context.fillStyle = innerGrad;
+                context.beginPath();
+                context.arc(0, 0, radius, 0, Math.PI * 2);
+                context.fill();
+
+                let outerGrad = context.createRadialGradient(0, 0, radius, 0, 0, radius * 2.5);
+                outerGrad.addColorStop(0, `hsla(${hue}, 100%, 60%, 0.4)`);
+                outerGrad.addColorStop(0.5, `hsla(${(hue + 180) % 360}, 100%, 50%, 0.2)`);
+                outerGrad.addColorStop(1, "transparent");
+                context.fillStyle = outerGrad;
+                context.beginPath();
+                context.arc(0, 0, radius * 2.5, 0, Math.PI * 2);
+                context.fill();
+            }
+            
+            context.restore();
+        }
+    }
+});
+
+
+// prevent ball being stuck
+let lastPos = new Map();
+Events.on(engine, "afterUpdate", () => {
+    const bodies = Composite.allBodies(engine.world);
+    for (const body of bodies) {
+        if (body.category !== 'ball' && body.category !== 'diamond') continue;
+        const prev = lastPos.get(body.id);
+        if (prev) {
+            const dx = body.position.x - prev.x;
+            const dy = body.position.y - prev.y;
+            if (Math.abs(dx) < 0.05 && Math.abs(dy) < 0.05 && body.speed < 0.1) {
+                Matter.Body.applyForce(body, body.position, {
+                    x: (Math.random() - 0.5) * 0.00002,
+                    y: -0.00002
+                });
+            }
+        }
+        lastPos.set(body.id, {
+            x: body.position.x,
+            y: body.position.y
+        });
+    }
+});
