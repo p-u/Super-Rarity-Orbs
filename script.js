@@ -1257,12 +1257,12 @@ function updateVariantIndex() {
         variantList.innerHTML = "";
 
         let shinyProb = (0.025 + mn4 * 0.0025) * 100;
-        addVariantItem("Shiny", "x2 Money", `rgba(255, 255, 200, 0.8)`, shinyProb.toFixed(2) + "%", "shiny");
+        addVariantItem("Shiny", "x2 Money", shinyProb.toFixed(2) + "%", "shiny");
         if (mn4 >= 2) {
-            addVariantItem("Glowing", "x3 Money", "rgba(0, 150, 255, 0.9)", "0.50%", "glowing");
+            addVariantItem("Glowing", "x3 Money", "0.50%", "glowing");
         }
         if (mn4 >= 5) {
-            addVariantItem("Rainbow", "x5 Money", "linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet)", "0.10%", "rainbow");
+            addVariantItem("Rainbow", "x5 Money", "0.10%", "rainbow");
         }
     } else {
         variantIndex.style.display = "none";

@@ -64,7 +64,7 @@ function reset() {
             boost: { 
                 name: "Boosts++",
                 upgrades: [
-                    { id: "BST-1", name: "Efficient Boosts", desc: "1min Boosts are 40 Diamonds cheaper, the rest are 100 Diamonds cheaper (Doesn't affect boost price of SPW-3's boost)", cost: 1, req: null },
+                    { id: "BST-1", name: "Efficient Boosts", desc: "1min Boosts are 40 Diamonds cheaper, the rest are 100 Diamonds cheaper (Doesn't affect boost price of BST-3's boost)", cost: 1, req: null },
                     { id: "BST-2", name: "Quick Dupe", desc: "Duplicate cooldown is halved", cost: 1, req: null },
                     { id: "BST-3", name: "Obstacle Remover", desc: "Unlock a new boost to remove some obstacles", cost: 1, req: null },
                     { id: "BST-4", name: "Auto-Potion", desc: "Auto-Money/Luck Potion when said potion ends (Toggleable)", cost: 3, req: ["BST-2", "BST-3"] }
