@@ -15,7 +15,7 @@ function reset() {
         numberFormat: "standard",
         upgradeCosts: [50, 100, 500, 250, 1500, 25000, 2000, 8000, 75000, 1e10, 1e9, 5e13, 2.5e13, 1e20, 1e22, 1e33, 1e34], // for spawners and first few ups
         newUpgCosts: [200], // for diamonds
-        extUpgCosts: [1e33, 25000], // for TPgain ups
+        extUpgCosts: [1e33, 10000], // for TPgain ups
         diamondLuck: 1,
         spawnersUnlocked: 1, 
         boostTimes: [0,0,0,0],

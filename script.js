@@ -1,7 +1,7 @@
 const illions = ["thousand", "million", "billion", "trillion", "quadrillion", "quintillion", "sextillion", "septillion", "octillion", "nonillion", "decillion", "undecillion", "duodecillion", "tredecillion", "quattuordecillion", "quindecillion", "sexdecillion", "septendecillion", "octodecillion", "novemdecillion", "vigintillion"]
 let lastVariantLevels = { spw3: -1, mn4: -1 };
 const illionsShort = ["K", "M", "B", "T", "Qa", "Qt", "Sx", "Sp", "Oc", "No", "Dc", "UDc", "DDc", "TDc", "QaDc", "QiDc", "SxDc", "SpDc", "OcDc", "NoDc", "Vg", "UVg", "DVg", "TVg", "QdVg", "QtVg", "SxVg", "SpVg", "OcVg", "NoVg", "Tg", "UTg", "DTg"]
-const rarities     = [1, 4, 15, 50, 250, 1200,7000, 30000,140000,750000,6e6, 2e7, 4.5e8, 7e9, 3e12, 8.5e13, 1.8e15, 3.6e16, 7e17, 1e20, 1.25e22, 2e24, 3.5e26];
+const rarities     = [1, 4, 15, 50, 250, 1200,7000, 30000,140000,750000,6e6, 2e7, 4.5e8, 7e9, 2.5e12, 7e13, 1.5e15, 3e16, 5.8e17, 8e19, 1.1e22, 1.8e24, 3.2e26];
 const rarityNames = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythical', 'Exotic', 'Ethereal', 'Galactic', 'Transcendental', 'Angelic', 'Demonic', 'Void', 'Antimatter', 'Quantum', 'Extreme', 'Radiant', 'Celestial', 'Ascended', 'Forsaken', 'Astral', 'Supernova', 'Toxic'];
 const raritySizes = [6, 7, 7, 8, 8, 9, 9, 10, 10, 10, 11, 11, 11, 12, 13, 13, 13, 14, 14, 14, 15, 15, 15, 15, 16, 16, 16, 16]
 const rarityValues = [1, 3, 10, 25, 100, 300, 1000, 3000, 10000, 40000, 2.5e5, 5e5, 7e6, 4e7, 1e9, 1e10, 1e11, 1e12, 1e13, 5e14, 1e16, 2.5e17, 1e19, 4e20, 1.5e22, 5e23]
@@ -193,6 +193,10 @@ function loadGame(loadgame) {
     if (game.tiers >= 1) {
         game.maxTP++
         game.currentTP++
+    }
+    let val = Math.log(game.extUpgCosts[1] / 25000) / Math.log(4)
+    if (val = Math.floor(val)) {
+        game.extUpgCosts[1] = 10000 * (5 ** val)
     }
     
     //Rarity list
@@ -832,7 +836,7 @@ function TPgain(idx) {
             game.diamonds -= game.extUpgCosts[1];
             game.currentTP += 1;
             game.maxTP += 1;
-            game.extUpgCosts[1] *= 4;
+            game.extUpgCosts[1] *= 5;
         }
     }
     updateText();
@@ -1026,8 +1030,8 @@ function unlockTier() {
 }
 
 function unlockWeather() {
-    if (game.diamonds >= 4000 && game.mechanicsUnlocked==4 && game.tiers >= 2) {
-        game.diamonds -= 4000
+    if (game.diamonds >= 8000 && game.mechanicsUnlocked==4 && game.tiers >= 2) {
+        game.diamonds -= 8000
         game.mechanicsUnlocked = 5
         updateText()
         document.getElementById("unlockWeatherButton").style.display = "none";
