@@ -97,6 +97,13 @@ function loadGame(loadgame) {
             else {game[loadKeys[i]] = loadgame[loadKeys[i]]}
         }
     }
+    // Migration: Update Diamond TP upgrade cost from old formula (25000*4^x) to new formula (10000*5^x)
+    let val = Math.log(game.extUpgCosts[1] / 25000) / Math.log(4)
+    if (Math.abs(val - Math.round(val)) < 0.001 && val >= 0) {
+        let level = Math.round(val);
+        game.extUpgCosts[1] = 10000 * (5 ** level);
+    }
+
     while (game.spawnIntervals.length < 7) {
         let i = game.spawnIntervals.length;
         if (i == 3) {
@@ -187,10 +194,7 @@ function loadGame(loadgame) {
         game.boostData[2].increment = 75
         game.boostData[4].increment = 75
     }
-    let val = Math.log(game.extUpgCosts[1] / 25000) / Math.log(4)
-    if (val = Math.floor(val)) {
-        game.extUpgCosts[1] = 10000 * (5 ** val)
-    }
+
     let add = Math.log(game.extUpgCosts[0] / 1e33)/Math.log(1e15) + Math.log(game.extUpgCosts[1] / 10000)/Math.log(5)
     game.maxTP = game.tiers + add
     game.currentTP = game.tiers + add - (game.spentTP || 0)
