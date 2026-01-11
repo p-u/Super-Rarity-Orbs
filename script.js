@@ -97,6 +97,10 @@ function loadGame(loadgame) {
             else {game[loadKeys[i]] = loadgame[loadKeys[i]]}
         }
     }
+    if (game.extUpgCosts[1] < 10000) {
+        game.extUpgCosts[1] = 10000;
+    }
+
     // Migration: Update Diamond TP upgrade cost from old formula (25000*4^x) to new formula (10000*5^x)
     let val = Math.log(game.extUpgCosts[1] / 25000) / Math.log(4)
     if (Math.abs(val - Math.round(val)) < 0.001 && val >= 0) {
