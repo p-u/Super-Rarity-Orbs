@@ -50,7 +50,8 @@
         <button id="unlockRebirthButton" onclick="unlockRebirth()">Unlock rebirth<br>Costs 50 diamonds</button>
         <button id="unlockRBM" onclick="unlockRBM()">Total rarities unlocked boost Money<br>Costs 250 diamonds</button>
         <button id="unlockTierButton" onclick="unlockTier()">Unlock Tiers<br>Costs 800 diamonds and Rebirth 15</button>
-        <button id="unlockWeatherButton" onclick="unlockWeather()">Unlock Weather (v0.5) and other ways to gain TP<br>Costs 4,000 Diamonds and Tier 2</button>
+        <button id="unlockWeatherButton" onclick="unlockWeather()">Unlock Weather (v0.5) and other ways to gain
+            TP<br>Costs 4,000 Diamonds and Tier 2</button>
         <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
         <div class="spawnerTab">
             <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -293,7 +294,12 @@
         <p style="font-size: 16px" id="timePlayed">Your Time Played is 0:00:00<br> Your last Rebirth was 0:00:00
             ago<br>You are in Tier 0 for 0:00:00</p>
         <a href="https://discord.com/invite/RRK9Dwzf6P" target="_blank"><button>Join Discord</button></a><br><br>
-        <button id="notationButton" onclick="changeNotation()">Notation: standard</button>
+        <button id="notationButton" onclick="changeNotation()">Notation: standard</button><br><br>
+        <div style="display: flex; align-items: center; margin-top: 5px;">
+            <input type="checkbox" id="hideInfinityButton" onclick="toggleHideInfinity()">
+            <label for="hideInfinityButton" style="font-family: Lexend Deca; margin-left: 5px;">Hide Impossible
+                Rarities in Rarity Index</label>
+        </div>
     </div>
     <p style="position: fixed; bottom: 0px; text-align: right; right: 0px; color: #bbb">Super Rarity Orbs v0.4a,
         an<br>extension of Demonin's Rarity Orbs<br>Made by randim82</p>

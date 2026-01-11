@@ -19,6 +19,7 @@ function reset() {
         diamondLuck: 1,
         spawnersUnlocked: 1, 
         boostTimes: [0,0,0,0],
+        hideInfinity: false,
         boostsUnlocked: false,
         ORActive: false,
         rebirthUnlocked: false,

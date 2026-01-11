@@ -520,6 +520,9 @@ function updateVisuals() {
         document.getElementById("TPup").style.display = "none"
     }
     document.getElementById("TPdisplay").innerText = "Current TP: " + game.currentTP + "/" + game.maxTP;
+    
+    // Sync settings
+    document.getElementById("hideInfinityButton").checked = game.hideInfinity;
 
     // Boosts
     document.getElementById("obstacleRemoverArea").style.display = getSTUpAmt("BST-3") ? "block" : "none";
@@ -935,10 +938,23 @@ function updateRarityList() {
     }
 
     //Update pre-existing rarity slot text
-    const slots = document.getElementsByClassName("raritySlotText");
-    for (let i=0; i<slots.length; i++) {
+    const slots = document.getElementsByClassName("raritySlot");
+    const slotsText = document.getElementsByClassName("raritySlotText");
+    for (let i=0; i<slotsText.length; i++) {
         const oneIn = getOneIn(i);
-        slots[i].innerHTML = rarityNames[i] + "<br><span style='font-size: 17.5px'>$" + format(rarityValues[i]*moneyMult) + " • 1 in " + formatChance(oneIn) + " • Obtained: "+ game.orbsObtained[i] + "</span>";
+        const formatOneIn = formatChance(oneIn);
+        
+        // Debug
+        // console.log(`Slot ${i}: hide=${game.hideInfinity}, chance=${formatOneIn}, obtained=${game.orbsObtained[i]}`);
+
+        // Hide if Infinity AND setting is enabled
+        if (game.hideInfinity && formatOneIn === "Infinity") {
+            slots[i].style.display = "none";
+        } else {
+            slots[i].style.display = "block";
+        }
+
+        slotsText[i].innerHTML = rarityNames[i] + "<br><span style='font-size: 17.5px'>$" + format(rarityValues[i]*moneyMult) + " • 1 in " + formatOneIn + " • Obtained: "+ game.orbsObtained[i] + "</span>";
     }
     while (game.raritiesDisplayed < game.highestRarity || game.raritiesDisplayed < 4) {
         //Create a div with the class 'raritySlot'
@@ -946,7 +962,14 @@ function updateRarityList() {
         newSlot.className = "raritySlot";
         newSlot.style.backgroundImage = "linear-gradient(" + rarityColours[game.raritiesDisplayed*2] + ", " + rarityColours[game.raritiesDisplayed*2+1] + ")";
         const oneIn = getOneIn(game.raritiesDisplayed);
-        newSlot.innerHTML = "<img src='img/ball" + (game.raritiesDisplayed+1) + ".png' class='raritySlotImage'><p class='raritySlotText'>" + rarityNames[game.raritiesDisplayed] + "<br><span style='font-size: 20px'>$" + format(rarityValues[game.raritiesDisplayed]*moneyMult) + " • 1 in " + formatChance(oneIn) + "</span></p>";
+        const formatOneIn = formatChance(oneIn);
+        
+        newSlot.innerHTML = "<img src='img/ball" + (game.raritiesDisplayed+1) + ".png' class='raritySlotImage'><p class='raritySlotText'>" + rarityNames[game.raritiesDisplayed] + "<br><span style='font-size: 20px'>$" + format(rarityValues[game.raritiesDisplayed]*moneyMult) + " • 1 in " + formatOneIn + "</span></p>";
+        
+        if (game.hideInfinity && formatOneIn === "Infinity") {
+            newSlot.style.display = "none";
+        }
+
         document.getElementById("raritiesList").appendChild(newSlot);
         game.raritiesDisplayed++
     }
@@ -968,6 +991,12 @@ function updateRarityList() {
     }
 }
 updateRarityList()
+
+function toggleHideInfinity() {
+    game.hideInfinity = !game.hideInfinity;
+    updateRarityList();
+    document.getElementById("hideInfinityButton").classList.toggle("settingOn"); // Optional: for visual feedback if we used a button, but it's a checkbox
+}
 
 function unlockRebirth() {
     if (game.diamonds >= 50 && game.mechanicsUnlocked==1) {
