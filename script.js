@@ -943,11 +943,6 @@ function updateRarityList() {
     for (let i=0; i<slotsText.length; i++) {
         const oneIn = getOneIn(i);
         const formatOneIn = formatChance(oneIn);
-        
-        // Debug
-        // console.log(`Slot ${i}: hide=${game.hideInfinity}, chance=${formatOneIn}, obtained=${game.orbsObtained[i]}`);
-
-        // Hide if Infinity AND setting is enabled
         if (game.hideInfinity && formatOneIn === "Infinity") {
             slots[i].style.display = "none";
         } else {
@@ -1072,7 +1067,7 @@ function rebirth() {
         if (getSTUpAmt("RL-2") >= 1){
             game.diamonds = Math.floor(game.diamonds * game.skillTreeUpgs['rless']['upgrades'][1]['levels'][getSTUpAmt("RL-2")-1]/100)
         } else {
-            game.diamonds = Math.floor(game.diamonds)
+            game.diamonds = Math.floor(game.diamonds / 2)
         }
         game.diamondChance = 0.01
         game.timeSpentinReb = 0
