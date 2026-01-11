@@ -45,7 +45,7 @@ function reset() {
                 upgrades: [
                     { id: "MAX-1", name: "Buy Max Main", desc: "Add a button to Buy Max main Upgrades", cost: 1, req: null },
                     { id: "MAX-2", name: "Buy Max Spawner", desc: "Add a button to Buy Max Individual Spawner Upgrades", cost: 1, req: null },
-                    { id: "MAX-3", name: "Buy Max Rebirth", desc: "Add a toggle to buy max Rebirths", cost: 2, req: ["MAX-1", "MAX-2"] },
+                    { id: "MAX-3", name: "Buy Max Rebirth", desc: "Add a toggle to buy max Rebirths", cost: 3, req: ["MAX-1", "MAX-2"] },
                     { id: "MAX-4", name: "One button for all", desc: "Add a button to buy max all Spawner Upgrades", cost: 1, req: ["MAX-2"] }
                 ],
                 bought: [0,0,0,0], 
