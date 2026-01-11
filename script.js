@@ -354,7 +354,7 @@ function updateBoosts() {
 updateBoosts()
 setInterval(updateBoosts, 1000);
 setInterval(updateRarityList, 200);
-setInterval(updateAllUpgradeText, 100);
+setInterval(updateAllUpgradeText, 1000);
 
 function updateAllUpgradeText() {
     document.getElementById("increaseMultiplierButton").innerHTML = "Increase money multiplier<br>x" + format(game.moneyMultiplier,2) + " >> x" + format(game.moneyMultiplier*1.15,2) + "<br>Costs $" + format(game.upgradeCosts[0])
@@ -378,6 +378,7 @@ function updateAllUpgradeText() {
         document.getElementsByClassName("increaseSpawnerLuckButton")[i-1].innerHTML = "Increase luck<br>x" + format(game.spawnerLuck[i-1],2) + " >> x" + format(game.spawnerLuck[i-1]*1.1,2) + "<br>Costs $" + format(game.upgradeCosts[2+2*i])
     }
     if (document.getElementById("bulkReb").checked) {
+        updateAllUpgradeText()
         if (getSTUpAmt("MAX-3") >= 1) {
             let projreb = Math.floor((Math.log(game.money / 5000) / Math.log(3.5)) + 1)
             let bulkreb = Math.max(projreb-game.rebirths, 1)
@@ -580,44 +581,50 @@ function updateVisuals() {
 updateVisuals()
 setInterval(updateVisuals, 100);
 
-function increaseMultiplier() {
+function increaseMultiplier(updateUI = true) {
     if (game.money >= game.upgradeCosts[0]) {
         game.money -= game.upgradeCosts[0];
         game.moneyMultiplier *= 1.15;
         game.upgradeCosts[0] = Math.floor(game.upgradeCosts[0]*1.7);
         game.currentUpgrades[0]++;
-        updateText()
-        updateVisuals()
+        if (updateUI) {
+            updateText()
+            updateVisuals()
+        }
         document.getElementById("increaseMultiplierButton").innerHTML = "Increase money multiplier<br>x" + format(game.moneyMultiplier,2) + " >> x" + format(game.moneyMultiplier*1.15,2) + "<br>Costs $" + format(game.upgradeCosts[0])
     }
 }
 
-function increaseLuck() {
+function increaseLuck(updateUI = true) {
     if (game.money >= game.upgradeCosts[1]) {
         game.money -= game.upgradeCosts[1];
         game.baseLuck *= 1.2;
         game.upgradeCosts[1] *= 2;
         game.currentUpgrades[1]++;
-        updateRarityList()
-        updateText()
-        updateVisuals()
+        if (updateUI) {
+            updateRarityList()
+            updateText()
+            updateVisuals()
+        }
         document.getElementById("increaseLuckButton").innerHTML = "Increase base luck<br>x" + format(game.baseLuck,2) + " >> x" + format(game.baseLuck*1.2,2) + "<br>Costs $" + format(game.upgradeCosts[1])
     }
 }
 
-function increaseDiamondChance() {
+function increaseDiamondChance(updateUI = true) {
     if (game.money >= game.upgradeCosts[2]) {
         game.money -= game.upgradeCosts[2];
         game.diamondChance += 0.001
         game.upgradeCosts[2] *= 5;
         game.currentUpgrades[2]++;
-        updateText()
-        updateVisuals()
+        if (updateUI) {
+            updateText()
+            updateVisuals()
+        }
         document.getElementById("increaseDiamondChanceButton").innerHTML = "Increase diamond chance<br>" + format(game.diamondChance*100, 2) + "% >> " + format((game.diamondChance+0.001)*100, 2) + "%<br>Costs $" + format(game.upgradeCosts[2])
     }
 }
 
-function decreaseInterval(x) {
+function decreaseInterval(x, updateUI = true) {
     if (game.spawnIntervals[x-1] > 100) {
         if (x <= 3) {
             if (game.money >= game.upgradeCosts[2+x]) {
@@ -626,8 +633,10 @@ function decreaseInterval(x) {
                 if (game.spawnIntervals[x-1] < 100) game.spawnIntervals[x-1] = 100
                 game.upgradeCosts[2+x] = Math.floor(game.upgradeCosts[2+x]*(2.5+x*0.25));
                 game.currentUpgrades[2+x]++;
-                updateText()
-                updateVisuals()
+                if (updateUI) {
+                    updateText()
+                    updateVisuals()
+                }
                 if (game.spawnIntervals[x-1]*0.95 < 100) {
                     document.getElementsByClassName("decreaseIntervalButton")[x-1].innerHTML = "Decrease interval<br>" + (game.spawnIntervals[x-1]/1000).toFixed(3) + "s >> " + "0.100s<br>Costs $" + format(game.upgradeCosts[2+x])
                 } else {
@@ -641,8 +650,10 @@ function decreaseInterval(x) {
                 if (game.spawnIntervals[x-1] < 100) game.spawnIntervals[x-1] = 100
                 game.upgradeCosts[1+2*x] = Math.floor(game.upgradeCosts[1+2*x]*(2.5+x*0.25))
                 game.currentUpgrades[1+2*x]++;
-                updateText()
-                updateVisuals()
+                if (updateUI) {
+                    updateText()
+                    updateVisuals()
+                }
                 if (game.spawnIntervals[x-1]*0.95 < 100) {
                     document.getElementsByClassName("decreaseIntervalButton")[x-1].innerHTML = "Decrease interval<br>" + (game.spawnIntervals[x-1]/1000).toFixed(3) + "s >> " + "0.100s<br>Costs $" + format(game.upgradeCosts[1+2*x])
                 } else {
@@ -653,16 +664,18 @@ function decreaseInterval(x) {
     }
 }
 
-function increaseSpawnerLuck(x) {
+function increaseSpawnerLuck(x, updateUI = true) {
     if (x <= 3) {
         if (game.money >= game.upgradeCosts[5+x]) {
             game.money -= game.upgradeCosts[5+x];
             game.spawnerLuck[x-1] *= 1.1;
             game.upgradeCosts[5+x] = Math.floor(game.upgradeCosts[5+x]*4);
             game.currentUpgrades[5+x]++;
-            updateRarityList()
-            updateText()
-            updateVisuals()
+            if (updateUI) {
+                updateRarityList()
+                updateText()
+                updateVisuals()
+            }
             document.getElementsByClassName("increaseSpawnerLuckButton")[x-1].innerHTML = "Increase luck<br>x" + format(game.spawnerLuck[x-1],2) + " >> x" + format(game.spawnerLuck[x-1]*1.1,2) + "<br>Costs $" + format(game.upgradeCosts[5+x])
         } 
     } else {
@@ -671,9 +684,11 @@ function increaseSpawnerLuck(x) {
             game.spawnerLuck[x-1] *= 1.1;
             game.upgradeCosts[2+2*x] = Math.floor(game.upgradeCosts[2+2*x]*4);
             game.currentUpgrades[2+2*x]++;
-            updateRarityList()
-            updateText()
-            updateVisuals()
+            if (updateUI) {
+                updateRarityList()
+                updateText()
+                updateVisuals()
+            }
             document.getElementsByClassName("increaseSpawnerLuckButton")[x-1].innerHTML = "Increase luck<br>x" + format(game.spawnerLuck[x-1],2) + " >> x" + format(game.spawnerLuck[x-1]*1.1,2) + "<br>Costs $" + format(game.upgradeCosts[2+2*x])
         }
     }
@@ -729,16 +744,19 @@ function maxBuyMain() {
         boughtAny = false;
         // Priority: Multiplier > Luck > Diamond Chance
         if (game.money >= game.upgradeCosts[0]) {
-            increaseMultiplier();
+            increaseMultiplier(false);
             boughtAny = true;
         } else if (game.money >= game.upgradeCosts[1]) {
-            increaseLuck();
+            increaseLuck(false);
             boughtAny = true;
         } else if (game.money >= game.upgradeCosts[2]) {
-            increaseDiamondChance();
+            increaseDiamondChance(false);
             boughtAny = true;
         }
     }
+    updateText();
+    updateVisuals();
+    updateRarityList();
 }
 
 function maxBuySpawner(x) {
@@ -750,13 +768,16 @@ function maxBuySpawner(x) {
         let luckCost = (x <= 3) ? game.upgradeCosts[5 + x] : game.upgradeCosts[2 + 2 * x];
 
         if (game.money >= intervalCost && game.spawnIntervals[x - 1] > 100) {
-            decreaseInterval(x);
+            decreaseInterval(x, false);
             boughtAny = true;
         } else if (game.money >= luckCost) {
-            increaseSpawnerLuck(x);
+            increaseSpawnerLuck(x, false);
             boughtAny = true;
         }
     }
+    updateText();
+    updateVisuals();
+    updateRarityList();
 }
 
 function maxBuyAllSpawners() {
@@ -767,18 +788,21 @@ function maxBuyAllSpawners() {
         for (let i = 1; i <= maxUnlocked; i++) {
             let intervalCost = (i <= 3) ? game.upgradeCosts[2 + i] : game.upgradeCosts[1 + 2 * i];
             if (game.money >= intervalCost && game.spawnIntervals[i - 1] > 100) {
-                decreaseInterval(i);
+                decreaseInterval(i, false);
                 boughtAny = true;
                 break; 
             }
             let luckCost = (i <= 3) ? game.upgradeCosts[5 + i] : game.upgradeCosts[2 + 2 * i];
             if (game.money >= luckCost) {
-                increaseSpawnerLuck(i);
+                increaseSpawnerLuck(i, false);
                 boughtAny = true;
                 break; 
             }
         }
     }
+    updateText();
+    updateVisuals();
+    updateRarityList();
 }
 
 function unlockBoosts() {
@@ -809,6 +833,7 @@ function TPgain(idx) {
         }
     }
     updateText();
+    updateAllUpgradeText()
 }
 
 function updateBoostButtons() {
