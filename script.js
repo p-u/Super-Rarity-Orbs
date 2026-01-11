@@ -1,7 +1,7 @@
 const illions = ["thousand", "million", "billion", "trillion", "quadrillion", "quintillion", "sextillion", "septillion", "octillion", "nonillion", "decillion", "undecillion", "duodecillion", "tredecillion", "quattuordecillion", "quindecillion", "sexdecillion", "septendecillion", "octodecillion", "novemdecillion", "vigintillion"]
 let lastVariantLevels = { spw3: -1, mn4: -1 };
 const illionsShort = ["K", "M", "B", "T", "Qa", "Qt", "Sx", "Sp", "Oc", "No", "Dc", "UDc", "DDc", "TDc", "QaDc", "QiDc", "SxDc", "SpDc", "OcDc", "NoDc", "Vg", "UVg", "DVg", "TVg", "QdVg", "QtVg", "SxVg", "SpVg", "OcVg", "NoVg", "Tg", "UTg", "DTg"]
-const rarities     = [1, 4, 15, 50, 250, 1200,7000, 30000,140000,750000,6e6, 2e7, 4.5e8, 7e9, 3e12, 8.5e13, 1.8e15, 3.6e16, 7e17, 1e20, 1.25e22, 2.5e24, 5e26];
+const rarities     = [1, 4, 15, 50, 250, 1200,7000, 30000,140000,750000,6e6, 2e7, 4.5e8, 7e9, 3e12, 8.5e13, 1.8e15, 3.6e16, 7e17, 1e20, 1.25e22, 2e24, 3.5e26];
 const rarityNames = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythical', 'Exotic', 'Ethereal', 'Galactic', 'Transcendental', 'Angelic', 'Demonic', 'Void', 'Antimatter', 'Quantum', 'Extreme', 'Radiant', 'Celestial', 'Ascended', 'Forsaken', 'Astral', 'Supernova', 'Toxic'];
 const raritySizes = [6, 7, 7, 8, 8, 9, 9, 10, 10, 10, 11, 11, 11, 12, 13, 13, 13, 14, 14, 14, 15, 15, 15, 15, 16, 16, 16, 16]
 const rarityValues = [1, 3, 10, 25, 100, 300, 1000, 3000, 10000, 40000, 2.5e5, 5e5, 7e6, 4e7, 1e9, 1e10, 1e11, 1e12, 1e13, 5e14, 1e16, 2.5e17, 1e19, 4e20, 1.5e22, 5e23]
@@ -134,13 +134,6 @@ function loadGame(loadgame) {
     if (game.boostTimes.length == 3) {
         game.boostTimes.push(0)
     }
-
-    game.maxTP = game.tiers
-    game.currentTP = game.tiers - (game.spentTP || 0)
-    if (game.tiers >= 1) {
-        game.maxTP++
-        game.currentTP++
-    }
     game.inSkillTree = false;
     document.getElementById("skillTree").style.display = "none";
     
@@ -184,6 +177,10 @@ function loadGame(loadgame) {
     if (game.mechanicsUnlocked >= 4) {
         document.getElementById("tier").style.display = "inline-block";
         document.getElementById("unlockTierButton").style.display = "none";
+        document.getElementById("unlockWeatherButton").style.display = "inline-block";
+    }
+    if (game.mechanicsUnlocked >= 5) {
+        document.getElementById("unlockWeatherButton").style.display = "none";
     }
 
     if (game.boostData[2].increment == 50) {
@@ -350,7 +347,7 @@ function updateBoosts() {
 updateBoosts()
 setInterval(updateBoosts, 1000);
 setInterval(updateRarityList, 200);
-setInterval(updateAllUpgradeText, 1000);
+setInterval(updateAllUpgradeText, 100);
 
 function updateAllUpgradeText() {
     document.getElementById("increaseMultiplierButton").innerHTML = "Increase money multiplier<br>x" + format(game.moneyMultiplier,2) + " >> x" + format(game.moneyMultiplier*1.15,2) + "<br>Costs $" + format(game.upgradeCosts[0])
@@ -392,6 +389,8 @@ function updateAllUpgradeText() {
     } else {
         document.getElementById('tierButton').innerHTML = "<b>Tier Up</b><br>(Maxed Tier Unlocked)"
     }
+    document.getElementById('moneyTP').innerHTML = "Get 1 TP<br>Costs $" + format(game.extUpgCosts[0])
+    document.getElementById('diamondTP').innerHTML = "Get 1 TP<br>Costs " + format(game.extUpgCosts[1]) + " Diamonds"
 }
 
 function updateVisuals() {
@@ -455,6 +454,20 @@ function updateVisuals() {
         document.getElementById("xLuckBODiamondButton").style.backgroundImage = "linear-gradient(#fff, #bbb)";
         document.getElementById("xLuckBODiamondButton").style.border = "2px solid #888";
     }
+    if (game.diamonds >= game.extUpgCosts[1]) {
+        document.getElementById("diamondTP").style.backgroundImage = "linear-gradient(#9e9, #7c7)";
+        document.getElementById("diamondTP").style.border = "2px solid #060";
+    } else {
+        document.getElementById("diamondTP").style.backgroundImage = "linear-gradient(#fff, #bbb)";
+        document.getElementById("diamondTP").style.border = "2px solid #888";
+    }
+    if (game.money >= game.extUpgCosts[0]) {
+        document.getElementById("moneyTP").style.backgroundImage = "linear-gradient(#9e9, #7c7)";
+        document.getElementById("moneyTP").style.border = "2px solid #060";
+    } else {
+        document.getElementById("moneyTP").style.backgroundImage = "linear-gradient(#fff, #bbb)";
+        document.getElementById("moneyTP").style.border = "2px solid #888";
+    }
 
     // Auto-unlock 6 and 7 if skills are met
     if (game.spawnersUnlocked == 5 && getSTUpAmt("SPW-1") >= 1) {
@@ -493,6 +506,12 @@ function updateVisuals() {
     } else {
         document.getElementById("skillTreeToggle").style.display = "none"
     }
+    if (game.mechanicsUnlocked >= 5) {
+        document.getElementById("TPup").style.display = "inline-block"
+    } else {
+        document.getElementById("TPup").style.display = "none"
+    }
+    document.getElementById("TPdisplay").innerText = "Current TP: " + game.currentTP + "/" + game.maxTP;
 
     // Boosts
     document.getElementById("obstacleRemoverArea").style.display = getSTUpAmt("BST-3") ? "block" : "none";
@@ -766,6 +785,25 @@ function unlockBoosts() {
     }
 }
 
+function TPgain(idx) {
+    if (idx == 0) {
+        if (game.money >= game.extUpgCosts[0]) {
+            game.money -= game.extUpgCosts[0];
+            game.currentTP += 1;
+            game.maxTP += 1;
+            game.extUpgCosts[0] *= 1e15;
+        }
+    } else if (idx == 1) {
+        if (game.diamonds >= game.extUpgCosts[1]) {
+            game.diamonds -= game.extUpgCosts[1];
+            game.currentTP += 1;
+            game.maxTP += 1;
+            game.extUpgCosts[1] *= 4;
+        }
+    }
+    updateText();
+}
+
 function updateBoostButtons() {
   document.getElementById("boost1").innerHTML =
     `Boost for 1m<br>Costs ${getBoostCost(1)} diamonds`;
@@ -921,12 +959,22 @@ function unlockRBM() {
 }
 
 function unlockTier() {
-    if (game.diamonds >= 800 && game.mechanicsUnlocked==3 && game.rebirths >= 16) {
+    if (game.diamonds >= 800 && game.mechanicsUnlocked==3 && game.rebirths >= 15) {
         game.diamonds -= 800
         game.mechanicsUnlocked = 4
         updateText()
         document.getElementById("tier").style.display = "inline-block";
         document.getElementById("unlockTierButton").style.display = "none";
+        document.getElementById("unlockWeatherButton").style.display = "inline-block";
+    }
+}
+
+function unlockWeather() {
+    if (game.diamonds >= 4000 && game.mechanicsUnlocked==4 && game.tiers >= 2) {
+        game.diamonds -= 4000
+        game.mechanicsUnlocked = 5
+        updateText()
+        document.getElementById("unlockWeatherButton").style.display = "none";
     }
 }
 
@@ -1025,8 +1073,9 @@ function rebirth() {
                   }
              }
         }
-
-        game.boostTimes = [0, 0, 0, 0];
+        if (getSTUpAmt("RL-4") < 1) {
+            game.boostTimes = [0, 0, 0, 0];
+        }
         document.getElementsByClassName("boostText")[0].style.color = "#bbb"
         document.getElementsByClassName("boostText")[0].innerText = "2x money gain - 0:00 (not active)"
         document.getElementsByClassName("boostText")[1].style.color = "#bbb"
@@ -1167,7 +1216,7 @@ function renderSkillTree() {
             if (upg.id === "MN-1") effectText = `Current: x${(1.05 ** boughtCount).toFixed(2)} Money`;
             else if (upg.id === "MN-2") effectText = `Current: x${(1.10 ** boughtCount).toFixed(2)} Luck`;
             else if (upg.id === "MN-3") effectText = `Current: x${(1.05 ** boughtCount).toFixed(2)} Diamonds`;
-            else if (upg.id === "MN-4") effectText = `Current: +${(boughtCount * 0.25).toFixed(1)}% Shiny`;
+            else if (upg.id === "MN-4") effectText = `Current: +${boughtCount}% Shiny`;
             else if (upg.id === "RL-1") effectText = `Current: ${upg.levels[boughtCount-1] || 0}% Upgrades Kept`;
             else if (upg.id === "RL-2") effectText = `Current: ${upg.levels[boughtCount-1] || 50}% Diamonds Reset`; // Default 50%
             else if (upg.id === "RL-3") effectText = `Current: ${upg.levels[boughtCount-1] || 0}% Rebirths Kept`;
@@ -1230,6 +1279,60 @@ function buySkillTreeUpg(cat, index) {
     }
 }
 
+function respecSkillTree() {
+    if (confirm("Are you sure? This will force a Tier reset without gaining a Tier or TP! (Resets everything including Rebirths)")) {
+        // Refund TP
+        for (const cat in game.skillTreeUpgs) {
+            if (game.skillTreeUpgs[cat].bought) {
+                game.skillTreeUpgs[cat].bought.fill(0);
+            }
+        }
+        game.spentTP = 0;
+        game.currentTP = game.maxTP;
+
+        // Force Tier Reset (without incrementing Tier)
+        game.money = 0;
+        game.rebirths = 0;
+        game.moneyMultiplier = 2 ** game.tiers;
+        game.baseLuck = (3 ** game.tiers) * (2 ** game.rebirths);
+        game.diamonds = 0;
+        game.diamondChance = 0.01;
+        game.spawnersUnlocked = 1;
+        game.timeSpentinTier = 0;
+        
+        for (let i = 1; i <= 6; i++) {
+            game.boostData[i]['uses'] = 0;
+        }
+        game.boostTimes = [0, 0, 0, 0];
+        
+        game.timeSpentinReb = 0;
+        game.spawnIntervals = [1000, 2000, 4000, 10000, 60000, 120000, 300000];
+        game.spawnerLuck = [1, 1.5, 2.5, 10, 100, 1000, 10000];
+        game.upgradeCosts = [50, 100, 500, 250, 1500, 25000, 2000, 8000, 75000, 1e10, 1e9, 5e13, 2.5e13, 1e20, 1e22, 1e33, 1e34];
+        
+        // Explicitly reset current upgrades count as we are wiping the costs
+        if (!game.currentUpgrades) game.currentUpgrades = new Array(17).fill(0);
+        else game.currentUpgrades.fill(0);
+
+        document.getElementsByClassName("boostText")[0].style.color = "#bbb";
+        document.getElementsByClassName("boostText")[0].innerText = "2x money gain - 0:00 (not active)";
+        document.getElementsByClassName("boostText")[1].style.color = "#bbb";
+        document.getElementsByClassName("boostText")[1].innerText = "2x luck - 0:00 (not active)";
+        document.getElementsByClassName("boostText")[2].innerText = "Duplicate cooldown: " + game.boostTimes[2] + "s";
+
+        updateRarityList();
+        deleteAllOrbs();
+        updateText();
+        buildBoard();
+        updateAllUpgradeText();
+        updateVisuals();
+        updateRarityList();
+        updateBoostButtons();
+        updateSkillTree();
+        save();
+    }
+}
+
 function skillTreeToggle() {
     game.inSkillTree = true;
     updateSkillTree()
@@ -1256,13 +1359,11 @@ function updateVariantIndex() {
         variantIndex.style.display = "flex";
         variantList.innerHTML = "";
 
-        let shinyProb = (0.025 + mn4 * 0.0025) * 100;
-        addVariantItem("Shiny", "x2 Money", shinyProb.toFixed(2) + "%", "shiny");
-        if (mn4 >= 2) {
-            addVariantItem("Glowing", "x3 Money", "0.50%", "glowing");
-        }
-        if (mn4 >= 5) {
-            addVariantItem("Rainbow", "x5 Money", "0.10%", "rainbow");
+        let shinyProb = (0.1 + mn4 * 0.01) * 100;
+        addVariantItem("Shiny", "x2.5 Money", shinyProb.toFixed(2) + "%", "shiny");
+        addVariantItem("Glowing", "x5 Money", "1.00%", "glowing");
+        if (mn4 >= 3) {
+            addVariantItem("Rainbow", "x10 Money", "0.10%", "rainbow");
         }
     } else {
         variantIndex.style.display = "none";

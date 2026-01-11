@@ -49,7 +49,8 @@
         <button id="unlockBoostsButton" onclick="unlockBoosts()">Unlock boosts<br>Costs 20 diamonds</button>
         <button id="unlockRebirthButton" onclick="unlockRebirth()">Unlock rebirth<br>Costs 50 diamonds</button>
         <button id="unlockRBM" onclick="unlockRBM()">Total rarities unlocked boost Money<br>Costs 250 diamonds</button>
-        <button id="unlockTierButton" onclick="unlockTier()">Unlock Tiers<br>Costs 800 diamonds and Rebirth 16</button>
+        <button id="unlockTierButton" onclick="unlockTier()">Unlock Tiers<br>Costs 800 diamonds and Rebirth 15</button>
+        <button id="unlockWeatherButton" onclick="unlockWeather()">Unlock Weather (v0.5) and other ways to gain TP<br>Costs 4,000 Diamonds and Tier 2</button>
         <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
         <div class="spawnerTab">
             <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -234,6 +235,12 @@
         <button id="skillTreeToggle" style="font-size: 22.5px; margin-bottom: 20px" onclick="skillTreeToggle()">Go
             to
             the Skill Tree (can buy QOL Upgrades)</button>
+        <div id="TPup" style="display: none">
+            <p style="font-size: 36px; margin: 0;">Other ways to gain TP</p>
+            <p id="TPdisplay" style="font-size: 16px">Current TP: 0/0</p>
+            <button id="moneyTP" onclick="TPgain(0)">Get 1 TP<br>Costs $1 Dc</button>
+            <button id="diamondTP" onclick="TPgain(1)">Get 1 TP<br>Costs 25,000 Diamonds</button>
+        </div>
         <div id="variantIndex"
             style="display: none; max-height: 400px; height: auto; border: 2px solid #666; flex-direction: column; margin-top: 20px;">
             <div class="variantHeader"
@@ -249,7 +256,10 @@
     </div>
     <div id="skillTree">
         <button id="closeSkillTree" onclick="closeSkillTree()">&lt;&lt;</button>
-        <p style="font-size: 64px; text-align: center; margin-top: 50px;">Skill Tree</p>
+        <div style="display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 50px;">
+            <p style="font-size: 64px; text-align: center; margin: 0;">Skill Tree</p>
+            <button id="respecButton" onclick="respecSkillTree()">Respec<br>(Refund all TP)</button>
+        </div>
         <p id="skillPtsText" style="font-size: 32px; text-align: center; margin-top: 15px;">You have 0/0 Tier Points
             (TP). You can spend TP on Upgrades to aid your progression!</p>
         <div id="skillTreeColumns">
@@ -285,7 +295,7 @@
         <a href="https://discord.com/invite/RRK9Dwzf6P" target="_blank"><button>Join Discord</button></a><br><br>
         <button id="notationButton" onclick="changeNotation()">Notation: standard</button>
     </div>
-    <p style="position: fixed; bottom: 0px; text-align: right; right: 0px; color: #bbb">Super Rarity Orbs v0.4,
+    <p style="position: fixed; bottom: 0px; text-align: right; right: 0px; color: #bbb">Super Rarity Orbs v0.4a,
         an<br>extension of Demonin's Rarity Orbs<br>Made by randim82</p>
     <script src="matter.js?v012=1"></script>
     <script src="init.js?v012=1"></script>

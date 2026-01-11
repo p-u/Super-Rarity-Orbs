@@ -46,6 +46,26 @@ button {
     margin-bottom: 4px;
 }
 
+#respecButton {
+    background-image: linear-gradient(#ffaaaa, #cc5555);
+    border: 2px solid #800;
+    color: #300;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 5px;
+    font-family: 'Lexend Deca', sans-serif;
+    transition: transform 0.1s;
+}
+
+#respecButton:hover {
+    background-image: linear-gradient(#ffcccc, #ee7777);
+    transform: scale(1.05);
+}
+
+#respecButton:active {
+    transform: scale(0.95);
+}
+
 #boardContainer {
     display: inline-block;
     vertical-align: top;

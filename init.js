@@ -13,8 +13,9 @@ function reset() {
         baseLuck: 1,
         spawnerLuck: [1, 1.5, 2.5, 10, 100, 1000, 10000],
         numberFormat: "standard",
-        upgradeCosts: [50, 100, 500, 250, 1500, 25000, 2000, 8000, 75000, 1e10, 1e9, 5e13, 2.5e13, 1e20, 1e22, 1e33, 1e34],
-        newUpgCosts: [200],
+        upgradeCosts: [50, 100, 500, 250, 1500, 25000, 2000, 8000, 75000, 1e10, 1e9, 5e13, 2.5e13, 1e20, 1e22, 1e33, 1e34], // for spawners and first few ups
+        newUpgCosts: [200], // for diamonds
+        extUpgCosts: [1e33, 25000], // for TPgain ups
         diamondLuck: 1,
         spawnersUnlocked: 1, 
         boostTimes: [0,0,0,0],
@@ -56,7 +57,7 @@ function reset() {
                     { id: "RL-1", name: "Keep Upgrades", desc: "Keep % of Upgrade Levels on Rebirth", levels: [25, 50, 70, 85], costs: [1, 1, 2, 2], req: null },
                     { id: "RL-2", name: "Diamond Savior", desc: "Reset fewer Diamonds on Rebirth", levels: [35, 25, 15, 5], costs: [1, 1, 1, 1], req: null },
                     { id: "RL-3", name: "Rebirth Keeper", desc: "Keep % of Rebirths on Tier", levels: [20, 40, 60, 80], costs: [2, 1, 1, 2], req: null },
-                    { id: "RL-4", name: "Respec (Placeholder)", desc: "Allow you to Respec your Skill Tree upgrades", cost: 999, req: ["RL-1", "RL-2", "RL-3"] }
+                    { id: "RL-4", name: "Rebirth Booster", desc: "Allow you to keep your boost times on Rebirth", cost: 1, req: null }
                 ],
                 bought: [0,0,0,0], 
                 unlocked:[true,true,true,true], 
@@ -78,7 +79,7 @@ function reset() {
                     { id: "MN-1", name: "Cash Flow", desc: "x1.05 Money", cost: 1, req: null, infinite: true },
                     { id: "MN-2", name: "Lucky Power", desc: "x1.1 Luck", cost: 1, req: null, infinite: true },
                     { id: "MN-3", name: "Gem Finder", desc: "x1.05 Diamonds", cost: 1, req: null, infinite: true },
-                    { id: "MN-4", name: "Glimmering", desc: "+0.25% Shiny chance, unlock a new variant on 2nd and 5th buy", cost: 1, req: ["SPW-3"], infinite: true }
+                    { id: "MN-4", name: "Glimmering", desc: "+1% Shiny chance, unlock a new variant on 3rd buy", cost: 1, req: ["SPW-3"], infinite: true }
                 ],
                 bought: [0,0,0,0], 
                 unlocked: [true, true, true, true], 

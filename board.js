@@ -118,11 +118,11 @@ function createOrb(spawner) {
         let mn4Level = getSTUpAmt("MN-4");
         let rand = Math.random();
         
-        if (mn4Level >= 5 && rand < 0.001) {
+        if (mn4Level >= 3 && rand < 0.001) {
             variant = "rainbow";
-        } else if (mn4Level >= 2 && rand < 0.005) {
+        } else if (rand < 0.01) {
             variant = "glowing";
-        } else if (rand < (0.025 + mn4Level * 0.0025)) {
+        } else if (rand < ((0.01 * mn4Level) + 0.1)) {
             variant = "shiny";
         }
     }
@@ -160,9 +160,8 @@ function countOrbs() {
 }
 
 function createDiamond() {
+    if (currentOrbs >= 100 + getSTUpAmt("SPW-2") * 25) return;
     var circle = Bodies.circle(Math.random() * 300 + 50, 30, 15, { category: 'diamond', restitution: 0.6, render: {
-        //strokeStyle: 'white',
-        //fillStyle: rarityColours[chosenRarity - 1],
         sprite: {
             texture: "img/diamond.png",
             xScale: 0.052,
@@ -187,9 +186,9 @@ function checkCollisions() {
         }
         if (bodies[i].category === 'ball' && bodies[i].position.y > 775) {
             let variantMult = 1;
-            if (bodies[i].variant === "shiny") variantMult = 2;
-            else if (bodies[i].variant === "glowing") variantMult = 3;
-            else if (bodies[i].variant === "rainbow") variantMult = 5;
+            if (bodies[i].variant === "shiny") variantMult = 2.5;
+            else if (bodies[i].variant === "glowing") variantMult = 5;
+            else if (bodies[i].variant === "rainbow") variantMult = 10;
 
             let moneyGain = rarityValues[bodies[i].rarity - 1] * game.moneyMultiplier * slotMultiplier * variantMult * (game.boostTimes[0] ? 2 : 1);
             if (game.mechanicsUnlocked >= 3) {
