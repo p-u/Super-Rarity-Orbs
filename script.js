@@ -187,16 +187,16 @@ function loadGame(loadgame) {
         game.boostData[2].increment = 75
         game.boostData[4].increment = 75
     }
-    let add = Math.log(game.extUpgCosts[0] / 1e33)/Math.log(1e15) + Math.log(game.extUpgCosts[1] / 25000)/Math.log(4)
+    let val = Math.log(game.extUpgCosts[1] / 25000) / Math.log(4)
+    if (val = Math.floor(val)) {
+        game.extUpgCosts[1] = 10000 * (5 ** val)
+    }
+    let add = Math.log(game.extUpgCosts[0] / 1e33)/Math.log(1e15) + Math.log(game.extUpgCosts[1] / 10000)/Math.log(5)
     game.maxTP = game.tiers + add
     game.currentTP = game.tiers + add - (game.spentTP || 0)
     if (game.tiers >= 1) {
         game.maxTP++
         game.currentTP++
-    }
-    let val = Math.log(game.extUpgCosts[1] / 25000) / Math.log(4)
-    if (val = Math.floor(val)) {
-        game.extUpgCosts[1] = 10000 * (5 ** val)
     }
     
     //Rarity list
@@ -1340,7 +1340,7 @@ function buySkillTreeUpg(cat, index) {
 }
 
 function respecSkillTree() {
-    if (confirm("Are you sure? This will force a Tier reset without gaining a Tier or TP! (Resets everything including Rebirths)")) {
+    if (confirm("Are you sure? This will reduce your Rebirths by 5, and perform a Rebirth reset but diamonds are reset!")) {
         // Refund TP
         for (const cat in game.skillTreeUpgs) {
             if (game.skillTreeUpgs[cat].bought) {
@@ -1352,17 +1352,13 @@ function respecSkillTree() {
 
         // Force Tier Reset (without incrementing Tier)
         game.money = 0;
-        game.rebirths = 0;
+        game.rebirths = Math.max(game.rebirths - 5, 0);
         game.moneyMultiplier = 2 ** game.tiers;
         game.baseLuck = (3 ** game.tiers) * (2 ** game.rebirths);
         game.diamonds = 0;
         game.diamondChance = 0.01;
         game.spawnersUnlocked = 1;
         game.timeSpentinTier = 0;
-        
-        for (let i = 1; i <= 6; i++) {
-            game.boostData[i]['uses'] = 0;
-        }
         game.boostTimes = [0, 0, 0, 0];
         
         game.timeSpentinReb = 0;
