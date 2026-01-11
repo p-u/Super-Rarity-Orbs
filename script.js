@@ -187,7 +187,14 @@ function loadGame(loadgame) {
         game.boostData[2].increment = 75
         game.boostData[4].increment = 75
     }
-
+    let add = Math.log(game.extUpgCosts[0] / 1e33)/Math.log(1e15) + Math.log(game.extUpgCosts[1] / 25000)/Math.log(4)
+    game.maxTP = game.tiers + add
+    game.currentTP = game.tiers + add - (game.spentTP || 0)
+    if (game.tiers >= 1) {
+        game.maxTP++
+        game.currentTP++
+    }
+    
     //Rarity list
     game.raritiesDisplayed = 0
     updateRarityList()
