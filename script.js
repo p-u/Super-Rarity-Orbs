@@ -1360,7 +1360,7 @@ function updateVariantIndex() {
         variantList.innerHTML = "";
 
         let shinyProb = (0.1 + mn4 * 0.01) * 100;
-        addVariantItem("Shiny", "x2.5 Money", shinyProb.toFixed(2) + "%", "shiny");
+        addVariantItem("Shiny", "x2 Money", shinyProb.toFixed(2) + "%", "shiny");
         addVariantItem("Glowing", "x5 Money", "1.00%", "glowing");
         if (mn4 >= 3) {
             addVariantItem("Rainbow", "x10 Money", "0.10%", "rainbow");

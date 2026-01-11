@@ -186,7 +186,7 @@ function checkCollisions() {
         }
         if (bodies[i].category === 'ball' && bodies[i].position.y > 775) {
             let variantMult = 1;
-            if (bodies[i].variant === "shiny") variantMult = 2.5;
+            if (bodies[i].variant === "shiny") variantMult = 2;
             else if (bodies[i].variant === "glowing") variantMult = 5;
             else if (bodies[i].variant === "rainbow") variantMult = 10;
 
