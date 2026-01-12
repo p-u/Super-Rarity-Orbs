@@ -1077,7 +1077,7 @@ function rebirth() {
         game.moneyMultiplier = 2 ** game.tiers
         game.baseLuck = (2 ** game.rebirths) * (3 ** game.tiers)
         if (getSTUpAmt("RL-2") >= 1){
-            game.diamonds = Math.floor(game.diamonds * game.skillTreeUpgs['rless']['upgrades'][1]['levels'][getSTUpAmt("RL-2")-1]/100)
+            game.diamonds = Math.floor(game.diamonds * ((100 - game.skillTreeUpgs['rless']['upgrades'][1]['levels'][getSTUpAmt("RL-2")-1])/100))
         } else {
             game.diamonds = Math.floor(game.diamonds / 2)
         }
@@ -1366,10 +1366,8 @@ function respecSkillTree() {
         game.diamonds = 0;
         game.diamondChance = 0.01;
         game.spawnersUnlocked = 1;
-        game.timeSpentinTier = 0;
         game.boostTimes = [0, 0, 0, 0];
         
-        game.timeSpentinReb = 0;
         game.spawnIntervals = [1000, 2000, 4000, 10000, 60000, 120000, 300000];
         game.spawnerLuck = [1, 1.5, 2.5, 10, 100, 1000, 10000];
         game.upgradeCosts = [50, 100, 500, 250, 1500, 25000, 2000, 8000, 75000, 1e10, 1e9, 5e13, 2.5e13, 1e20, 1e22, 1e33, 1e34];
