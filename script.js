@@ -225,7 +225,9 @@ function spawn(id) {
 }
 
 for (let i = 1; i <= 7; i++) {
-    spawn(i);
+    if (currentOrbs < 100 + getSTUpAmt("SPW-2") * 25) {
+        spawn(i)
+    };
 }
 
 function format(x,precision=0,forceLargeFormat=false) {
@@ -390,7 +392,6 @@ function updateAllUpgradeText() {
         document.getElementsByClassName("increaseSpawnerLuckButton")[i-1].innerHTML = "Increase luck<br>x" + format(game.spawnerLuck[i-1],2) + " >> x" + format(game.spawnerLuck[i-1]*1.1,2) + "<br>Costs $" + format(game.upgradeCosts[2+2*i])
     }
     if (document.getElementById("bulkReb").checked) {
-        updateAllUpgradeText()
         if (getSTUpAmt("MAX-3") >= 1) {
             let projreb = Math.floor((Math.log(game.money / 5000) / Math.log(3.5)) + 1)
             let bulkreb = Math.max(projreb-game.rebirths, 1)
