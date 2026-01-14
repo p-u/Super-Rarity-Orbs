@@ -11,6 +11,10 @@ function reset() {
         diamondChance: 0.01,
         spawnIntervals: [1000, 2000, 4000, 10000, 60000, 120000, 300000],
         baseLuck: 1,
+        totalLuck: 1,
+        bestLuck: 1,
+        rebBaseCost: 5000,
+        rebScaling: 3.5,
         spawnerLuck: [1, 1.5, 2.5, 10, 100, 1000, 10000],
         numberFormat: "standard",
         upgradeCosts: [50, 100, 500, 250, 1500, 25000, 2000, 8000, 75000, 1e10, 1e9, 5e13, 2.5e13, 1e20, 1e22, 1e33, 1e34], // for spawners and first few ups
@@ -31,6 +35,7 @@ function reset() {
         timeSpentinReb: 0,
         mechanicsUnlocked: 0,
         rebirths: 0,
+        difficulty: "orig",
         tiers: 0,
         boostData: {
             1: { baseCost: 100, increment: 10, uses: 0 },
@@ -56,7 +61,7 @@ function reset() {
                 name: "Reset Less",
                 upgrades: [
                     { id: "RL-1", name: "Keep Upgrades", desc: "Keep % of Upgrade Levels on Rebirth", levels: [25, 50, 70, 85], costs: [1, 1, 2, 2], req: null },
-                    { id: "RL-2", name: "Diamond Savior", desc: "Reset fewer Diamonds on Rebirth", levels: [35, 25, 15, 5], costs: [1, 1, 1, 1], req: null },
+                    { id: "RL-2", name: "Get back to prior faster", desc: "If your Current Luck is less than your Best Luck, increase Luck", levels: [1, 2, 3, 4, 6], costs: [1, 1, 1, 1, 3], req: null }, // levels multiply to the formula (log2(lg(Luck))*0.05)
                     { id: "RL-3", name: "Rebirth Keeper", desc: "Keep % of Rebirths on Tier", levels: [20, 40, 60, 80], costs: [2, 1, 1, 2], req: null },
                     { id: "RL-4", name: "Rebirth Booster", desc: "Allow you to keep your boost times on Rebirth", cost: 1, req: null }
                 ],

@@ -185,9 +185,9 @@
             <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
             <p id="rebirthText" style="color: #dbf">You have rebirthed 0 times<br>Rebirth luck multiplier: x1</p>
             <button id="rebirthButton" onclick="rebirth()"><b>Rebirth</b><br>Costs $5,000<br>Luck x1 >> x2</button>
-            <p style="color: #dbf">Rebirthing will reset your money, upgrades and boost times! It will also halve
-                your
-                diamonds</p>
+            <p id="rebirthDesc" style="color: #dbf">Rebirthing will reset your money, upgrades and boost times! It will
+                also halve
+                your diamonds</p>
         </div>
         <div id="bulkRebContainer">
             <input type="checkbox" id="bulkReb" name="reb" value="bulkReb" />
@@ -232,7 +232,7 @@
             new
             rarities. Additionally, it gives a Money and Luck Multiplier. Each Tier gives a Tier Point (TP), with the
             first Tier giving 2 TP. These TP can be spent on the Skill Tree to buy upgrades like Max buy, unlocking new
-            spawners etc.</p>
+            spawners etc.<br><br> At Tier 1, unlock Rebirth Milestones.</p>
         <button id="skillTreeToggle" style="font-size: 22.5px; margin-bottom: 20px" onclick="skillTreeToggle()">Go
             to
             the Skill Tree (can buy QOL Upgrades)</button>
@@ -292,7 +292,7 @@
         <button onclick="importGame()">Import</button>
         <button style="background-color: #eaa; background-image: none" onclick="hardReset()">Hard reset</button>
         <p style="font-size: 16px" id="timePlayed">Your Time Played is 0:00:00<br> Your last Rebirth was 0:00:00
-            ago<br>You are in Tier 0 for 0:00:00</p>
+            ago<br>You are in Tier 0 for 0:00:00<br>Your best Luck is x1</p>
         <a href="https://discord.com/invite/RRK9Dwzf6P" target="_blank"><button>Join Discord</button></a><br><br>
         <button id="notationButton" onclick="changeNotation()">Notation: standard</button><br><br>
         <div style="display: flex; align-items: center; margin-top: 5px;">
@@ -300,8 +300,21 @@
             <label for="hideInfinityButton" style="font-family: Lexend Deca; margin-left: 5px;">Hide Impossible
                 Rarities in Rarity Index</label>
         </div>
+        <div style="margin-top: 20px;">
+            <p for="difficultySelect" style="color: white; margin-right: 10px;">Difficulty:</p>
+            <select id="difficultySelect" onchange="changeDifficulty()"
+                style="padding: 5px; border-radius: 5px; background: #333; color: white; border: 1px solid #555;">
+                <option value="baby">Baby</option>
+                <option value="easy">Easy</option>
+                <option value="orig">Original</option>
+                <option value="hard">Hard</option>
+                <option value="extreme">Extreme</option>
+            </select>
+            <p style="color: white; margin-right: 10px;">(Only can be changed when you have Rebirth 0). <br>Difficulty
+                affects Diamond gain and Rebirth cost</p>
+        </div>
     </div>
-    <p style="position: fixed; bottom: 0px; text-align: right; right: 0px; color: #bbb">Super Rarity Orbs v0.4b,
+    <p style="position: fixed; bottom: 0px; text-align: right; right: 0px; color: #bbb">Super Rarity Orbs v0.4c,
         an<br>extension of Demonin's Rarity Orbs<br>Made by randim82</p>
     <script src="matter.js?v012=1"></script>
     <script src="init.js?v012=1"></script>

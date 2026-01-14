@@ -106,6 +106,8 @@ function createBox() {
 }
 
 function createOrb(spawner) {
+    if (currentOrbs >= 100 + getSTUpAmt("SPW-2") * 25) return;
+
     if (Math.random() < game.diamondChance) {createDiamond(); return}
     let chosenRarity = getRarity(spawner);
     if (game.highestRarity < chosenRarity) {
@@ -126,8 +128,6 @@ function createOrb(spawner) {
             variant = "shiny";
         }
     }
-
-    if (currentOrbs >= 100 + getSTUpAmt("SPW-2") * 25) return;
 
     var circle = Bodies.circle(Math.random() * 300 + 50, 30, raritySizes[chosenRarity - 1], { 
         category: 'ball', 
@@ -205,7 +205,17 @@ function checkCollisions() {
             currentOrbs = countOrbs()
         }
         else if (bodies[i].category === 'diamond' && bodies[i].position.y > 775) {
-            game.diamonds += 10 * (1.05 ** getSTUpAmt("MN-3"));
+            let mult = 1
+            if (game.difficulty === "baby") {
+                mult = 2
+            }
+            if (game.difficulty === "extreme") {
+                mult = 0.5
+            }
+            if (game.rebirths >= 50) {
+                mult = (0.025 * game.rebirths) - 0.15
+            }
+            game.diamonds += 10 * (1.05 ** getSTUpAmt("MN-3")) * mult;
             updateText()
             updateVisuals()
             Composite.remove(engine.world, bodies[i]);

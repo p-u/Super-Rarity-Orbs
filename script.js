@@ -171,6 +171,7 @@ function loadGame(loadgame) {
         document.getElementsByClassName("boostText")[1].innerText = "2x luck - " + Math.floor(game.boostTimes[1]/60) + ":" + (game.boostTimes[1]%60).toString().padStart(2, "0")
     }
     document.getElementsByClassName("boostText")[2].innerText = "Duplicate cooldown: " + game.boostTimes[2] + "s"
+    document.getElementById("unlockWeatherButton").style.display = "none";
     if (game.mechanicsUnlocked >= 1) {
         document.getElementById("boosts").style.display = "inline-block";
         document.getElementById("unlockBoostsButton").style.display = "none";
@@ -210,6 +211,14 @@ function loadGame(loadgame) {
     //Rarity list
     game.raritiesDisplayed = 0
     updateRarityList()
+    
+    // Set difficulty selector
+    if (game.difficulty) {
+        document.getElementById("difficultySelect").value = game.difficulty;
+    } else {
+        game.difficulty = "orig"; // Default if missing
+        document.getElementById("difficultySelect").value = "orig";
+    }
 }
 
 function spawn(id) {
@@ -225,9 +234,7 @@ function spawn(id) {
 }
 
 for (let i = 1; i <= 7; i++) {
-    if (currentOrbs < 100 + getSTUpAmt("SPW-2") * 25) {
-        spawn(i)
-    };
+    spawn(i)
 }
 
 function format(x,precision=0,forceLargeFormat=false) {
@@ -254,18 +261,14 @@ function format(x,precision=0,forceLargeFormat=false) {
 }
 
 function getRarity(spawner) {
-    let totalLuck = game.baseLuck * game.spawnerLuck[spawner-1] * (game.boostTimes[1] ? 2 : 1) * game.diamondLuck;
-    if (game.tiers >= 1) {
-        totalLuck *= (1.1 ** getSTUpAmt("MN-2"))
-    }
     //Find the highest rarity smaller than totalLuck*1M
     let highestRarity = 0;
-    while (rarities[highestRarity] < totalLuck*1e6) {
+    while (rarities[highestRarity] < game.totalLuck * game.spawnerLuck[spawner-1]*1e6) {
         highestRarity++;
     }
     var rarity = Math.random();
     for (var i = highestRarity; i>0; i--) {
-        if (rarity < 1/rarities[i]*totalLuck) {
+        if (rarity < 1/rarities[i]*game.totalLuck * game.spawnerLuck[spawner-1]) {
             return i + 1;
         }
     }
@@ -289,11 +292,22 @@ function updateText() {
     }
     document.getElementById("multiplier").innerText = "Total Money multiplier: x" + format(moneyMult,2);
     
-    let totalLuck = game.baseLuck * (game.boostTimes[1] ? 2 : 1) * game.diamondLuck;
+    game.totalLuck = game.baseLuck * (game.boostTimes[1] ? 2 : 1) * game.diamondLuck;
     if (game.tiers >= 1) {
-        totalLuck *= (1.1 ** getSTUpAmt("MN-2"))
+        game.totalLuck *= (1.1 ** getSTUpAmt("MN-2"))
     }
-    document.getElementById("luck").innerText = "Total Luck: x" + format(totalLuck, 2);
+    let RL2eff = 1 + (Math.log2(Math.log10(Math.max(game.totalLuck, 100)))/20*getSTUpAmt("RL-2"))
+    if (game.totalLuck < game.bestLuck) {
+        if ((game.totalLuck*RL2eff) < game.bestLuck) {
+            game.totalLuck = game.totalLuck * RL2eff
+        } else if ((game.totalLuck*RL2eff) > game.bestLuck) {
+            game.totalLuck = game.bestLuck
+        }
+    }
+    if (game.bestLuck < game.totalLuck) {
+        game.bestLuck = game.totalLuck
+    }
+    document.getElementById("luck").innerText = "Total Luck: x" + format(game.totalLuck, 2);
     
     document.getElementById('diamonds').innerText = "Diamonds: " + format(Math.floor(game.diamonds));
     document.getElementById('diamondChance').innerText = "Diamond chance: " + format(game.diamondChance*100, 2) + "%";
@@ -302,9 +316,26 @@ function updateText() {
     document.getElementById("orbCapText").innerText = "Orbs: " + currentOrbs + " / " + maxOrbs;
     for (let i=0; i<=6; i++) {
         document.getElementsByClassName("spawnerInterval")[i].innerText = "Spawn interval: " + (game.spawnIntervals[i]/1000).toFixed(3) + "s";
-        document.getElementsByClassName("spawnerLuck")[i].innerText = "Luck: x" + format(totalLuck*game.spawnerLuck[i], 2);
+        document.getElementsByClassName("spawnerLuck")[i].innerText = "Luck: x" + format(game.totalLuck*game.spawnerLuck[i], 2);
     }
-    document.getElementById('rebirthText').innerText = "You have rebirthed " + format(game.rebirths) + " times\nRebirth luck multiplier: x" + format(2 ** game.rebirths)
+    let norm = "Rebirthing will reset your money, upgrades and boost times! It will also halve your diamonds."
+    let norming = "You have rebirthed " + format(game.rebirths) + " times\nRebirth luck multiplier: x" + format(2 ** game.rebirths)
+    if (game.tiers >= 1) {
+        if (game.rebirths >= 50) {
+            document.getElementById('rebirthDesc').innerHTML = norm + "<br>After 100 Rebirths, Rebirths ?????."
+        } else if (game.rebirths >= 25) {
+            document.getElementById('rebirthDesc').innerHTML = norm + "<br>After 50 Rebirths, Rebirths give a small boost to Diamonds."
+        } else {
+            document.getElementById('rebirthDesc').innerHTML = norm + "<br>At 25 Rebirths, unlock a new Luck upgrade that costs Diamonds."
+        }
+    } else {
+        document.getElementById('rebirthDesc').innerText = norm
+    }
+    if (game.tiers >= 1) {
+        document.getElementById('rebirthText').innerText = norming + "\nRebirth Diamond multiplier: x" + format((0.025 * game.rebirths) - 0.15, 3)
+    } else {
+        document.getElementById('rebirthText').innerText = norming
+    }
     document.getElementById('tierText').innerHTML = `Your Tier is ${game.tiers} >> ${game.tiers+1}<br>Tier Luck Multiplier x${3**game.tiers} >> x${3**(game.tiers+1)}<br>Tier Money Multiplier x${2**game.tiers} >> x${2**(game.tiers+1)}`
 
     if (getSTUpAmt("BST-1")) {
@@ -362,7 +393,6 @@ function updateBoosts() {
             document.getElementById("ruoBoostText").innerText = "Obstacle Remover - " + Math.floor(game.boostTimes[3]/60) + ":" + (game.boostTimes[3]%60).toString().padStart(2, "0") + " (CD)"
         }
     }
-    
     document.getElementById("dupeBoostText").innerText = "Duplicate cooldown: " + game.boostTimes[2] + "s"
 }
 updateBoosts()
@@ -393,15 +423,15 @@ function updateAllUpgradeText() {
     }
     if (document.getElementById("bulkReb").checked) {
         if (getSTUpAmt("MAX-3") >= 1) {
-            let projreb = Math.floor((Math.log(game.money / 5000) / Math.log(3.5)) + 1)
+            let projreb = Math.floor((Math.log(game.money / game.rebBaseCost) / Math.log(game.rebScaling)) + 1)
             let bulkreb = Math.max(projreb-game.rebirths, 1)
-            let pricereb = 3.5 ** (game.rebirths + bulkreb - 1) * 5000
-            document.getElementById('rebirthButton').innerHTML = "<b>Rebirth (BULK ON)</b><br>Costs $" + format(pricereb) + "<br>Luck x" + format(2 ** game.rebirths) + " >> x" + format(2 ** (game.rebirths + bulkreb)) + "<br> +" + format(bulkreb) + " Rebirths on rebirth <br>" + "Next Rebirth costs $" + format(pricereb*3.5)
+            let pricereb = game.rebScaling ** (game.rebirths + bulkreb - 1) * game.rebBaseCost
+            document.getElementById('rebirthButton').innerHTML = "<b>Rebirth (BULK ON)</b><br>Costs $" + format(pricereb) + "<br>Luck x" + format(2 ** game.rebirths) + " >> x" + format(2 ** (game.rebirths + bulkreb)) + "<br> +" + format(bulkreb) + " Rebirths on rebirth <br>" + "Next Rebirth costs $" + format(pricereb*game.rebScaling)
         } else {
-            document.getElementById('rebirthButton').innerHTML = "<b>Rebirth (BULK OFF)</b><br>Costs $" + format(3.5 ** game.rebirths * 5000) + "<br>Luck x" + format(2 ** game.rebirths) + " >> x" + format(2 ** (game.rebirths + 1))
+            document.getElementById('rebirthButton').innerHTML = "<b>Rebirth (BULK OFF)</b><br>Costs $" + format(game.rebScaling ** game.rebirths * game.rebBaseCost) + "<br>Luck x" + format(2 ** game.rebirths) + " >> x" + format(2 ** (game.rebirths + 1))
         }
     } else {
-        document.getElementById('rebirthButton').innerHTML = "<b>Rebirth</b><br>Costs $" + format(3.5 ** game.rebirths * 5000) + "<br>Luck x" + format(2 ** game.rebirths) + " >> x" + format(2 ** (game.rebirths + 1))
+        document.getElementById('rebirthButton').innerHTML = "<b>Rebirth</b><br>Costs $" + format(game.rebScaling ** game.rebirths * game.rebBaseCost) + "<br>Luck x" + format(2 ** game.rebirths) + " >> x" + format(2 ** (game.rebirths + 1))
     }
     if (game.tiers == 0) {
         document.getElementById('tierButton').innerHTML = "<b>Tier Up</b><br>Cost: 50 Antimatter Orbs"
@@ -581,7 +611,12 @@ function updateVisuals() {
         el.textContent = v
         el.style.color = colors[i]
     })
-    document.getElementById("timePlayed").innerHTML = `Your Time Played is ${formatTime(game.timePlayed)}<br> Your last Rebirth was ${formatTime(game.timeSpentinReb)} ago<br>You are in Tier ${game.tiers} for ${formatTime(game.timeSpentinTier)}`
+    if ((game.rebirths >= 25) && (game.tiers >= 1)) {
+        document.getElementById("xLuckBODiamondButton").style.display = "inline-block"
+    } else {
+        document.getElementById("xLuckBODiamondButton").style.display = "none"
+    }
+    document.getElementById("timePlayed").innerHTML = `Your Time Played is ${formatTime(game.timePlayed)}<br> Your last Rebirth was ${formatTime(game.timeSpentinReb)} ago<br>You are in Tier ${game.tiers} for ${formatTime(game.timeSpentinTier)}<br>Your best Luck is x${format(game.bestLuck, 2)}`
     document.getElementById("notationButton").innerText = "Notation: " + game.numberFormat;
     document.getElementById("autoPotionContainer").style.display = (getSTUpAmt("BST-4") >= 1) ? "block" : "none";
     if (document.getElementById("autoPotion").checked) {
@@ -593,6 +628,15 @@ function updateVisuals() {
         }
     }
     document.getElementById("bulkRebContainer").style.display = (getSTUpAmt("MAX-3") >= 1) ? "block" : "none";
+
+    // Difficulty Select Locking
+    if (game.rebirths > 0) {
+        document.getElementById("difficultySelect").disabled = true;
+        document.getElementById("difficultySelect").title = "Difficulty is locked after Rebirthing";
+    } else {
+        document.getElementById("difficultySelect").disabled = false;
+        document.getElementById("difficultySelect").title = "Choose your difficulty";
+    }
 }
 updateVisuals()
 setInterval(updateVisuals, 100);
@@ -925,15 +969,10 @@ function updateRarityList() {
     if (game.tiers >= 1) {
         moneyMult *= (1.05 ** getSTUpAmt("MN-1"))
     }
-    
-    let totalLuck = game.baseLuck * (game.boostTimes[1] ? 2 : 1) * game.diamondLuck 
-    if (game.tiers >= 1) {
-        totalLuck *= (1.1 ** getSTUpAmt("MN-2"))
-    }
 
     function getOneIn(idx) {
         if (idx < 0 || idx >= rarities.length) return Infinity;
-        const t = (i) => Math.min(1, totalLuck / rarities[i]);
+        const t = (i) => Math.min(1, game.totalLuck / rarities[i]);
         let p = 0;
         if (idx === rarities.length - 1) {
             p = t(idx);
@@ -1052,23 +1091,23 @@ function rebirth() {
     if (document.getElementById("bulkReb").checked) {
         if (getSTUpAmt("MAX-3") >= 1) {
             bulk = true
-            let projreb = Math.floor((Math.log(game.money / 5000) / Math.log(3.5)) + 1)
+            let projreb = Math.floor((Math.log(game.money / game.rebBaseCost) / Math.log(game.rebScaling)) + 1)
             let bulkreb = Math.max(projreb-game.rebirths, 1)
-            let pricereb = 3.5 ** (game.rebirths + bulkreb - 1) * 5000
+            let pricereb = game.rebScaling ** (game.rebirths + bulkreb - 1) * game.rebBaseCost
             document.getElementById('rebirthButton').innerHTML = "<b>Rebirth (BULK ON)</b><br>Costs $" + format(pricereb) + "<br>Luck x" + format(2 ** game.rebirths) + " >> x" + format(2 ** (game.rebirths + bulkreb)) + "<br> +" + format(bulkreb) + " Rebirths on rebirth <br>" + "Next Rebirth costs $" + format(pricereb*3.5)
         }
     } else {
-        document.getElementById('rebirthButton').innerHTML = "<b>Rebirth</b><br>Costs $" + format(3.5 ** game.rebirths * 5000) + "<br>Luck x" + format(2 ** game.rebirths) + " >> x" + format(2 ** (game.rebirths + 1))
+        document.getElementById('rebirthButton').innerHTML = "<b>Rebirth</b><br>Costs $" + format(game.rebScaling ** game.rebirths * game.rebBaseCost) + "<br>Luck x" + format(2 ** game.rebirths) + " >> x" + format(2 ** (game.rebirths + 1))
     }
-    let rebirthreq = 3.5 ** game.rebirths * 5000
+    let rebirthreq = game.rebScaling ** game.rebirths * game.rebBaseCost
     if (bulk) {
-        let projreb = Math.floor((Math.log(game.money / 5000) / Math.log(3.5)) + 1)
+        let projreb = Math.floor((Math.log(game.money / game.rebBaseCost) / Math.log(game.rebScaling)) + 1)
         let bulkreb = Math.max(projreb-game.rebirths, 1)
-        rebirthreq = 3.5 ** (game.rebirths + bulkreb - 1) * 5000
+        rebirthreq = game.rebScaling ** (game.rebirths + bulkreb - 1) * game.rebBaseCost
     }
     if (game.money > rebirthreq) {
         if (bulk) {
-            let projreb = Math.floor((Math.log(game.money / 5000) / Math.log(3.5)) + 1)
+            let projreb = Math.floor((Math.log(game.money / game.rebBaseCost) / Math.log(game.rebScaling)) + 1)
             let bulkreb = Math.max(projreb-game.rebirths, 1)
             game.rebirths = game.rebirths + bulkreb
         } else {
@@ -1077,11 +1116,7 @@ function rebirth() {
         game.money = 0
         game.moneyMultiplier = 2 ** game.tiers
         game.baseLuck = (2 ** game.rebirths) * (3 ** game.tiers)
-        if (getSTUpAmt("RL-2") >= 1){
-            game.diamonds = Math.floor(game.diamonds * ((100 - game.skillTreeUpgs['rless']['upgrades'][1]['levels'][getSTUpAmt("RL-2")-1])/100))
-        } else {
-            game.diamonds = Math.floor(game.diamonds / 2)
-        }
+        game.diamonds = Math.floor(game.diamonds / 10)
         game.diamondChance = 0.01
         game.timeSpentinReb = 0
         game.spawnIntervals = [1000, 2000, 4000, 10000, 60000, 120000, 300000];
@@ -1287,7 +1322,7 @@ function renderSkillTree() {
             else if (upg.id === "MN-3") effectText = `Current: x${(1.05 ** boughtCount).toFixed(2)} Diamonds`;
             else if (upg.id === "MN-4") effectText = `Current: +${boughtCount}% Shiny`;
             else if (upg.id === "RL-1") effectText = `Current: ${upg.levels[boughtCount-1] || 0}% Upgrades Kept`;
-            else if (upg.id === "RL-2") effectText = `Current: ${upg.levels[boughtCount-1] || 50}% Diamonds Reset`; // Default 50%
+            else if (upg.id === "RL-2") effectText = `Current: ${format(1 + (Math.log2(Math.log10(Math.max(game.totalLuck, 100)))/20*boughtCount), 4)}x Luck if Current Luck below Best Luck (Effect increases when Best Luck is higher)`; 
             else if (upg.id === "RL-3") effectText = `Current: ${upg.levels[boughtCount-1] || 0}% Rebirths Kept`;
             else if (upg.id === "BST-2") effectText = `Current: ${boughtCount > 0 ? '30s' : '60s'} Cooldown`;
             else if (upg.id === "SPW-1") effectText = `Current: +${boughtCount} Spawners`;
@@ -1595,5 +1630,29 @@ function recalcCurrentUpgrades() {
         if (game.upgradeCosts[luckIdx] > baseCosts[luckIdx]) {
             game.currentUpgrades[luckIdx] = getLevels(game.upgradeCosts[luckIdx], baseCosts[luckIdx], 4);
         }
+    }
+}
+
+function changeDifficulty() {
+    let val = document.getElementById("difficultySelect").value;
+    game.difficulty = val;
+    game.rebBaseCost = 2500
+    game.rebScaling = 3.5
+    if (game.difficulty == "orig") {
+        game.rebBaseCost = 5000
+    }
+    if (game.difficulty == "easy") {
+        game.rebScaling = 3.46
+    }
+    if (game.difficulty == "baby") {
+        game.rebScaling = 3.37
+    }
+    if (game.difficulty == "hard") {
+        game.rebBaseCost = 10000
+        game.rebScaling = 3.53
+    }
+    if (game.difficulty == "extreme") {
+        game.rebBaseCost = 25000
+        game.rebScaling = 3.56
     }
 }
