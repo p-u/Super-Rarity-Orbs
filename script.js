@@ -1116,7 +1116,7 @@ function rebirth() {
         game.money = 0
         game.moneyMultiplier = 2 ** game.tiers
         game.baseLuck = (2 ** game.rebirths) * (3 ** game.tiers)
-        game.diamonds = Math.floor(game.diamonds / 10)
+        game.diamonds = Math.floor(game.diamonds / 10 * 9)
         game.diamondChance = 0.01
         game.timeSpentinReb = 0
         game.spawnIntervals = [1000, 2000, 4000, 10000, 60000, 120000, 300000];
