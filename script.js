@@ -1399,7 +1399,7 @@ function respecSkillTree() {
 
         // Force Tier Reset (without incrementing Tier)
         game.money = 0;
-        game.rebirths = Math.max(game.rebirths - 5, 0);
+        game.rebirths = Math.max(game.rebirths - 2, 0);
         game.moneyMultiplier = 2 ** game.tiers;
         game.baseLuck = (3 ** game.tiers) * (2 ** game.rebirths);
         game.diamonds = 0;
