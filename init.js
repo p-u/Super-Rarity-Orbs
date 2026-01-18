@@ -111,10 +111,11 @@ function reset() {
     document.getElementById("rebirth").style.display = "none"
     document.getElementById("tier").style.display = "none"
 
-    document.getElementById("unlockBoostsButton").style.display = "inline-block"
-    document.getElementById("unlockRebirthButton").style.display = "none"
+    document.getElementById("unlockBoostsButton").style.display = "none"
+    document.getElementById("unlockRebirthButton").style.display = "inline-block"
     document.getElementById("unlockTierButton").style.display = "none"
     document.getElementById("unlockRBM").style.display = "none"
+    document.getElementById("unlockWeatherButton").style.display = "none"
 
 }
 

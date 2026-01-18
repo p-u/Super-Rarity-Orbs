@@ -176,13 +176,13 @@ function loadGame(loadgame) {
     document.getElementsByClassName("boostText")[2].innerText = "Duplicate cooldown: " + game.boostTimes[2] + "s"
     document.getElementById("unlockWeatherButton").style.display = "none";
     if (game.mechanicsUnlocked >= 1) {
-        document.getElementById("boosts").style.display = "inline-block";
-        document.getElementById("unlockBoostsButton").style.display = "none";
-        document.getElementById("unlockRebirthButton").style.display = "inline-block";
-    }
-    if (game.mechanicsUnlocked >= 2) {
         document.getElementById("rebirth").style.display = "inline-block";
         document.getElementById("unlockRebirthButton").style.display = "none";
+        document.getElementById("unlockBoostsButton").style.display = "inline-block";
+    }
+    if (game.mechanicsUnlocked >= 2) {
+        document.getElementById("boosts").style.display = "inline-block";
+        document.getElementById("unlockBoostsButton").style.display = "none";
         document.getElementById("unlockRBM").style.display = "inline-block";
     }
     if (game.mechanicsUnlocked >= 3) {
@@ -869,13 +869,13 @@ function maxBuyAllSpawners() {
 }
 
 function unlockBoosts() {
-    if (game.diamonds >= 20 && game.mechanicsUnlocked==0) {
-        game.diamonds -= 20
-        game.mechanicsUnlocked = 1
+    if (game.diamonds >= 250 && game.mechanicsUnlocked==1) {
+        game.diamonds -= 250
+        game.mechanicsUnlocked = 2
         updateText()
         document.getElementById("boosts").style.display = "inline-block";
         document.getElementById("unlockBoostsButton").style.display = "none";
-        document.getElementById("unlockRebirthButton").style.display = "inline-block";
+        document.getElementById("unlockRBM").style.display = "inline-block";
     }
 }
 
@@ -1049,19 +1049,19 @@ function toggleHideInfinity() {
 }
 
 function unlockRebirth() {
-    if (game.diamonds >= 50 && game.mechanicsUnlocked==1) {
+    if (game.diamonds >= 50 && game.mechanicsUnlocked==0) {
         game.diamonds -= 50
-        game.mechanicsUnlocked = 2
+        game.mechanicsUnlocked = 1
         updateText()
         document.getElementById("rebirth").style.display = "inline-block";
         document.getElementById("unlockRebirthButton").style.display = "none";
-        document.getElementById("unlockRBM").style.display = "inline-block";
+        document.getElementById("unlockBoostsButton").style.display = "inline-block";
     }
 }
 
 function unlockRBM() {
-    if (game.diamonds >= 250 && game.mechanicsUnlocked==2) {
-        game.diamonds -= 250
+    if (game.diamonds >= 1000 && game.mechanicsUnlocked==2) {
+        game.diamonds -= 1000
         game.mechanicsUnlocked = 3
         updateText()
         document.getElementById("unlockRBM").style.display = "none";
@@ -1070,8 +1070,8 @@ function unlockRBM() {
 }
 
 function unlockTier() {
-    if (game.diamonds >= 800 && game.mechanicsUnlocked==3 && game.rebirths >= 15) {
-        game.diamonds -= 800
+    if (game.diamonds >= 2500 && game.mechanicsUnlocked==3 && game.rebirths >= 15) {
+        game.diamonds -= 2500
         game.mechanicsUnlocked = 4
         updateText()
         document.getElementById("tier").style.display = "inline-block";
@@ -1081,8 +1081,8 @@ function unlockTier() {
 }
 
 function unlockWeather() {
-    if (game.diamonds >= 8000 && game.mechanicsUnlocked==4 && game.tiers >= 2) {
-        game.diamonds -= 8000
+    if (game.diamonds >= 20000 && game.mechanicsUnlocked==4 && game.tiers >= 2) {
+        game.diamonds -= 20000
         game.mechanicsUnlocked = 5
         updateText()
         document.getElementById("unlockWeatherButton").style.display = "none";
