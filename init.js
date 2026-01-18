@@ -28,7 +28,7 @@ function reset() {
         ORActive: false,
         rebirthUnlocked: false,
         tierUnlocked: false,
-        orbsObtained: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        orbsObtained: Array(99).fill(0),
         currentUpgrades: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         timePlayed: 0,
         timeSpentinTier: 0,

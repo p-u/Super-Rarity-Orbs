@@ -1,11 +1,11 @@
 const illions = ["thousand", "million", "billion", "trillion", "quadrillion", "quintillion", "sextillion", "septillion", "octillion", "nonillion", "decillion", "undecillion", "duodecillion", "tredecillion", "quattuordecillion", "quindecillion", "sexdecillion", "septendecillion", "octodecillion", "novemdecillion", "vigintillion"]
 let lastVariantLevels = { spw3: -1, mn4: -1 };
 const illionsShort = ["K", "M", "B", "T", "Qa", "Qt", "Sx", "Sp", "Oc", "No", "Dc", "UDc", "DDc", "TDc", "QaDc", "QiDc", "SxDc", "SpDc", "OcDc", "NoDc", "Vg", "UVg", "DVg", "TVg", "QdVg", "QtVg", "SxVg", "SpVg", "OcVg", "NoVg", "Tg", "UTg", "DTg"]
-const rarities     = [1, 4, 15, 50, 250, 1200,7000, 30000,140000,750000,6e6, 2e7, 4.5e8, 7e9, 2.5e12, 7e13, 1.5e15, 3e16, 5.8e17, 8e19, 1.1e22, 1.8e24, 3.2e26];
-const rarityNames = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythical', 'Exotic', 'Ethereal', 'Galactic', 'Transcendental', 'Angelic', 'Demonic', 'Void', 'Antimatter', 'Quantum', 'Extreme', 'Radiant', 'Celestial', 'Ascended', 'Forsaken', 'Astral', 'Supernova', 'Toxic'];
+const rarities     = [1, 4, 15, 50, 250, 1200,7000, 30000,140000,750000,6e6, 2e7, 4.5e8, 7e9, 2.5e12, 7e13, 1.5e15, 3e16, 5.8e17, 8e19, 1.1e22, 1.4e24, 2.4e26, 7e27,  5e29, 5e30,   5e32, 5e33,    5e34];
+const rarityNames = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythical', 'Exotic', 'Ethereal', 'Galactic', 'Divine', 'Transcendental', 'Angelic', 'Demonic', 'Void', 'Antimatter', 'Quantum', 'Extreme', 'Radiant', 'Celestial', 'Ascended', 'Forsaken', 'Astral', 'Supernova', 'Toxic', 'Nuclear', 'Lightning', 'Duke', 'Prince', 'King'];
 const raritySizes = [6, 7, 7, 8, 8, 9, 9, 10, 10, 10, 11, 11, 11, 12, 13, 13, 13, 14, 14, 14, 15, 15, 15, 15, 16, 16, 16, 16]
-const rarityValues = [1, 3, 10, 25, 100, 300, 1000, 3000, 10000, 40000, 2.5e5, 5e5, 7e6, 4e7, 1e9, 1e10, 1e11, 1e12, 1e13, 5e14, 1e16, 2.5e17, 1e19, 4e20, 1.5e22, 5e23]
-const rarityColours = ['#bbbbbb', '#bbbbbb', '#45bb45', '#45bb45', '#4545bb', '#4545bb', '#8845bb', '#8845bb', '#ff8800', '#ff8800', '#ff0000', '#ff0000', '#ff7b00', '#bb24bb', '#4800ff', '#000000', '#8200ff', '#000042', '#82ff49', '#14c98d', '#ffffff', '#ffe500', '#ff0000', '#5c0000', '#333333', '#111111', '#c307eb', '#11053a', '#d946ff', "#ffffff", "#0ba67f", "#07fbdd", "#ef9a1f", "#fcf046", "#52e5f6", "#ffffff", "#0c1381", "#635cdd", "#9f0811", "#fb0102", "#fe4dfe", "#e167cf", "#ffa700", "#ff4000", "#1cd328","#03660f"]
+const rarityValues = [1, 3, 10, 25, 100, 300, 1000, 3000, 10000, 40000, 2.5e5, 5e5, 7e6, 4e7, 1e9, 1e10, 1e11, 1e12,      1e13,   5e14,  1e16,  2.5e17,  1e19, 1.5e20, 5e21, 2.5e22, 6.25e23, 3e24, 1.5e25]
+const rarityColours = ['#bbbbbb', '#bbbbbb', '#45bb45', '#45bb45', '#4545bb', '#4545bb', '#8845bb', '#8845bb', '#ff8800', '#ff8800', '#ff0000', '#ff0000', '#ff7b00', '#bb24bb', '#4800ff', '#000000', '#8200ff', '#000042', '#00c8ff', '#0084ff','#82ff49', '#14c98d', '#ffffff', '#ffe500', '#ff0000', '#5c0000', '#333333', '#111111', '#c307eb', '#11053a', '#d946ff', "#ffffff", "#0ba67f", "#07fbdd", "#ef9a1f", "#fcf046", "#52e5f6", "#ffffff", "#0c1381", "#635cdd", "#9f0811", "#fb0102", "#fe4dfe", "#e167cf", "#ffa700", "#ff4000", "#1cd328","#03660f"]
 
 setAutoSave()
 
@@ -100,12 +100,15 @@ function loadGame(loadgame) {
     if (game.extUpgCosts[1] < 10000) {
         game.extUpgCosts[1] = 10000;
     }
-
-    // Migration: Update Diamond TP upgrade cost from old formula (25000*4^x) to new formula (10000*5^x)
     let val = Math.log(game.extUpgCosts[1] / 25000) / Math.log(4)
     if (Math.abs(val - Math.round(val)) < 0.001 && val >= 0) {
         let level = Math.round(val);
         game.extUpgCosts[1] = 10000 * (5 ** level);
+    }
+    if (game.orbsObtained.length < 99) {
+        while (game.orbsObtained.length < 99) {
+            game.orbsObtained.push(0);
+        }
     }
 
     while (game.spawnIntervals.length < 7) {
@@ -434,9 +437,9 @@ function updateAllUpgradeText() {
         document.getElementById('rebirthButton').innerHTML = "<b>Rebirth</b><br>Costs $" + format(game.rebScaling ** game.rebirths * game.rebBaseCost) + "<br>Luck x" + format(2 ** game.rebirths) + " >> x" + format(2 ** (game.rebirths + 1))
     }
     if (game.tiers == 0) {
-        document.getElementById('tierButton').innerHTML = "<b>Tier Up</b><br>Cost: 50 Antimatter Orbs"
+        document.getElementById('tierButton').innerHTML = "<b>Tier Up</b><br>Cost: 50 Void Orbs"
     } else if (game.tiers == 1) {
-        document.getElementById('tierButton').innerHTML = "<b>Tier Up</b><br>Cost: 10 Astral Orbs"
+        document.getElementById('tierButton').innerHTML = "<b>Tier Up</b><br>Cost: 10 Forsaken Orbs"
     } else {
         document.getElementById('tierButton').innerHTML = "<b>Tier Up</b><br>(Maxed Tier Unlocked)"
     }
