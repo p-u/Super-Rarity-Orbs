@@ -161,7 +161,20 @@ function countOrbs() {
 
 function createDiamond() {
     if (currentOrbs >= 100 + getSTUpAmt("SPW-2") * 25) return;
-    var circle = Bodies.circle(Math.random() * 300 + 50, 30, 15, { category: 'diamond', restitution: 0.6, render: {
+    let variant = null;
+    if (getSTUpAmt("SPW-3") > 0) {
+        let mn4Level = getSTUpAmt("MN-4");
+        let rand = Math.random();
+        
+        if (mn4Level >= 3 && rand < 0.001) {
+            variant = "rainbow";
+        } else if (rand < 0.01) {
+            variant = "glowing";
+        } else if (rand < ((0.01 * mn4Level) + 0.1)) {
+            variant = "shiny";
+        }
+    }
+    var circle = Bodies.circle(Math.random() * 300 + 50, 30, 15, { category: 'diamond', restitution: 0.6, variant: variant, render: {
         sprite: {
             texture: "img/diamond.png",
             xScale: 0.052,
@@ -215,7 +228,11 @@ function checkCollisions() {
             if (game.rebirths >= 50) {
                 mult = (0.025 * game.rebirths) - 0.15
             }
-            game.diamonds += 10 * (1.05 ** getSTUpAmt("MN-3")) * mult;
+            let variantMult = 1;
+            if (bodies[i].variant === "shiny") variantMult = 2;
+            else if (bodies[i].variant === "glowing") variantMult = 5;
+            else if (bodies[i].variant === "rainbow") variantMult = 10;
+            game.diamonds += 10 * (1.05 ** getSTUpAmt("MN-3")) * mult * variantMult;
             updateText()
             updateVisuals()
             Composite.remove(engine.world, bodies[i]);
@@ -249,7 +266,11 @@ function duplicateOrbs() {
             currentOrbs = countOrbs()
         }
         else if (bodies[i].category === 'diamond') {
-            var circle = Bodies.circle(bodies[i].position.x, bodies[i].position.y, 15, { category: 'diamond', restitution: 0.6, render: {
+            var circle = Bodies.circle(bodies[i].position.x, bodies[i].position.y, 15, { 
+                category: 'diamond', 
+                restitution: 0.6, 
+                variant: bodies[i].variant,
+                render: {
                 sprite: {
                     texture: "img/diamond.png",
                     xScale: 0.052,
@@ -279,13 +300,13 @@ Events.on(render, 'afterRender', function() {
     for (var i = 0; i < bodies.length; i++) {
         var body = bodies[i];
 
-        if (body.category === 'ball' && body.variant) {
+        if (body.variant) {
             context.save();
             context.translate(body.position.x, body.position.y);
             context.rotate(body.angle);
             
             context.beginPath();
-            let radius = raritySizes[body.rarity - 1] + 2;
+            let radius = (body.category === 'diamond' ? 15 : raritySizes[body.rarity - 1]) + 2;
             context.arc(0, 0, radius, 0, 2 * Math.PI);
             
             if (body.variant === "shiny") {
