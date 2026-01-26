@@ -149,44 +149,42 @@
                 x11000<br>Costs $10Dc</button>
         </div>
     </div>
-    <div id="boosts">
-        <p style="font-size: 48px">Boosts</p>
-        <hr style="background-color: #666; margin-left: 8px; margin-right: 8px"><br>
-        <p id="moneyBoostText" class="boostText" style="font-size: 24px">2x money gain - 0:00 (not active)</p>
-        <img src="img/moneyIcon.png" style="vertical-align: top; margin: 4px"><button id="boost1" class="boostButton"
-            onclick="buyBoost(1)"></button><br>
-        <img src="img/moneyIcon.png" style="vertical-align: top; margin: 4px"><button id="boost2" class="boostButton"
-            onclick="buyBoost(2)"></button><br><br>
-        <p id="luckBoostText" class="boostText" style="font-size: 24px">2x luck - 0:00 (not active)</p>
-        <img src="img/luckIcon.png" style="vertical-align: top; margin: 4px"><button id="boost3" class="boostButton"
-            onclick="buyBoost(3)"></button><br>
-        <img src="img/luckIcon.png" style="vertical-align: top; margin: 4px"><button id="boost4" class="boostButton"
-            onclick="buyBoost(4)"></button><br><br>
-        <p id="dupeBoostText" class="boostText" style="font-size: 24px">Duplicate cooldown: 0s</p>
-        <img src="img/duplicateIcon.png" style="vertical-align: top; margin: 4px"><button id="boost5"
-            class="boostButton" onclick="buyBoost(5)"></button><br><br>
-        <div id="obstacleRemoverArea" style="display: none;">
-            <p id="ruoBoostText" class="boostText" style="font-size: 24px">Obstacle Remover - 0:00 (not active)</p>
-            <img src="img/rebirthIcon.png" style="vertical-align: top; margin: 4px"><button id="boost6"
-                class="boostButton" onclick="buyBoost(6)"></button>
-        </div>
-        <div id="autoPotionContainer">
-            <input type="checkbox" id="autoPotion" name="interest" value="autoPotion" />
-            <label for="autoPotion" style="font-family: Lexend Deca">
-                Auto 1min Luck/Money Potion
-            </label>
-        </div>
-
-
-        <div id="rebirth">
+    <div id="rebirth">
+        <div id="boosts">
+            <p style="font-size: 48px">Boosts</p>
+            <hr style="background-color: #666; margin-left: 8px; margin-right: 8px"><br>
+            <p id="moneyBoostText" class="boostText" style="font-size: 24px">2x money gain - 0:00 (not active)</p>
+            <img src="img/moneyIcon.png" style="vertical-align: top; margin: 4px"><button id="boost1" class="boostButton"
+                onclick="buyBoost(1)"></button><br>
+            <img src="img/moneyIcon.png" style="vertical-align: top; margin: 4px"><button id="boost2" class="boostButton"
+                onclick="buyBoost(2)"></button><br><br>
+            <p id="luckBoostText" class="boostText" style="font-size: 24px">2x luck - 0:00 (not active)</p>
+            <img src="img/luckIcon.png" style="vertical-align: top; margin: 4px"><button id="boost3" class="boostButton"
+                onclick="buyBoost(3)"></button><br>
+            <img src="img/luckIcon.png" style="vertical-align: top; margin: 4px"><button id="boost4" class="boostButton"
+                onclick="buyBoost(4)"></button><br><br>
+            <p id="dupeBoostText" class="boostText" style="font-size: 24px">Duplicate cooldown: 0s</p>
+            <img src="img/duplicateIcon.png" style="vertical-align: top; margin: 4px"><button id="boost5"
+                class="boostButton" onclick="buyBoost(5)"></button><br><br>
+            <div id="obstacleRemoverArea" style="display: none;">
+                <p id="ruoBoostText" class="boostText" style="font-size: 24px">Obstacle Remover - 0:00 (not active)</p>
+                <img src="img/rebirthIcon.png" style="vertical-align: top; margin: 4px"><button id="boost6"
+                    class="boostButton" onclick="buyBoost(6)"></button>
+            </div>
+            <div id="autoPotionContainer">
+                <input type="checkbox" id="autoPotion" name="interest" value="autoPotion" />
+                <label for="autoPotion" style="font-family: Lexend Deca">
+                    Auto 1min Luck/Money Potion
+                </label>
+            </div>
             <hr style="background-color: #666; margin-left: 8px; margin-right: 8px; margin-top: 40px">
-            <p style="vertical-align: middle; font-size: 48px; color: #b8f; display: inline-block">Rebirth</p><img
-                src="img/rebirthIcon.png" style="vertical-align: middle">
-            <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
-            <p id="rebirthText" style="color: #dbf">You have rebirthed 0 times<br>Rebirth luck multiplier: x1</p>
-            <button id="rebirthButton" onclick="rebirth()"><b>Rebirth</b><br>Costs $5,000<br>Luck x1 >> x2</button>
-            <p id="rebirthDesc" style="color: #dbf">Rebirthing will reset your money, upgrades and boost times! It will
-                also reset 10% of your diamonds</p>
+        </div>
+        <p style="vertical-align: middle; font-size: 48px; color: #b8f; display: inline-block">Rebirth</p><img
+            src="img/rebirthIcon.png" style="vertical-align: middle">
+        <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
+        <p id="rebirthText" style="color: #dbf">You have rebirthed 0 times<br>Rebirth luck multiplier: x1</p>
+        <button id="rebirthButton" onclick="rebirth()"><b>Rebirth</b><br>Costs $5,000<br>Luck x1 >> x2</button>
+        <p id="rebirthDesc" style="color: #dbf">Rebirthing will reset your money, upgrades and boost times! It will also reset 10% of your diamonds</p>
         </div>
         <div id="bulkRebContainer">
             <input type="checkbox" id="bulkReb" name="reb" value="bulkReb" />

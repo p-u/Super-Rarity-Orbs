@@ -108,6 +108,7 @@ function createBox() {
 function createOrb(spawner) {
     if (currentOrbs >= 100 + getSTUpAmt("SPW-2") * 25) return;
 
+    if (Math.random() < (game.diamondChance/200)) {createDiamond(); return}
     if (Math.random() < game.diamondChance) {createDiamond(); return}
     let chosenRarity = getRarity(spawner);
     if (game.highestRarity < chosenRarity) {
