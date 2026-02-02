@@ -14,15 +14,23 @@ function reset() {
         totalLuck: 1,
         bestLuck: 1,
         rebBaseCost: 5000,
+        weatherpts: 0,
         rebScaling: 3.5,
         spawnerLuck: [1, 1.5, 2.5, 10, 100, 1000, 10000],
         numberFormat: "standard",
         upgradeCosts: [50, 100, 500, 250, 1500, 25000, 2000, 8000, 75000, 1e10, 1e9, 5e13, 2.5e13, 1e20, 1e22, 1e33, 1e34], // for spawners and first few ups
         newUpgCosts: [200], // for diamonds
         extUpgCosts: [1e33, 10000], // for TPgain ups
+        weatherUpCosts: [0.8,1,3], // ID 0: Roll for Weather (Round([X+2]/3)), ID 1: Unlock new weather (Base 1, X*2 for each, only 1 weather unlocked at base), ID 2: Money Boost (Base 3, round(X*1.5) for each)
         diamondLuck: 1,
+        diamondMult: 1,
+        weatherMoney: 1,
+        weatherUnlocked: 1,
+        PWU: 0,
+        ttlOrbSpawn: 0,
         spawnersUnlocked: 1, 
         boostTimes: [0,0,0,0],
+        weatherMult: [1,1,1],
         hideInfinity: false,
         boostsUnlocked: false,
         ORActive: false,
@@ -35,6 +43,9 @@ function reset() {
         timeSpentinReb: 0,
         mechanicsUnlocked: 0,
         rebirths: 0,
+        weatherDuration: Array(10).fill(0),
+        weatherRollCooldown: 0,
+        weatherChances: [1,0,0,0,0,0,0,0,0,0],
         difficulty: "orig",
         tiers: 0,
         boostData: {
@@ -61,7 +72,7 @@ function reset() {
                 name: "Reset Less",
                 upgrades: [
                     { id: "RL-1", name: "Keep Upgrades", desc: "Keep % of Upgrade Levels on Rebirth", levels: [25, 50, 70, 85], costs: [1, 1, 2, 2], req: null },
-                    { id: "RL-2", name: "Get back to prior faster", desc: "If your Current Luck is less than your Best Luck, increase Luck", levels: [1, 2, 3, 4, 6], costs: [1, 1, 1, 1, 3], req: null }, // levels multiply to the formula (log2(lg(Luck))*0.05)
+                    { id: "RL-2", name: "Faster Recovery", desc: "If your Current Luck is less than your Best Luck, increase Luck", levels: [1, 2, 3, 4, 6], costs: [1, 1, 1, 1, 3], req: null }, // levels multiply to the formula (log2(lg(Luck))*0.05)
                     { id: "RL-3", name: "Rebirth Keeper", desc: "Keep % of Rebirths on Tier", levels: [20, 40, 60, 80], costs: [2, 1, 1, 2], req: null },
                     { id: "RL-4", name: "Rebirth Booster", desc: "Allow you to keep your boost times on Rebirth", cost: 1, req: null }
                 ],
@@ -110,6 +121,7 @@ function reset() {
     document.getElementById("boosts").style.display = "none"
     document.getElementById("rebirth").style.display = "none"
     document.getElementById("tier").style.display = "none"
+    document.getElementById("weather").style.display = "none";
 
     document.getElementById("unlockBoostsButton").style.display = "none"
     document.getElementById("unlockRebirthButton").style.display = "inline-block"

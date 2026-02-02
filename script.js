@@ -1,11 +1,14 @@
-const illions = ["thousand", "million", "billion", "trillion", "quadrillion", "quintillion", "sextillion", "septillion", "octillion", "nonillion", "decillion", "undecillion", "duodecillion", "tredecillion", "quattuordecillion", "quindecillion", "sexdecillion", "septendecillion", "octodecillion", "novemdecillion", "vigintillion"]
+const illions = ["thousand","million","billion","trillion","quadrillion","quintillion","sextillion","septillion","octillion","nonillion","decillion","undecillion","duodecillion","tredecillion","quattuordecillion","quindecillion","sexdecillion","septendecillion","octodecillion","novemdecillion","vigintillion","unvigintillion","duovigintillion","trevigintillion","quattuorvigintillion","quinvigintillion","sexvigintillion","septenvigintillion","octovigintillion","novemvigintillion","trigintillion","untrigintillion","duotrigintillion","tretrigintillion","quattuortrigintillion","quintrigintillion","sextrigintillion","septentrigintillion","octotrigintillion","novemtrigintillion","quadragintillion","unquadragintillion","duoquadragintillion","trequadragintillion","quattuorquadragintillion","quinquadragintillion","sexquadragintillion","septenquadragintillion","octoquadragintillion","novemquadragintillion","quinquagintillion","unquinquagintillion","duoquinquagintillion","trequinquagintillion","quattuorquinquagintillion","quinquinquagintillion","sexquinquagintillion","septenquinquagintillion","octoquinquagintillion","novemquinquagintillion","sexagintillion","unsexagintillion","duosexagintillion","tresexagintillion","quattuorsexagintillion","quinsexagintillion","sexsexagintillion","septensexagintillion","octosexagintillion","novemsexagintillion","septuagintillion","unseptuagintillion","duoseptuagintillion","treseptuagintillion","quattuorseptuagintillion","quinseptuagintillion","sexseptuagintillion","septenseptuagintillion","octoseptuagintillion","novemseptuagintillion","octogintillion","unoctogintillion","duooctogintillion","treoctogintillion","quattuoroctogintillion","quinoctogintillion","sexoctogintillion","septenoctogintillion","octooctogintillion","novemoctogintillion","nonagintillion","unnonagintillion","duononagintillion","trenonagintillion","quattuornonagintillion","quinnonagintillion","sexnonagintillion","septennonagintillion","octononagintillion","novemnonagintillion","centillion","uncentillion"];
 let lastVariantLevels = { spw3: -1, mn4: -1 };
-const illionsShort = ["K", "M", "B", "T", "Qa", "Qt", "Sx", "Sp", "Oc", "No", "Dc", "UDc", "DDc", "TDc", "QaDc", "QiDc", "SxDc", "SpDc", "OcDc", "NoDc", "Vg", "UVg", "DVg", "TVg", "QdVg", "QtVg", "SxVg", "SpVg", "OcVg", "NoVg", "Tg", "UTg", "DTg"]
+const illionsShort = ["K","M","B","T","Qa","Qt","Sx","Sp","Oc","No","Dc","UDc","DDc","TDc","QaDc","QiDc","SxDc","SpDc","OcDc","NoDc","Vg","UVg","DVg","TVg","QaVg","QiVg","SxVg","SpVg","OcVg","NoVg","Tg","UTg","DTg","TTg","QaTg","QiTg","SxTg","SpTg","OcTg","NoTg","Qag","UQag","DQag","TQag","QaQag","QiQag","SxQag","SpQag","OcQag","NoQag","Qtg","UQtg","DQtg","TQtg","QaQtg","QiQtg","SxQtg","SpQtg","OcQtg","NoQtg","Sxg","USxg","DSxg","TSxg","QaSxg","QiSxg","SxSxg","SpSxg","OcSxg","NoSxg","Spg","USpg","DSpg","TSpg","QaSpg","QiSpg","SxSpg","SpSpg","OcSpg","NoSpg","Og","UOg","DOg","TOg","QaOg","QiOg","SxOg","SpOg","OcOg","NoOg","Ng","UNg","DNg","TNg","QaNg","QiNg","SxNg","SpNg","OcNg","NoNg","Ce","UCe"];
 const rarities     = [1, 4, 15, 50, 250, 1200,7000, 30000,140000,750000,6e6, 2e7, 4.5e8, 7e9, 2.5e12, 7e13, 1.5e15, 3e16, 5.8e17, 8e19, 1.1e22, 1.4e24, 2.4e26, 7e27,  5e29, 5e30, 5e32, 1e34,    2.5e35, 1e38,   2e39,   4e40, 8e41, 5e43];
 const rarityNames = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythical', 'Exotic', 'Ethereal', 'Galactic', 'Divine', 'Transcendental', 'Angelic', 'Demonic', 'Void', 'Antimatter', 'Quantum', 'Extreme', 'Radiant', 'Celestial', 'Ascended', 'Forsaken', 'Astral', 'Supernova', 'Toxic', 'Nuclear', 'Lightning', 'Duke', 'Prince', 'King', 'Fusion', 'Fusion Mk. II', 'Fusion Mk. III', 'Fusion Mk. IV', 'Fusion Mk. V'];
 const raritySizes = [6, 7, 7, 8, 8, 9, 9, 10, 10, 10, 11, 11, 11, 12, 13, 13, 13, 14, 14, 14, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15]
 const rarityValues = [1, 3, 10, 25, 100, 300, 1000, 3000, 10000, 40000, 2.5e5, 5e5, 7e6, 4e7, 1e9, 1e10, 1e11, 1e12,      1e13,   5e14,  1e16,  2.5e17,  1e19, 1.5e20, 5e21, 2e22, 4e23, 2.5e24,  2.5e25, 1.5e27, 7.5e27, 4e28, 2e29, 2e30]
 const rarityColours = ['#bbbbbb', '#bbbbbb', '#45bb45', '#45bb45', '#4545bb', '#4545bb', '#8845bb', '#8845bb', '#ff8800', '#ff8800', '#ff0000', '#ff0000', '#ff7b00', '#bb24bb', '#4800ff', '#000000', '#8200ff', '#000042', '#00c8ff', '#0084ff','#82ff49', '#14c98d', '#ffffff', '#ffe500', '#ff0000', '#5c0000', '#333333', '#111111', '#c307eb', '#11053a', '#d946ff', "#ffffff", "#0ba67f", "#07fbdd", "#ef9a1f", "#fcf046", "#52e5f6", "#ffffff", "#0c1381", "#635cdd", "#9f0811", "#fb0102", "#fe4dfe", "#e167cf", "#ffa700", "#ff4000", "#1cd328","#03660f"]
+const weatherNames = ["Drizzle", "Rain", "Thunderstorm", "Snow", "Hail", "Avalanche", "Tornado", "Hurricane", "Asteroid Impact", "Meteor Shower"]
+const weatherEff = [[0.5, 0, 0, 60], [0, 0.5, 0, 60], [0.5, 0.5, 0, 60], [1, 0.5, 0.1, 75], [1.25, 0.5, 0.25, 75], [1.75, 1, 0.25, 120], [2.5, 1, 0.25, 150], [2.5, 2, 0.25, 150], [2.5, 2, 2, 150], [5, 3, 2, 150]] // [[]] represents whole list, 1 weather is 1 list. 4 idx - Luck mult, Money mult, Diamonds mult (all additive), Weather duration (secs)
+const weatherColours = ['#ADD8E6', '#4a90e2', '#4a4ae2', '#ffffff', '#87ABA5', '#e3f4ff', '#888888', '#555555', '#767676', '#242ab2']
 
 setAutoSave()
 
@@ -175,6 +178,7 @@ function loadGame(loadgame) {
     }
     document.getElementsByClassName("boostText")[2].innerText = "Duplicate cooldown: " + game.boostTimes[2] + "s"
     document.getElementById("unlockWeatherButton").style.display = "none";
+    document.getElementById("weather").style.display = "none";
     if (game.mechanicsUnlocked >= 1) {
         document.getElementById("rebirth").style.display = "inline-block";
         document.getElementById("unlockRebirthButton").style.display = "none";
@@ -196,6 +200,7 @@ function loadGame(loadgame) {
     }
     if (game.mechanicsUnlocked >= 5) {
         document.getElementById("unlockWeatherButton").style.display = "none";
+        document.getElementById("weather").style.display = "inline-block";
     }
 
     if (game.boostData[2].increment == 50) {
@@ -222,6 +227,8 @@ function loadGame(loadgame) {
         game.difficulty = "orig"; // Default if missing
         document.getElementById("difficultySelect").value = "orig";
     }
+    updateWeatherChance()
+    game.ttlOrbSpawn = game.orbsObtained.reduce((acc, currentValue) => acc + currentValue, 0);
 }
 
 function spawn(id) {
@@ -293,11 +300,30 @@ function updateText() {
     if (game.tiers >= 1) {
         moneyMult *= (1.05 ** getSTUpAmt("MN-1"))
     }
+    if (game.mechanicsUnlocked>= 5) {
+        moneyMult *= game.weatherMult[1]
+    }
     document.getElementById("multiplier").innerText = "Total Money multiplier: x" + format(moneyMult,2);
+    let diamondMult = 1
+    if (game.difficulty === "baby") {
+        diamondMult = 2
+    }
+    if (game.difficulty === "extreme") {
+        diamondMult = 0.5
+    }
+    if (game.rebirths >= 50) {
+        diamondMult *= (0.025 * game.rebirths) - 0.15
+    }
+    diamondMult *= (1.05 ** getSTUpAmt("MN-3")) * game.weatherMult[2]
+    game.diamondMult = diamondMult
+    document.getElementById("diamondMult").innerText = "Total Diamond multiplier: x" + format(diamondMult,2);
     
     game.totalLuck = game.baseLuck * (game.boostTimes[1] ? 2 : 1) * game.diamondLuck;
     if (game.tiers >= 1) {
         game.totalLuck *= (1.1 ** getSTUpAmt("MN-2"))
+    }
+    if (game.mechanicsUnlocked>= 5) {
+        game.totalLuck *= game.weatherMult[0]
     }
     let RL2eff = 1 + (Math.log2(Math.log10(Math.max(game.totalLuck, 100)))/20*getSTUpAmt("RL-2"))
     if (game.totalLuck < game.bestLuck) {
@@ -340,10 +366,34 @@ function updateText() {
         document.getElementById('rebirthText').innerText = norming
     }
     document.getElementById('tierText').innerHTML = `Your Tier is ${game.tiers} >> ${game.tiers+1}<br>Tier Luck Multiplier x${3**game.tiers} >> x${3**(game.tiers+1)}<br>Tier Money Multiplier x${2**game.tiers} >> x${2**(game.tiers+1)}`
+    document.getElementById('weatherText').innerHTML = `You have ${game.weatherpts} Weather Points (WP) (+1/orb) <br> You have a 1/${format((1/game.diamondChance)*400)} chance to gain a Weather Orb`
+    document.getElementById('WBoost').innerHTML = `Weather boost: x${format(game.weatherMult[0],2)} Money, x${format(game.weatherMult[1],2)} Luck, x${format(game.weatherMult[2],2)} Diamonds`
 
     if (getSTUpAmt("BST-1")) {
         game.boostData[1].baseCost = 60, game.boostData[3].baseCost = 60
         game.boostData[2].baseCost = 400, game.boostData[4].baseCost = 400, game.boostData[5].baseCost = 400
+    }
+    if (document.getElementById("SWChance").checked) {
+        ttT = ""
+        for (let i=0; i<=game.weatherUnlocked-1; i++) {
+            ttT += "<span style='color: " + weatherColours[i] + "'>" + weatherNames[i] + "</span>: " + format(game.weatherChances[i]*100, 2) + "% Chance"
+            if (!game.weatherDuration || game.weatherDuration[i] == 0) {
+                ttT += " (Not Activated)"
+            } else {
+                ttT += " (" + game.weatherDuration[i] + " seconds left)"
+            }
+            // Check for any effects
+            if (weatherEff[i][0] > 0 || weatherEff[i][1] > 0 || weatherEff[i][2] > 0) {
+                 ttT += " <br>Effect:"
+                 if (weatherEff[i][0] > 0) ttT += " +x" + weatherEff[i][0] + " Luck";
+                 if (weatherEff[i][1] > 0) ttT += " +x" + weatherEff[i][1] + " Money";
+                 if (weatherEff[i][2] > 0) ttT += " +x" + weatherEff[i][2] + " Diamonds";
+            }
+            ttT += "<br><br>"
+        }
+        document.getElementById("weatherDTText").innerHTML = ttT
+    } else {
+        document.getElementById("weatherDTText").innerHTML = ""
     }
 }
 updateText()
@@ -354,6 +404,17 @@ function updateBoosts() {
     if (game.boostTimes[0] > 0) game.boostTimes[0]--
     if (game.boostTimes[1] > 0) game.boostTimes[1]--
     if (game.boostTimes[2] > 0) game.boostTimes[2]--
+    
+    // Weather Decay
+    if (game.weatherDuration) {
+        for (let i = 0; i < game.weatherDuration.length; i++) {
+             if (game.weatherDuration[i] > 0) game.weatherDuration[i]--;
+        }
+    }
+    // Weather Roll Cooldown
+    if (game.weatherRollCooldown > 0) game.weatherRollCooldown--;
+    updateWeatherBoosts()
+
     game.timePlayed ++
     game.timeSpentinTier ++
     game.timeSpentinReb ++
@@ -403,6 +464,20 @@ setInterval(updateBoosts, 1000);
 setInterval(updateRarityList, 200);
 setInterval(updateAllUpgradeText, 1000);
 
+function updateWeatherBoosts() {
+    let luck = 1
+    let cash = 1
+    let dia = 1
+    for (let i=0; i<game.weatherDuration.length; i++) {
+        if (game.weatherDuration[i] > 0) {
+            luck += weatherEff[i][0]
+            cash += weatherEff[i][1]
+            dia += weatherEff[i][2]
+        }
+    }
+    game.weatherMult = [luck, cash, dia]
+}
+
 function updateAllUpgradeText() {
     document.getElementById("increaseMultiplierButton").innerHTML = "Increase money multiplier<br>x" + format(game.moneyMultiplier,2) + " >> x" + format(game.moneyMultiplier*1.15,2) + "<br>Costs $" + format(game.upgradeCosts[0])
     document.getElementById("increaseLuckButton").innerHTML = "Increase base luck<br>x" + format(game.baseLuck,2) + " >> x" + format(game.baseLuck*1.2,2) + "<br>Costs $" + format(game.upgradeCosts[1])
@@ -416,6 +491,7 @@ function updateAllUpgradeText() {
         }
         document.getElementsByClassName("increaseSpawnerLuckButton")[i-1].innerHTML = "Increase luck<br>x" + format(game.spawnerLuck[i-1],2) + " >> x" + format(game.spawnerLuck[i-1]*1.1,2) + "<br>Costs $" + format(game.upgradeCosts[5+i])
     }
+    document.getElementById("WPxMoney").innerHTML = "Multiply Money! (Resets on tier)<br>x" + format(game.weatherMoney,2) + " >> x" + format(game.weatherMoney*1.1,2) + "<br>Costs " + format(game.weatherUpCosts[2]) + " WP"
     for (let i=4; i<=7; i++) {
         if (game.spawnIntervals[i-1]*0.95 < 100) {
             document.getElementsByClassName("decreaseIntervalButton")[i-1].innerHTML = "Decrease interval<br>" + (game.spawnIntervals[i-1]/1000).toFixed(3) + "s >> " + "0.100s<br>Costs $" + format(game.upgradeCosts[1+2*i])
@@ -429,12 +505,17 @@ function updateAllUpgradeText() {
             let projreb = Math.floor((Math.log(game.money / game.rebBaseCost) / Math.log(game.rebScaling)) + 1)
             let bulkreb = Math.max(projreb-game.rebirths, 1)
             let pricereb = game.rebScaling ** (game.rebirths + bulkreb - 1) * game.rebBaseCost
-            document.getElementById('rebirthButton').innerHTML = "<b>Rebirth (BULK ON)</b><br>Costs $" + format(pricereb) + "<br>Luck x" + format(2 ** game.rebirths) + " >> x" + format(2 ** (game.rebirths + bulkreb)) + "<br> +" + format(bulkreb) + " Rebirths on rebirth <br>" + "Next Rebirth costs $" + format(pricereb*game.rebScaling)
+            let costColor = game.money >= pricereb ? "#8f8" : "#f88"
+            document.getElementById('rebirthButton').innerHTML = "<b>Rebirth (BULK ON)</b><br><span style='color: " + costColor + "'>$" + format(game.money) + "/$" + format(pricereb) + "</span><br>Luck x" + format(2 ** game.rebirths) + " >> x" + format(2 ** (game.rebirths + bulkreb)) + "<br> +" + format(bulkreb) + " Rebirths on rebirth <br>" + "Next Rebirth costs $" + format(pricereb*game.rebScaling)
         } else {
-            document.getElementById('rebirthButton').innerHTML = "<b>Rebirth (BULK OFF)</b><br>Costs $" + format(game.rebScaling ** game.rebirths * game.rebBaseCost) + "<br>Luck x" + format(2 ** game.rebirths) + " >> x" + format(2 ** (game.rebirths + 1))
+            let cost = game.rebScaling ** game.rebirths * game.rebBaseCost
+            let costColor = game.money >= cost ? "#8f8" : "#f88"
+            document.getElementById('rebirthButton').innerHTML = "<b>Rebirth (BULK OFF)</b><br><span style='color: " + costColor + "'>$" + format(game.money) + "/$" + format(cost) + "</span><br>Luck x" + format(2 ** game.rebirths) + " >> x" + format(2 ** (game.rebirths + 1))
         }
     } else {
-        document.getElementById('rebirthButton').innerHTML = "<b>Rebirth</b><br>Costs $" + format(game.rebScaling ** game.rebirths * game.rebBaseCost) + "<br>Luck x" + format(2 ** game.rebirths) + " >> x" + format(2 ** (game.rebirths + 1))
+        let cost = game.rebScaling ** game.rebirths * game.rebBaseCost
+        let costColor = game.money >= cost ? "#8f8" : "#f88"
+        document.getElementById('rebirthButton').innerHTML = "<b>Rebirth</b><br><span style='color: " + costColor + "'>$" + format(game.money) + "/$" + format(cost) + "</span><br>Luck x" + format(2 ** game.rebirths) + " >> x" + format(2 ** (game.rebirths + 1))
     }
     if (game.tiers == 0) {
         document.getElementById('tierButton').innerHTML = "<b>Tier Up</b><br>Cost: 50 Void Orbs"
@@ -442,6 +523,16 @@ function updateAllUpgradeText() {
         document.getElementById('tierButton').innerHTML = "<b>Tier Up</b><br>Cost: 10 Forsaken Orbs"
     } else {
         document.getElementById('tierButton').innerHTML = "<b>Tier Up</b><br>(Maxed Tier Unlocked)"
+    }
+    if (game.weatherUnlocked == 9) {
+        document.getElementById("newWeather").innerHTML = "Unlock a new Weather that is available to be rolled!<br>Currently: " + game.weatherUnlocked + " weathers available to be rolled<br>(Maxed)"
+    } else {
+        document.getElementById("newWeather").innerHTML = "Unlock a new Weather that is available to be rolled!<br>Currently: " + game.weatherUnlocked + " weathers available to be rolled<br>Costs " + format(game.weatherUpCosts[1]) + " WP"
+    }
+    if (game.weatherRollCooldown > 0) {
+        document.getElementById("rollWeather").innerHTML = "Cooldown: " + game.weatherRollCooldown + "s"
+    } else {
+        document.getElementById("rollWeather").innerHTML = "Roll for a new Weather<br>Costs " + format(Math.round(game.weatherUpCosts[0])) + " WP"
     }
     document.getElementById('moneyTP').innerHTML = "Get 1 TP<br>Costs $" + format(game.extUpgCosts[0])
     document.getElementById('diamondTP').innerHTML = "Get 1 TP<br>Costs " + format(game.extUpgCosts[1]) + " Diamonds"
@@ -521,6 +612,36 @@ function updateVisuals() {
     } else {
         document.getElementById("moneyTP").style.backgroundImage = "linear-gradient(#fff, #bbb)";
         document.getElementById("moneyTP").style.border = "2px solid #888";
+    }
+    if (game.weatherRollCooldown > 0) {
+        document.getElementById("rollWeather").style.backgroundImage = "linear-gradient(#888, #555)";
+        document.getElementById("rollWeather").style.border = "2px solid #444";
+        document.getElementById("rollWeather").style.cursor = "not-allowed";
+        document.getElementById("rollWeather").style.opacity = "0.7";
+    } else if (game.weatherpts >= Math.round(game.weatherUpCosts[0])) {
+        document.getElementById("rollWeather").style.backgroundImage = "linear-gradient(#9e9, #7c7)";
+        document.getElementById("rollWeather").style.border = "2px solid #060";
+        document.getElementById("rollWeather").style.cursor = "pointer";
+        document.getElementById("rollWeather").style.opacity = "1";
+    } else {
+        document.getElementById("rollWeather").style.backgroundImage = "linear-gradient(#fff, #bbb)";
+        document.getElementById("rollWeather").style.border = "2px solid #888";
+        document.getElementById("rollWeather").style.cursor = "default";
+        document.getElementById("rollWeather").style.opacity = "1";
+    }
+    if (game.weatherpts >= game.weatherUpCosts[1] && game.weatherUnlocked < 9) {
+        document.getElementById("newWeather").style.backgroundImage = "linear-gradient(#9e9, #7c7)";
+        document.getElementById("newWeather").style.border = "2px solid #060";
+    } else {
+        document.getElementById("newWeather").style.backgroundImage = "linear-gradient(#fff, #bbb)";
+        document.getElementById("newWeather").style.border = "2px solid #888";
+    }
+    if (game.weatherpts >= game.weatherUpCosts[2]) {
+        document.getElementById("WPxMoney").style.backgroundImage = "linear-gradient(#9e9, #7c7)";
+        document.getElementById("WPxMoney").style.border = "2px solid #060";
+    } else {
+        document.getElementById("WPxMoney").style.backgroundImage = "linear-gradient(#fff, #bbb)";
+        document.getElementById("WPxMoney").style.border = "2px solid #888";
     }
 
     // Auto-unlock 6 and 7 if skills are met
@@ -619,7 +740,7 @@ function updateVisuals() {
     } else {
         document.getElementById("xLuckBODiamondButton").style.display = "none"
     }
-    document.getElementById("timePlayed").innerHTML = `Your Time Played is ${formatTime(game.timePlayed)}<br> Your last Rebirth was ${formatTime(game.timeSpentinReb)} ago<br>You are in Tier ${game.tiers} for ${formatTime(game.timeSpentinTier)}<br>Your best Luck is x${format(game.bestLuck, 2)}`
+    document.getElementById("timePlayed").innerHTML = `Your Time Played is ${formatTime(game.timePlayed)}<br> Your last Rebirth was ${formatTime(game.timeSpentinReb)} ago<br>You are in Tier ${game.tiers} for ${formatTime(game.timeSpentinTier)}<br>Your best Luck is x${format(game.bestLuck, 2)}<br>Total Orbs Spawned: ${format(game.ttlOrbSpawn)}`
     document.getElementById("notationButton").innerText = "Notation: " + game.numberFormat;
     document.getElementById("autoPotionContainer").style.display = (getSTUpAmt("BST-4") >= 1) ? "block" : "none";
     if (document.getElementById("autoPotion").checked) {
@@ -754,6 +875,140 @@ function increaseSpawnerLuck(x, updateUI = true) {
             }
             document.getElementsByClassName("increaseSpawnerLuckButton")[x-1].innerHTML = "Increase luck<br>x" + format(game.spawnerLuck[x-1],2) + " >> x" + format(game.spawnerLuck[x-1]*1.1,2) + "<br>Costs $" + format(game.upgradeCosts[2+2*x])
         }
+    }
+}
+
+function WPxMoney(updateUI = true) {
+    if (game.weatherpts >= game.weatherUpCosts[2]) {
+        game.weatherpts -= game.weatherUpCosts[2];
+        game.weatherMoney *= 1.1;
+        game.weatherUpCosts[2] = Math.round(game.weatherUpCosts[2]*1.5);
+        if (updateUI) {
+            updateRarityList()
+            updateText()
+            updateVisuals()
+        }
+        document.getElementById("WPxMoney").innerHTML = "Multiply Money! (Resets on tier)<br>x" + format(game.weatherMoney,2) + " >> x" + format(game.weatherMoney*1.1,2) + "<br>Costs " + format(game.weatherUpCosts[2]) + " WP"
+    }
+}
+
+function newWeather() {
+    if (game.weatherpts >= game.weatherUpCosts[1] && game.weatherUnlocked < 9) {
+        game.weatherpts -= game.weatherUpCosts[1];
+        game.weatherUnlocked++;
+        game.weatherUpCosts[1] = Math.round(game.weatherUpCosts[1]*2);
+        document.getElementById("newWeather").innerHTML = "Unlock a new Weather that is available to be rolled!<br>Currently: " + game.weatherUnlocked + " weathers available to be rolled<br>Costs " + format(game.weatherUpCosts[1]) + " WP"
+    } else if (game.weatherUnlocked == 9) {
+        document.getElementById("newWeather").innerHTML = "Unlock a new Weather that is available to be rolled!<br>Currently: " + game.weatherUnlocked + " weathers available to be rolled<br>(Maxed)"
+    }
+    updateWeatherChance()
+}
+
+function rollWeather(){
+    if (game.weatherRollCooldown > 0) return;
+    if (game.weatherpts >= Math.round(game.weatherUpCosts[0])) {
+        game.weatherpts -= Math.round(game.weatherUpCosts[0]);
+        game.weatherUpCosts[0] += 0.2
+        game.weatherRollCooldown = 5;
+        
+        // Create Overlay and Animation
+        let overlay = document.createElement("div");
+        overlay.id = "weatherOverlay";
+        Object.assign(overlay.style, {
+            position: "fixed", top: "0", left: "0", width: "100%", height: "100%",
+            backgroundColor: "rgba(0,0,0,0.7)", zIndex: "1000",
+            display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center",
+            color: "white", fontSize: "40px", fontFamily: "Lexend Deca, sans-serif"
+        });
+        
+        let slot = document.createElement("div");
+        slot.innerText = "Rolling...";
+        overlay.appendChild(slot);
+        document.body.appendChild(overlay);
+        
+        let animInterval = setInterval(() => {
+            let idx = Math.floor(Math.random() * game.weatherUnlocked);
+            slot.innerText = weatherNames[idx];
+            slot.style.color = weatherColours[idx];
+        }, 100);
+        
+        setTimeout(() => {
+            clearInterval(animInterval);
+            
+            // Pick Winner
+            let winnerIdx = -1;
+            let rand = Math.random();
+            let cumulative = 0;
+            // Recalculate chances just in case
+            updateWeatherChance(); 
+            
+            for (let i = 0; i < game.weatherUnlocked; i++) {
+                cumulative += game.weatherChances[i];
+                if (rand < cumulative) {
+                    winnerIdx = i;
+                    break;
+                }
+            }
+            if (winnerIdx === -1) winnerIdx = game.weatherUnlocked - 1; // Fallback to last unlocked
+            
+            slot.innerText = weatherNames[winnerIdx];
+            slot.style.color = weatherColours[winnerIdx];
+            slot.style.transform = "scale(1.5)";
+            slot.style.transition = "transform 0.5s";
+            
+            // Apply Effect
+            let dur = weatherEff[winnerIdx][3];
+            game.weatherDuration[winnerIdx] += dur;
+            
+            updateText();
+            updateVisuals(); 
+            
+            setTimeout(() => {
+                if (document.body.contains(overlay)) {
+                    document.body.removeChild(overlay);
+                }
+            }, 1000); 
+            
+        }, 2000);
+    }
+}
+
+function updateWeatherChance() {
+    if (game.weatherUnlocked >= 2) {
+        game.weatherChances[0] = 0.45
+        game.weatherChances[1] = 0.55
+    }
+    if (game.weatherUnlocked >= 3) {
+        game.weatherChances[1] = 0.25
+        game.weatherChances[2] = 0.3
+    }
+    if (game.weatherUnlocked >= 4) {
+        game.weatherChances[2] = 0.15
+        game.weatherChances[3] = 0.15
+    }
+    if (game.weatherUnlocked >= 5) {
+        game.weatherChances[3] = 0.08
+        game.weatherChances[4] = 0.07
+    }
+    if (game.weatherUnlocked >= 6) {
+        game.weatherChances[4] = 0.05
+        game.weatherChances[5] = 0.02
+    }
+    if (game.weatherUnlocked >= 7) {
+        game.weatherChances[5] = 0.011
+        game.weatherChances[6] = 0.009
+    }
+    if (game.weatherUnlocked >= 8) {
+        game.weatherChances[6] = 0.006
+        game.weatherChances[7] = 0.003
+    }
+    if (game.weatherUnlocked >= 9) {
+        game.weatherChances[7] = 0.0025
+        game.weatherChances[8] = 0.0005
+    }
+    if (game.weatherUnlocked >= 10) {
+        game.weatherChances[8] = 0.0003
+        game.weatherChances[9] = 0.0002
     }
 }
 
@@ -1246,6 +1501,8 @@ function tier() {
             game.maxTP++;
             game.currentTP++;
         }
+        game.weatherUpCosts[2] = 3
+        game.weatherMoney = 1
         game.currentTP++;
         document.getElementsByClassName("boostText")[0].style.color = "#bbb"
         document.getElementsByClassName("boostText")[0].innerText = "2x money gain - 0:00 (not active)"

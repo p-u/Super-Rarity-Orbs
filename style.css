@@ -44,6 +44,8 @@ button {
     margin-left: 4px;
     cursor: pointer;
     margin-bottom: 4px;
+    font-family: "Atkinson Hyperlegible Next", sans-serif;
+    font-weight: 700;
 }
 
 #respecButton {
@@ -113,17 +115,20 @@ button {
 .spawnerTabBuyButton {
     background-image: linear-gradient(#9dd, #7bb);
     border: 2px solid #066;
+    font-family: "Atkinson Hyperlegible Next", sans-serif;
 }
 
 #unlockBoostsButton {
     background-image: linear-gradient(#fe8, #ec6);
     border: 3px solid #860;
+    font-family: "Atkinson Hyperlegible Next", sans-serif;
 }
 
 #unlockRebirthButton {
     display: none;
     background-image: linear-gradient(#caf, #a7c);
     border: 3px solid #50a;
+    font-family: "Atkinson Hyperlegible Next", sans-serif;
 }
 
 #boosts {
@@ -134,6 +139,7 @@ button {
 .boostButton {
     background-image: linear-gradient(#fe8, #ec6);
     border: 3px solid #860;
+    font-family: "Atkinson Hyperlegible Next", sans-serif;
 }
 
 #rebirth {
@@ -150,6 +156,7 @@ button {
     background-image: linear-gradient(#caf, #a7c);
     border: 3px solid #50a;
     min-width: 150px;
+    font-family: "Atkinson Hyperlegible Next", sans-serif;
 }
 
 #rarities {
@@ -250,6 +257,23 @@ button {
     border: 2px solid #666;
 }
 
+#weather {
+    display: none;
+    margin-left: 8px;
+    margin-bottom: 20px;
+    height: 842px;
+    width: 333px;
+    overflow-y: auto;
+    border: 2px solid #666;
+}
+
+#weather button {
+    width: calc(100% - 8px);
+    display: block;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
 #skillTree {
     display: none;
     position: fixed;
@@ -287,8 +311,8 @@ button {
 
 .skillTreeColumn {
     flex: 1;
-    min-width: 180px;
-    max-width: 250px;
+    min-width: 200px;
+    max-width: 300px;
     background: #2a2a2a;
     border-radius: 6px;
     padding: 7px;
@@ -321,7 +345,7 @@ button {
     transition: background 0.2s, transform 0.1s;
     user-select: none;
     border: 1px solid #555;
-    height: 270px;
+    height: 250px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -461,6 +485,7 @@ button {
     padding: 10px 5px;
     flex: 1;
     margin: 0;
+    font-family: "Atkinson Hyperlegible Next", sans-serif;
 }
 
 .maxBuySpawnerButton {
@@ -470,4 +495,5 @@ button {
     color: #430;
     margin-right: 4px;
     padding: 5px;
+    font-family: "Atkinson Hyperlegible Next", sans-serif;
 }

@@ -29,7 +29,7 @@ var pegs, pegs2, pegs3, pegs4, pegs5, funnelL, funnelR, funnel2L, funnel2R, funn
 function buildBoard() {
     // Save current orbs
     let currentBodies = Composite.allBodies(engine.world);
-    let savedOrbs = currentBodies.filter(b => b.category === 'ball' || b.category === 'diamond');
+    let savedOrbs = currentBodies.filter(b => b.category === 'ball' || b.category === 'diamond' || b.category === 'weather');
     Composite.clear(engine.world, false);
 
     var ground = Bodies.rectangle(200, 825, 410, 60, { isStatic: true });
@@ -61,7 +61,7 @@ function buildBoard() {
             boardElements.push(funnelL, funnelR);
         }
         boardElements.push(pegs4, pegs5, deflectorBall);
-    } else {
+    } else if (game.tiers == 2) {
         // Board 3
         funnelL = Bodies.rectangle(80, 125, 200, 20, { isStatic: true, angle: Math.PI / 4 });
         funnelR = Bodies.rectangle(320, 125, 200, 20, { isStatic: true, angle: -Math.PI / 4 });
@@ -78,9 +78,9 @@ function buildBoard() {
         
         boardElements.push(funnelL, funnelR);
         if (game.boostTimes[3] < 15) {
-            boardElements.push(funnel2L, funnel2R, funnel3L, funnel3R);
+            boardElements.push(funnel2L, funnel2R, funnel3L, funnel3R, funnel4L, funnel4R);
         }
-        boardElements.push(funnel4L, funnel4R, funnel5L, funnel5R, funnel6L, funnel6R);
+        boardElements.push(funnel5L, funnel5R, funnel6L, funnel6R);
     }
     const finalElements = boardElements.filter(item => item != null);
     Composite.add(engine.world, finalElements);
@@ -107,14 +107,16 @@ function createBox() {
 
 function createOrb(spawner) {
     if (currentOrbs >= 100 + getSTUpAmt("SPW-2") * 25) return;
-
-    if (Math.random() < (game.diamondChance/200)) {createDiamond(); return}
+    if (game.mechanicsUnlocked >= 5) {
+        if (Math.random() < (game.diamondChance/400)) {createWeather(); return}
+    }
     if (Math.random() < game.diamondChance) {createDiamond(); return}
     let chosenRarity = getRarity(spawner);
     if (game.highestRarity < chosenRarity) {
         game.highestRarity = chosenRarity;
         updateRarityList();
     }
+    game.ttlOrbSpawn++;
     
     let variant = null;
     if (getSTUpAmt("SPW-3") > 0) {
@@ -184,6 +186,30 @@ function createDiamond() {
     }});
     Composite.add(engine.world, [circle]);
 }
+function createWeather() {
+    if (currentOrbs >= 100 + getSTUpAmt("SPW-2") * 25) return;
+    let variant = null;
+    if (getSTUpAmt("SPW-3") > 0) {
+        let mn4Level = getSTUpAmt("MN-4");
+        let rand = Math.random();
+        
+        if (mn4Level >= 3 && rand < 0.001) {
+            variant = "rainbow";
+        } else if (rand < 0.01) {
+            variant = "glowing";
+        } else if (rand < ((0.01 * mn4Level) + 0.1)) {
+            variant = "shiny";
+        }
+    }
+    var circle = Bodies.circle(Math.random() * 300 + 50, 30, 15, { category: 'weather', restitution: 0.7, variant: variant, render: {
+        sprite: {
+            texture: "img/weather.png",
+            xScale: 0.425,
+            yScale: 0.425,
+        }
+    }});
+    Composite.add(engine.world, [circle]);
+}
 
 function checkCollisions() {
     var bodies = Composite.allBodies(engine.world);
@@ -198,12 +224,11 @@ function checkCollisions() {
         } else {
             slotMultiplier = 2;
         }
+        let variantMult = 1;
+        if (bodies[i].variant === "shiny") variantMult = 2;
+        else if (bodies[i].variant === "glowing") variantMult = 5;
+        else if (bodies[i].variant === "rainbow") variantMult = 10;
         if (bodies[i].category === 'ball' && bodies[i].position.y > 775) {
-            let variantMult = 1;
-            if (bodies[i].variant === "shiny") variantMult = 2;
-            else if (bodies[i].variant === "glowing") variantMult = 5;
-            else if (bodies[i].variant === "rainbow") variantMult = 10;
-
             let moneyGain = rarityValues[bodies[i].rarity - 1] * game.moneyMultiplier * slotMultiplier * variantMult * (game.boostTimes[0] ? 2 : 1);
             if (game.mechanicsUnlocked >= 3) {
                 moneyGain *= (1.06**game.highestRarity)
@@ -227,13 +252,16 @@ function checkCollisions() {
                 mult = 0.5
             }
             if (game.rebirths >= 50) {
-                mult = (0.025 * game.rebirths) - 0.15
+                mult *= (0.025 * game.rebirths) - 0.15
             }
-            let variantMult = 1;
-            if (bodies[i].variant === "shiny") variantMult = 2;
-            else if (bodies[i].variant === "glowing") variantMult = 5;
-            else if (bodies[i].variant === "rainbow") variantMult = 10;
-            game.diamonds += 10 * (1.05 ** getSTUpAmt("MN-3")) * mult * variantMult;
+            game.diamonds += 10 * game.diamondMult * variantMult;
+            updateText()
+            updateVisuals()
+            Composite.remove(engine.world, bodies[i]);
+            currentOrbs = countOrbs()
+        }
+        else if (bodies[i].category === 'weather' && bodies[i].position.y > 775) {
+            game.weatherpts += variantMult;
             updateText()
             updateVisuals()
             Composite.remove(engine.world, bodies[i]);
@@ -281,13 +309,28 @@ function duplicateOrbs() {
             Composite.add(engine.world, [circle]);
             currentOrbs = countOrbs()
         }
+        else if (bodies[i].category === 'weather') {
+            var circle = Bodies.circle(bodies[i].position.x, bodies[i].position.y, 15, { 
+                category: 'weather', 
+                restitution: 0.7, 
+                variant: bodies[i].variant,
+                render: {
+                sprite: {
+                    texture: "img/weather.png",
+                    xScale: 0.052,
+                    yScale: 0.052,
+                }
+            }});
+            Composite.add(engine.world, [circle]);
+            currentOrbs = countOrbs()
+        }
     }
 }
 
 function deleteAllOrbs() {
     var bodies = Composite.allBodies(engine.world);
     for (var i = 0; i < bodies.length; i++) {
-        if (bodies[i].category === 'ball' || bodies[i].category === 'diamond') {
+        if (bodies[i].category === 'ball' || bodies[i].category === 'diamond' || bodies[i].category === 'weather') {
             Composite.remove(engine.world, bodies[i]);
         }
     }
@@ -307,7 +350,7 @@ Events.on(render, 'afterRender', function() {
             context.rotate(body.angle);
             
             context.beginPath();
-            let radius = (body.category === 'diamond' ? 15 : raritySizes[body.rarity - 1]) + 2;
+            let radius = (body.category === 'diamond' || body.category === 'weather' ? 15 : raritySizes[body.rarity - 1]) + 2;
             context.arc(0, 0, radius, 0, 2 * Math.PI);
             
             if (body.variant === "shiny") {
@@ -374,7 +417,7 @@ let lastPos = new Map();
 Events.on(engine, "afterUpdate", () => {
     const bodies = Composite.allBodies(engine.world);
     for (const body of bodies) {
-        if (body.category !== 'ball' && body.category !== 'diamond') continue;
+        if (body.category !== 'ball' && body.category !== 'diamond' && body.category !== 'weather') continue;
         const prev = lastPos.get(body.id);
         if (prev) {
             const dx = body.position.x - prev.x;

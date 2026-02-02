@@ -9,7 +9,9 @@
     <link rel="icon" href="img/ball7.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&family=Lexend+Deca:wght@100..900&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
@@ -29,6 +31,7 @@
         <p style="font-size: 48px" id="money">Money: $0</p>
         <p style="font-size: 24px" id="multiplier">Money multiplier: x1.0</p>
         <p style="font-size: 24px" id="luck">Luck: x1.0</p>
+        <p style="font-size: 24px" id="diamondMult">Diamond Multiplier: x1.0</p>
         <p style="font-size: 36px; color: #bff; margin-top: 20px" id="diamonds">Diamonds: 0</p>
         <p style="font-size: 24px; color: #bff" id="diamondChance">Diamond chance: 1.00%</p>
         <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
@@ -48,8 +51,10 @@
         </div>
         <button id="unlockRebirthButton" onclick="unlockRebirth()">Unlock rebirth<br>Costs 50 diamonds</button>
         <button id="unlockBoostsButton" onclick="unlockBoosts()">Unlock boosts<br>Costs 250 diamonds</button>
-        <button id="unlockRBM" onclick="unlockRBM()">Total rarities unlocked boost Money<br>Costs 1,000 diamonds</button>
-        <button id="unlockTierButton" onclick="unlockTier()">Unlock Tiers<br>Costs 2,5000 diamonds and Rebirth 15</button>
+        <button id="unlockRBM" onclick="unlockRBM()">Total rarities unlocked boost Money<br>Costs 1,000
+            diamonds</button>
+        <button id="unlockTierButton" onclick="unlockTier()">Unlock Tiers<br>Costs 2,5000 diamonds and Rebirth
+            15</button>
         <button id="unlockWeatherButton" onclick="unlockWeather()">Unlock Weather (v0.5) and other ways to gain
             TP<br>Costs 20,000 Diamonds and Tier 2</button>
         <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
@@ -154,10 +159,10 @@
             <p style="font-size: 48px">Boosts</p>
             <hr style="background-color: #666; margin-left: 8px; margin-right: 8px"><br>
             <p id="moneyBoostText" class="boostText" style="font-size: 24px">2x money gain - 0:00 (not active)</p>
-            <img src="img/moneyIcon.png" style="vertical-align: top; margin: 4px"><button id="boost1" class="boostButton"
-                onclick="buyBoost(1)"></button><br>
-            <img src="img/moneyIcon.png" style="vertical-align: top; margin: 4px"><button id="boost2" class="boostButton"
-                onclick="buyBoost(2)"></button><br><br>
+            <img src="img/moneyIcon.png" style="vertical-align: top; margin: 4px"><button id="boost1"
+                class="boostButton" onclick="buyBoost(1)"></button><br>
+            <img src="img/moneyIcon.png" style="vertical-align: top; margin: 4px"><button id="boost2"
+                class="boostButton" onclick="buyBoost(2)"></button><br><br>
             <p id="luckBoostText" class="boostText" style="font-size: 24px">2x luck - 0:00 (not active)</p>
             <img src="img/luckIcon.png" style="vertical-align: top; margin: 4px"><button id="boost3" class="boostButton"
                 onclick="buyBoost(3)"></button><br>
@@ -184,14 +189,43 @@
         <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
         <p id="rebirthText" style="color: #dbf">You have rebirthed 0 times<br>Rebirth luck multiplier: x1</p>
         <button id="rebirthButton" onclick="rebirth()"><b>Rebirth</b><br>Costs $5,000<br>Luck x1 >> x2</button>
-        <p id="rebirthDesc" style="color: #dbf">Rebirthing will reset your money, upgrades and boost times! It will also reset 10% of your diamonds</p>
-        </div>
+        <p id="rebirthDesc" style="color: #dbf">Rebirthing will reset your money, upgrades and boost times! It will also
+            reset 10% of your diamonds</p>
         <div id="bulkRebContainer">
             <input type="checkbox" id="bulkReb" name="reb" value="bulkReb" />
             <label for="bulkReb" style="font-family: Lexend Deca">
                 Bulk Rebirths
             </label>
         </div>
+    </div>
+    </div>
+    <div id="weather">
+        <p style="vertical-align: middle; font-size: 40px; color: #ffd500; display: inline-block">Weather</p>
+        <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
+        <p id="weatherText" style="color: rgb(255, 255, 255); font-size: 22.5px; margin-bottom: 20px">You have 0 Weather
+            Points (WP) (+1/orb) <br> You have a 1/20,000 chance to gain a Weather Orb</p>
+        <p style="color: rgb(154, 154, 154); font-size: 17.5px; margin-bottom: 20px">Weather is a subfeature
+            like Diamonds, where you have a 1/400 chance of replacing a Diamond orb with a Weather Orb. <br>You can use
+            Weather Orbs to roll
+            for a Weather, where you gain temporary boosts to Cash and/or Luck based on the rarity of the Weather
+            rolled.<br>
+            You can unlock more Weathers on roll using WP, and you also can multiply your Money using WP (Upgrade resets
+            on tier)</p>
+        <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
+        <div id="SWCContainer">
+            <input type="checkbox" id="SWChance" name="SWChance" value="SWChance" />
+            <label for="SWChance" style="font-family: Lexend Deca">
+                Show Weather Details
+            </label>
+            <p id="weatherDTText" style="color: rgb(255, 255, 255); font-size: 16.5px; margin-bottom: 20px"></p>
+        </div>
+        <p id="WBoost" style="color: rgb(255, 255, 255); font-size: 19.5px; margin-bottom: 20px">Weather boost: x1.00 Money, x1.00 Luck, x1.00 Diamonds</p>
+        <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
+        <button id="rollWeather" onclick="rollWeather()">Roll Weather!<br>Costs 1 WP</button>
+        <button id="newWeather" onclick="newWeather()">Unlock a new Weather that is available to be
+            rolled!<br>Currently: 1 weather available to be rolled<br>Costs 1 WP</button>
+        <button id="WPxMoney" onclick="WPxMoney()">Multiply Money! (Resets on tier)<br>x1.00 >> x1.10<br>Costs 3
+            WP</button>
     </div>
     <div id="rarities">
         <div id="raritiesHeader">
@@ -289,7 +323,7 @@
         <button onclick="importGame()">Import</button>
         <button style="background-color: #eaa; background-image: none" onclick="hardReset()">Hard reset</button>
         <p style="font-size: 16px" id="timePlayed">Your Time Played is 0:00:00<br> Your last Rebirth was 0:00:00
-            ago<br>You are in Tier 0 for 0:00:00<br>Your best Luck is x1</p>
+            ago<br>You are in Tier 0 for 0:00:00<br>Your best Luck is x1<br>Total Orbs Spawned: 0</p>
         <a href="https://discord.com/invite/RRK9Dwzf6P" target="_blank"><button>Join Discord</button></a><br><br>
         <button id="notationButton" onclick="changeNotation()">Notation: standard</button><br><br>
         <div style="display: flex; align-items: center; margin-top: 5px;">
