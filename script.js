@@ -366,7 +366,7 @@ function updateText() {
         document.getElementById('rebirthText').innerText = norming
     }
     document.getElementById('tierText').innerHTML = `Your Tier is ${game.tiers} >> ${game.tiers+1}<br>Tier Luck Multiplier x${3**game.tiers} >> x${3**(game.tiers+1)}<br>Tier Money Multiplier x${2**game.tiers} >> x${2**(game.tiers+1)}`
-    document.getElementById('weatherText').innerHTML = `You have ${game.weatherpts} Weather Points (WP) (+1/orb) <br> You have a 1/${format((1/game.diamondChance)*400)} chance to gain a Weather Orb`
+    document.getElementById('weatherText').innerHTML = `You have ${game.weatherpts} Weather Points (WP) (+1/orb) <br> You have a 1/${format((1/game.diamondChance)*250)} chance to gain a Weather Orb`
     document.getElementById('WBoost').innerHTML = `Weather boost: x${format(game.weatherMult[0],2)} Money, x${format(game.weatherMult[1],2)} Luck, x${format(game.weatherMult[2],2)} Diamonds`
 
     if (getSTUpAmt("BST-1")) {
