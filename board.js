@@ -38,17 +38,17 @@ function buildBoard() {
     var wall2 = Bodies.rectangle(-10, 400, 60, 800, { isStatic: true });
     
     let boardElements = [ground, ceiling, wall1, wall2];
+    funnelL = Bodies.rectangle(80, 125, 200, 20, { isStatic: true, angle: Math.PI / 4 });
+    funnelR = Bodies.rectangle(320, 125, 200, 20, { isStatic: true, angle: -Math.PI / 4 });
+    pegs3 = Composites.stack(60, 775, 4, 1, 66, 80, (x, y) => Bodies.circle(x, y, 10.5, { isStatic: true, render: { fillStyle: '#6a6a6aff' }  })); 
 
     if (game.tiers == 0) { // Board 1
         let rows = game.boostTimes[3] > 15 ? 4 : 6;
         pegs = Composites.stack(10, 220, 5, rows, 66, 80, (x, y) => Bodies.circle(x, y, 12, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
         pegs2 = Composites.stack(54, 167, 4, rows, 66, 80, (x, y) => Bodies.circle(x, y, 12, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
-        pegs3 = Composites.stack(54, 775, 4, 1, 66, 80, (x, y) => Bodies.circle(x, y, 12, { isStatic: true, render: { fillStyle: '#6a6a6aff' }  })); 
         boardElements.push(pegs, pegs2, pegs3);
     } else if (game.tiers == 1) {
         // Board 2
-        funnelL = Bodies.rectangle(80, 125, 200, 20, { isStatic: true, angle: Math.PI / 4 });
-        funnelR = Bodies.rectangle(320, 125, 200, 20, { isStatic: true, angle: -Math.PI / 4 });
         deflectorBall = Bodies.circle(200, 267, 25, { 
             isStatic: true, 
             restitution: 1.2, 
@@ -63,8 +63,6 @@ function buildBoard() {
         boardElements.push(pegs4, pegs5, deflectorBall);
     } else if (game.tiers == 2) {
         // Board 3
-        funnelL = Bodies.rectangle(80, 125, 200, 20, { isStatic: true, angle: Math.PI / 4 });
-        funnelR = Bodies.rectangle(320, 125, 200, 20, { isStatic: true, angle: -Math.PI / 4 });
         funnel2L = Bodies.rectangle(40, 300, 125, 15, { isStatic: true, angle: Math.PI / 3 });
         funnel2R = Bodies.rectangle(175, 300, 125, 15, { isStatic: true, angle: -Math.PI / 3 });
         funnel3L = Bodies.rectangle(230, 300, 125, 15, { isStatic: true, angle: Math.PI / 3 });
@@ -81,6 +79,26 @@ function buildBoard() {
             boardElements.push(funnel2L, funnel2R, funnel3L, funnel3R, funnel4L, funnel4R);
         }
         boardElements.push(funnel5L, funnel5R, funnel6L, funnel6R);
+    } else if (game.tiers == 3) {
+        deflectorBall = Bodies.circle(200, 350, 25, { 
+            isStatic: true, 
+            restitution: 1.2, 
+            render: { fillStyle: '#8e8e8eff' } 
+        });
+        innerL = Bodies.rectangle(66, 400, 175, 15, { isStatic: true, angle: -Math.PI / 2 });
+        innerR = Bodies.rectangle(334, 400, 175, 15, { isStatic: true, angle: Math.PI / 2 });
+        borderL = Bodies.rectangle(44, 495, 40, 15, { isStatic: true, angle: 0 });
+        borderR = Bodies.rectangle(356, 495, 40, 15, { isStatic: true, angle: 0 });
+        // if: game.tiers == 3, y val > 350-500 AND (x val >= 345 OR x val <= 55): x5 Multiplier.
+        pegs2 = Composites.stack(140, 465, 2, 1, 66, 100, (x, y) => Bodies.circle(x, y, 10.5, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
+        pegs4 = Composites.stack(50, 585, 4, 2, 66, 100, (x, y) => Bodies.circle(x, y, 10.5, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
+        pegs5 = Composites.stack(15, 525, 5, 2, 66, 100, (x, y) => Bodies.circle(x, y, 10.5, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
+        
+        boardElements.push(funnelL, funnelR, deflectorBall, borderL, borderR, pegs2, pegs3, pegs4, pegs5);
+        if (game.boostTimes[3] < 15) {
+
+        }
+        boardElements.push(innerL, innerR);
     }
     const finalElements = boardElements.filter(item => item != null);
     Composite.add(engine.world, finalElements);
@@ -214,6 +232,12 @@ function createWeather() {
 function checkCollisions() {
     var bodies = Composite.allBodies(engine.world);
     for (var i = 0; i < bodies.length; i++) {
+        let disappear = false;
+        if (bodies[i].position.y > 775) disappear = true
+        if (game.tiers == 3) {
+            if (bodies[i].position.x <= 55 && bodies[i].position.y >= 460 && bodies[i].position.y <= 500) disappear = true
+            if (bodies[i].position.x >= 345 && bodies[i].position.y >= 460 && bodies[i].position.y <= 500) disappear = true
+        }
         let slotMultiplier = 1;
         if (game.tiers < 1) {
             if (bodies[i].position.x < 66) {slotMultiplier = 2;}
@@ -221,15 +245,22 @@ function checkCollisions() {
             else if (bodies[i].position.x > 333) {slotMultiplier = 2;}
         } else if (game.tiers < 2) {
             if (bodies[i].position.x > 155 && bodies[i].position.x < 244) {slotMultiplier = 5;}     
-        } else {
+        } else if (game.tiers < 3) {
             slotMultiplier = 2;
+        } else {
+            if (bodies[i].position.x <= 55 && bodies[i].position.y >= 450 && bodies[i].position.y <= 500) {slotMultiplier = 5;}
+            if (bodies[i].position.x >= 345 && bodies[i].position.y >= 450 && bodies[i].position.y <= 500) {slotMultiplier = 5;}
+            else if (bodies[i].position.x < 66) {slotMultiplier = 2.25;}
+            else if (bodies[i].position.x > 155 && bodies[i].position.x < 244) {slotMultiplier = 2;}
+            else if (bodies[i].position.x > 333) {slotMultiplier = 2.25;}
+            else {slotMultiplier = 1.75;}
         }
         let variantMult = 1;
         if (bodies[i].variant === "shiny") variantMult = 2;
         else if (bodies[i].variant === "glowing") variantMult = 5;
         else if (bodies[i].variant === "rainbow") variantMult = 10;
-        if (bodies[i].category === 'ball' && bodies[i].position.y > 775) {
-            let moneyGain = rarityValues[bodies[i].rarity - 1] * game.moneyMultiplier * slotMultiplier * variantMult * (game.boostTimes[0] ? 2 : 1);
+        if (bodies[i].category === 'ball' && disappear) {
+            let moneyGain = rarityValues[bodies[i].rarity - 1] * game.moneyMultiplier * game.weatherMoney * slotMultiplier * variantMult * (game.boostTimes[0] ? 2 : 1);
             if (game.mechanicsUnlocked >= 3) {
                 moneyGain *= (1.06**game.highestRarity)
             }
@@ -243,7 +274,7 @@ function checkCollisions() {
             Composite.remove(engine.world, bodies[i]);
             currentOrbs = countOrbs()
         }
-        else if (bodies[i].category === 'diamond' && bodies[i].position.y > 775) {
+        else if (bodies[i].category === 'diamond' && disappear) {
             let mult = 1
             if (game.difficulty === "baby") {
                 mult = 2
@@ -260,7 +291,7 @@ function checkCollisions() {
             Composite.remove(engine.world, bodies[i]);
             currentOrbs = countOrbs()
         }
-        else if (bodies[i].category === 'weather' && bodies[i].position.y > 775) {
+        else if (bodies[i].category === 'weather' && disappear) {
             game.weatherpts += variantMult;
             updateText()
             updateVisuals()

@@ -5,7 +5,7 @@ const rarities     = [1, 4, 15, 50, 250, 1200,7000, 30000,140000,750000,6e6, 2e7
 const rarityNames = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythical', 'Exotic', 'Ethereal', 'Galactic', 'Divine', 'Transcendental', 'Angelic', 'Demonic', 'Void', 'Antimatter', 'Quantum', 'Extreme', 'Radiant', 'Celestial', 'Ascended', 'Forsaken', 'Astral', 'Supernova', 'Toxic', 'Nuclear', 'Lightning', 'Duke', 'Prince', 'King', 'Fusion', 'Fusion Mk. II', 'Fusion Mk. III', 'Fusion Mk. IV', 'Fusion Mk. V'];
 const raritySizes = [6, 7, 7, 8, 8, 9, 9, 10, 10, 10, 11, 11, 11, 12, 13, 13, 13, 14, 14, 14, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15]
 const rarityValues = [1, 3, 10, 25, 100, 300, 1000, 3000, 10000, 40000, 2.5e5, 5e5, 7e6, 4e7, 1e9, 1e10, 1e11, 1e12,      1e13,   5e14,  1e16,  2.5e17,  1e19, 1.5e20, 5e21, 2e22, 4e23, 2.5e24,  2.5e25, 1.5e27, 7.5e27, 4e28, 2e29, 2e30]
-const rarityColours = ['#bbbbbb', '#bbbbbb', '#45bb45', '#45bb45', '#4545bb', '#4545bb', '#8845bb', '#8845bb', '#ff8800', '#ff8800', '#ff0000', '#ff0000', '#ff7b00', '#bb24bb', '#4800ff', '#000000', '#8200ff', '#000042', '#00c8ff', '#0084ff','#82ff49', '#14c98d', '#ffffff', '#ffe500', '#ff0000', '#5c0000', '#333333', '#111111', '#c307eb', '#11053a', '#d946ff', "#ffffff", "#0ba67f", "#07fbdd", "#ef9a1f", "#fcf046", "#52e5f6", "#ffffff", "#0c1381", "#635cdd", "#9f0811", "#fb0102", "#fe4dfe", "#e167cf", "#ffa700", "#ff4000", "#1cd328","#03660f"]
+const rarityColours = ['#bbbbbb', '#bbbbbb', '#45bb45', '#45bb45', '#4545bb', '#4545bb', '#8845bb', '#8845bb', '#ff8800', '#ff8800', '#ff0000', '#ff0000', '#ff7b00', '#bb24bb', '#4800ff', '#000000', '#8200ff', '#000042', '#00c8ff', '#0084ff','#82ff49', '#14c98d', '#ffffff', '#ffe500', '#ff0000', '#5c0000', '#333333', '#111111', '#c307eb', '#11053a', '#d946ff', "#ffffff", "#0ba67f", "#07fbdd", "#ef9a1f", "#fcf046", "#52e5f6", "#ffffff", "#0c1381", "#635cdd", "#9f0811", "#fb0102", "#fe4dfe", "#e167cf", "#ffa700", "#ff4000", "#1cd328","#03660f", "#ffd600", "#ffc800", "#f0e606", "#ebc808", "#118cc1", "#49b5e2", "#70bfff", "#709dff", "#f59540", "#f79947", "#1618ff", "#00efff", "#ffff00", "#00efff", "#ffa500", "#00efff", "#ffbf00", "#ff0062", "#e4c81b", "#66e799"]
 const weatherNames = ["Drizzle", "Rain", "Thunderstorm", "Snow", "Hail", "Avalanche", "Tornado", "Hurricane", "Asteroid Impact", "Meteor Shower"]
 const weatherEff = [[0.5, 0, 0, 60], [0, 0.5, 0, 60], [0.5, 0.5, 0, 60], [1, 0.5, 0.1, 75], [1.25, 0.5, 0.25, 75], [1.75, 1, 0.25, 120], [2.5, 1, 0.25, 150], [2.5, 2, 0.25, 150], [2.5, 2, 2, 150], [5, 3, 2, 150]] // [[]] represents whole list, 1 weather is 1 list. 4 idx - Luck mult, Money mult, Diamonds mult (all additive), Weather duration (secs)
 const weatherColours = ['#ADD8E6', '#4a90e2', '#4a4ae2', '#ffffff', '#87ABA5', '#e3f4ff', '#888888', '#555555', '#767676', '#242ab2']
@@ -295,7 +295,7 @@ function formatTime(x) {
 function updateText() {
     if (game.inSkillTree) return;
     document.getElementById('money').innerText = "Money: $" + format(game.money);
-    let moneyMult = game.moneyMultiplier * (game.boostTimes[0] ? 2 : 1)
+    let moneyMult = game.moneyMultiplier * (game.boostTimes[0] ? 2 : 1) * game.weatherMoney
     if (game.mechanicsUnlocked>=3) moneyMult *= 1.06**game.highestRarity
     if (game.tiers >= 1) {
         moneyMult *= (1.05 ** getSTUpAmt("MN-1"))
@@ -367,7 +367,7 @@ function updateText() {
     }
     document.getElementById('tierText').innerHTML = `Your Tier is ${game.tiers} >> ${game.tiers+1}<br>Tier Luck Multiplier x${3**game.tiers} >> x${3**(game.tiers+1)}<br>Tier Money Multiplier x${2**game.tiers} >> x${2**(game.tiers+1)}`
     document.getElementById('weatherText').innerHTML = `You have ${game.weatherpts} Weather Points (WP) (+1/orb) <br> You have a 1/${format((1/game.diamondChance)*250)} chance to gain a Weather Orb`
-    document.getElementById('WBoost').innerHTML = `Weather boost: x${format(game.weatherMult[0],2)} Money, x${format(game.weatherMult[1],2)} Luck, x${format(game.weatherMult[2],2)} Diamonds`
+    document.getElementById('WBoost').innerHTML = `Weather boost: x${format(game.weatherMult[0],2)} Luck, x${format(game.weatherMult[1],2)} Money, x${format(game.weatherMult[2],2)} Diamonds`
 
     if (getSTUpAmt("BST-1")) {
         game.boostData[1].baseCost = 60, game.boostData[3].baseCost = 60
@@ -479,7 +479,7 @@ function updateWeatherBoosts() {
 }
 
 function updateAllUpgradeText() {
-    document.getElementById("increaseMultiplierButton").innerHTML = "Increase money multiplier<br>x" + format(game.moneyMultiplier,2) + " >> x" + format(game.moneyMultiplier*1.15,2) + "<br>Costs $" + format(game.upgradeCosts[0])
+    document.getElementById("increaseMultiplierButton").innerHTML = "Increase money multiplier<br>x" + format(game.moneyMultiplier*game.weatherMoney,2) + " >> x" + format(game.moneyMultiplier*1.15*game.weatherMoney,2) + "<br>Costs $" + format(game.upgradeCosts[0])
     document.getElementById("increaseLuckButton").innerHTML = "Increase base luck<br>x" + format(game.baseLuck,2) + " >> x" + format(game.baseLuck*1.2,2) + "<br>Costs $" + format(game.upgradeCosts[1])
     document.getElementById("increaseDiamondChanceButton").innerHTML = "Increase diamond chance<br>" + format(game.diamondChance*100, 2) + "% >> " + format((game.diamondChance+0.001)*100, 2) + "%<br>Costs $" + format(game.upgradeCosts[2])
     document.getElementById("xLuckBODiamondButton").innerHTML = "Multiply luck further! (Keep on Tier)<br>x" + format(game.diamondLuck,2) + " >> x" + format(game.diamondLuck*1.1,2) + "<br>Costs " + format(game.newUpgCosts[0]) + " Diamonds"
@@ -521,6 +521,8 @@ function updateAllUpgradeText() {
         document.getElementById('tierButton').innerHTML = "<b>Tier Up</b><br>Cost: 50 Void Orbs"
     } else if (game.tiers == 1) {
         document.getElementById('tierButton').innerHTML = "<b>Tier Up</b><br>Cost: 10 Forsaken Orbs"
+    } else if (game.tiers == 2) {
+        document.getElementById('tierButton').innerHTML = "<b>Tier Up</b><br>Cost: 5 Fusion Orbs"
     } else {
         document.getElementById('tierButton').innerHTML = "<b>Tier Up</b><br>(Maxed Tier Unlocked)"
     }
@@ -643,6 +645,13 @@ function updateVisuals() {
         document.getElementById("WPxMoney").style.backgroundImage = "linear-gradient(#fff, #bbb)";
         document.getElementById("WPxMoney").style.border = "2px solid #888";
     }
+    if (canAffordTier()) {
+        document.getElementById("tierButton").style.backgroundImage = "linear-gradient(#9e9, rgba(218, 178, 0, 1))";
+        document.getElementById("tierButton").style.border = "2px solid rgba(161, 124, 0, 1)";
+    } else {
+        document.getElementById("tierButton").style.backgroundImage = "linear-gradient(#fff, #bbb)";
+        document.getElementById("tierButton").style.border = "2px solid #888";
+    }
 
     // Auto-unlock 6 and 7 if skills are met
     if (game.spawnersUnlocked == 5 && getSTUpAmt("SPW-1") >= 1) {
@@ -729,12 +738,24 @@ function updateVisuals() {
         values = ["x2.0", "x2.0", "x2.0", "x2.0", "x2.0"]
         colors = ["#8f8", "#8f8", "#8f8", "#8f8", "#8f8"]
     }
+    if (game.tiers >= 3) {
+        values = ["x2.25", "x1.75", "x2.0", "x1.75", "x2.25"]
+        colors = ["#dab1da", "#90d5ff", "#8f8", "#90d5ff", "#dab1da"]
+    }
     values.forEach((v, i) => {
         const el = document.getElementById("mult" + (i + 1))
         if (!el) return
         el.textContent = v
         el.style.color = colors[i]
     })
+    
+    if (game.tiers >= 3) {
+        document.getElementById("multLeft").style.display = "block";
+        document.getElementById("multRight").style.display = "block";
+    } else {
+        document.getElementById("multLeft").style.display = "none";
+        document.getElementById("multRight").style.display = "none";
+    }
     if ((game.rebirths >= 25) && (game.tiers >= 1)) {
         document.getElementById("xLuckBODiamondButton").style.display = "inline-block"
     } else {
@@ -775,7 +796,7 @@ function increaseMultiplier(updateUI = true) {
             updateText()
             updateVisuals()
         }
-        document.getElementById("increaseMultiplierButton").innerHTML = "Increase money multiplier<br>x" + format(game.moneyMultiplier,2) + " >> x" + format(game.moneyMultiplier*1.15,2) + "<br>Costs $" + format(game.upgradeCosts[0])
+        document.getElementById("increaseMultiplierButton").innerHTML = "Increase money multiplier<br>x" + format(game.moneyMultiplier*game.weatherMoney,2) + " >> x" + format(game.moneyMultiplier*1.15*game.weatherMoney,2) + "<br>Costs $" + format(game.upgradeCosts[0])
     }
 }
 
@@ -1222,7 +1243,7 @@ function buyBoost(x) {
 }
 
 function updateRarityList() {
-    let moneyMult = game.moneyMultiplier * (game.boostTimes[0] ? 2 : 1)
+    let moneyMult = game.moneyMultiplier * (game.boostTimes[0] ? 2 : 1) * game.weatherMoney
     if (game.mechanicsUnlocked>=3) moneyMult *= 1.06**game.highestRarity
     if (game.tiers >= 1) {
         moneyMult *= (1.05 ** getSTUpAmt("MN-1"))
@@ -1467,6 +1488,8 @@ function canAffordTier() {
     if (game.tiers == 0 && game.orbsObtained[13] >= 50) {
         return true
     } else if (game.tiers == 1 && game.orbsObtained[20] >= 10) {
+        return true
+    } else if (game.tiers == 2 && game.orbsObtained[29] >= 5) {
         return true
     } else {
         return false
