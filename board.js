@@ -248,8 +248,8 @@ function checkCollisions() {
         } else if (game.tiers < 3) {
             slotMultiplier = 2;
         } else {
-            if (bodies[i].position.x <= 55 && bodies[i].position.y >= 450 && bodies[i].position.y <= 500) {slotMultiplier = 5;}
-            if (bodies[i].position.x >= 345 && bodies[i].position.y >= 450 && bodies[i].position.y <= 500) {slotMultiplier = 5;}
+            if (bodies[i].position.x <= 55 && bodies[i].position.y >= 450 && bodies[i].position.y <= 500) {slotMultiplier = 10;}
+            if (bodies[i].position.x >= 345 && bodies[i].position.y >= 450 && bodies[i].position.y <= 500) {slotMultiplier = 10;}
             else if (bodies[i].position.x < 66) {slotMultiplier = 2.25;}
             else if (bodies[i].position.x > 155 && bodies[i].position.x < 244) {slotMultiplier = 2;}
             else if (bodies[i].position.x > 333) {slotMultiplier = 2.25;}
