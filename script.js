@@ -505,16 +505,16 @@ function updateAllUpgradeText() {
             let projreb = Math.floor((Math.log(game.money / game.rebBaseCost) / Math.log(game.rebScaling)) + 1)
             let bulkreb = Math.max(projreb-game.rebirths, 1)
             let pricereb = game.rebScaling ** (game.rebirths + bulkreb - 1) * game.rebBaseCost
-            let costColor = game.money >= pricereb ? "#8f8" : "#f88"
+            let costColor = game.money >= pricereb ? "#8f8" : "#f00"
             document.getElementById('rebirthButton').innerHTML = "<b>Rebirth (BULK ON)</b><br><span style='color: " + costColor + "'>$" + format(game.money) + "/$" + format(pricereb) + "</span><br>Luck x" + format(2 ** game.rebirths) + " >> x" + format(2 ** (game.rebirths + bulkreb)) + "<br> +" + format(bulkreb) + " Rebirths on rebirth <br>" + "Next Rebirth costs $" + format(pricereb*game.rebScaling)
         } else {
             let cost = game.rebScaling ** game.rebirths * game.rebBaseCost
-            let costColor = game.money >= cost ? "#8f8" : "#f88"
+            let costColor = game.money >= cost ? "#8f8" : "#f00"
             document.getElementById('rebirthButton').innerHTML = "<b>Rebirth (BULK OFF)</b><br><span style='color: " + costColor + "'>$" + format(game.money) + "/$" + format(cost) + "</span><br>Luck x" + format(2 ** game.rebirths) + " >> x" + format(2 ** (game.rebirths + 1))
         }
     } else {
         let cost = game.rebScaling ** game.rebirths * game.rebBaseCost
-        let costColor = game.money >= cost ? "#8f8" : "#f88"
+        let costColor = game.money >= cost ? "#8f8" : "#f00"
         document.getElementById('rebirthButton').innerHTML = "<b>Rebirth</b><br><span style='color: " + costColor + "'>$" + format(game.money) + "/$" + format(cost) + "</span><br>Luck x" + format(2 ** game.rebirths) + " >> x" + format(2 ** (game.rebirths + 1))
     }
     if (game.tiers == 0) {
