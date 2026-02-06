@@ -395,6 +395,8 @@ function updateText() {
     } else {
         document.getElementById("weatherDTText").innerHTML = ""
     }
+    document.getElementById("spawner4").innerHTML = `Buy spawner 4<br>Costs $${format(1e9)}`
+    document.getElementById("spawner5").innerHTML = `Buy spawner 5<br>Costs $${format(1e13)}`
 }
 updateText()
 setInterval(updateText, 100);
