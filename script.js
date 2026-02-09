@@ -23,7 +23,7 @@ function hardReset() {
   
 function save() {
     game.lastSave = Date.now();
-    localStorage.setItem("BetaSROSave", JSON.stringify(game));
+    localStorage.setItem("rarityOrbsSXLSave", JSON.stringify(game));
 }
   
 function setAutoSave() {
@@ -33,7 +33,7 @@ function setAutoSave() {
   
 function load() {
         reset()
-        let loadgame = JSON.parse(localStorage.getItem("BetaSROSave"))
+        let loadgame = JSON.parse(localStorage.getItem("rarityOrbsSXLSave"))
         if (loadgame != null) {loadGame(loadgame)}
         buildBoard()
 }
