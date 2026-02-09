@@ -43,13 +43,30 @@ updateBoostButtons()
   
 function exportGame() {
     save()
-    navigator.clipboard.writeText(btoa(JSON.stringify(game))).then(function() {
-        alert("Copied to clipboard!")
-    }, function() {
-        alert("Error copying to clipboard, try again...")
-    });
+    const text = btoa(JSON.stringify(game))
+    const textarea = document.createElement("textarea")
+    textarea.value = text
+    document.body.appendChild(textarea)
+    textarea.select()
+    document.execCommand("copy")
+    document.body.removeChild(textarea)
+    alert("Copied to clipboard!")
 }
-  
+
+function exportToFile() {
+    save()
+    const text = btoa(JSON.stringify(game))
+    const blob = new Blob([text], { type: "text/plain" })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = "SRO_Save.txt"
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+}
+
 function importGame() {
     loadgame = JSON.parse(atob(prompt("Input your save here:")))
     if (loadgame && loadgame != null && loadgame != "") {
@@ -61,6 +78,33 @@ function importGame() {
     else {
         alert("Invalid input.")
     }
+}
+
+function importFromFile() {
+    document.getElementById("saveFileInput").click()
+}
+
+function handleFileImport(event) {
+    const file = event.target.files[0]
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = function(e) {
+        const text = e.target.result
+        try {
+            const loadgame = JSON.parse(atob(text))
+            if (loadgame && loadgame != null) {
+                reset()
+                loadGame(loadgame)
+                save()
+                location.reload()
+            } else {
+                alert("Invalid save file.")
+            }
+        } catch (err) {
+            alert("Error parsing save file.")
+        }
+    }
+    reader.readAsText(file)
 }
 
 function getBoostCost(id) {
@@ -138,6 +182,9 @@ function loadGame(loadgame) {
             game.upgradeCosts.push(1e34)
         }
     }
+    if (game.extUpgCosts.length == 2) {
+        game.extUpgCosts.push(10)
+    }
     
     if (game.mechanicsUnlocked == 0) {
         if (game.boostsUnlocked) game.mechanicsUnlocked = 1
@@ -153,11 +200,6 @@ function loadGame(loadgame) {
     }
     game.inSkillTree = false;
     document.getElementById("skillTree").style.display = "none";
-    
-    //Update upgrade text
-    recalcCurrentUpgrades()
-    updateAllUpgradeText()
-    updateVisuals()
 
     //Boosts
     if (game.boostTimes[0] == 0) {
@@ -208,7 +250,7 @@ function loadGame(loadgame) {
         game.boostData[4].increment = 75
     }
 
-    let add = Math.log(game.extUpgCosts[0] / 1e33)/Math.log(1e15) + Math.log(game.extUpgCosts[1] / 10000)/Math.log(5)
+    let add = Math.log(game.extUpgCosts[0] / 1e33)/Math.log(1e15) + Math.log(game.extUpgCosts[1] / 10000)/Math.log(5) + Math.log(game.extUpgCosts[2] / 10)/Math.log(5)
     game.maxTP = game.tiers + add
     game.currentTP = game.tiers + add - (game.spentTP || 0)
     if (game.tiers >= 1) {
@@ -216,11 +258,15 @@ function loadGame(loadgame) {
         game.currentTP++
     }
     
+    //Update upgrade text
+    recalcCurrentUpgrades()
+    updateAllUpgradeText()
+    updateVisuals()
+    
     //Rarity list
     game.raritiesDisplayed = 0
     updateRarityList()
     
-    // Set difficulty selector
     if (game.difficulty) {
         document.getElementById("difficultySelect").value = game.difficulty;
     } else {
@@ -540,6 +586,7 @@ function updateAllUpgradeText() {
     }
     document.getElementById('moneyTP').innerHTML = "Get 1 TP<br>Costs $" + format(game.extUpgCosts[0])
     document.getElementById('diamondTP').innerHTML = "Get 1 TP<br>Costs " + format(game.extUpgCosts[1]) + " Diamonds"
+    document.getElementById('weatherTP').innerHTML = "Get 1 TP<br>Costs " + format(game.extUpgCosts[2]) + " Weather rolled"
 }
 
 function updateVisuals() {
@@ -616,6 +663,13 @@ function updateVisuals() {
     } else {
         document.getElementById("moneyTP").style.backgroundImage = "linear-gradient(#fff, #bbb)";
         document.getElementById("moneyTP").style.border = "2px solid #888";
+    }
+    if (game.weatherRolled >= game.extUpgCosts[2]) {
+        document.getElementById("weatherTP").style.backgroundImage = "linear-gradient(#9e9, #7c7)";
+        document.getElementById("weatherTP").style.border = "2px solid #060";
+    } else {
+        document.getElementById("weatherTP").style.backgroundImage = "linear-gradient(#fff, #bbb)";
+        document.getElementById("weatherTP").style.border = "2px solid #888";
     }
     if (game.weatherRollCooldown > 0) {
         document.getElementById("rollWeather").style.backgroundImage = "linear-gradient(#888, #555)";
@@ -763,7 +817,7 @@ function updateVisuals() {
     } else {
         document.getElementById("xLuckBODiamondButton").style.display = "none"
     }
-    document.getElementById("timePlayed").innerHTML = `Your Time Played is ${formatTime(game.timePlayed)}<br> Your last Rebirth was ${formatTime(game.timeSpentinReb)} ago<br>You are in Tier ${game.tiers} for ${formatTime(game.timeSpentinTier)}<br>Your best Luck is x${format(game.bestLuck, 2)}<br>Total Orbs Spawned: ${format(game.ttlOrbSpawn)}`
+    document.getElementById("timePlayed").innerHTML = `Your Time Played is ${formatTime(game.timePlayed)}<br> Your last Rebirth was ${formatTime(game.timeSpentinReb)} ago<br>You are in Tier ${game.tiers} for ${formatTime(game.timeSpentinTier)}<br>Your best Luck is x${format(game.bestLuck, 2)}<br>Total Orbs Spawned: ${format(game.ttlOrbSpawn)}<br>Total Weather Rolled: ${format(game.weatherRolled)}`
     document.getElementById("notationButton").innerText = "Notation: " + game.numberFormat;
     document.getElementById("autoPotionContainer").style.display = (getSTUpAmt("BST-4") >= 1) ? "block" : "none";
     if (document.getElementById("autoPotion").checked) {
@@ -933,6 +987,7 @@ function rollWeather(){
         game.weatherpts -= Math.round(game.weatherUpCosts[0]);
         game.weatherUpCosts[0] += 0.2
         game.weatherRollCooldown = 5;
+        game.weatherRolled++;
         
         // Create Overlay and Animation
         let overlay = document.createElement("div");
@@ -1171,6 +1226,12 @@ function TPgain(idx) {
             game.currentTP += 1;
             game.maxTP += 1;
             game.extUpgCosts[1] *= 5;
+        }
+    } else if (idx == 2) {
+        if (game.weatherRolled >= game.extUpgCosts[2]) {
+            game.currentTP += 1;
+            game.maxTP += 1;
+            game.extUpgCosts[2] *= 5;
         }
     }
     updateText();
