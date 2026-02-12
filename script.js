@@ -566,11 +566,11 @@ function updateAllUpgradeText() {
         document.getElementById('rebirthButton').innerHTML = "<b>Rebirth</b><br><span style='color: " + costColor + "'>$" + format(game.money) + "/$" + format(cost) + "</span><br>Luck x" + format(2 ** game.rebirths) + " >> x" + format(2 ** (game.rebirths + 1))
     }
     if (game.tiers == 0) {
-        document.getElementById('tierButton').innerHTML = "<b>Tier Up</b><br>Cost: 50 Void Orbs"
+        document.getElementById('tierButton').innerHTML = "<b>Tier Up</b><br>Cost: 50 Void Orbs [ID 14]"
     } else if (game.tiers == 1) {
-        document.getElementById('tierButton').innerHTML = "<b>Tier Up</b><br>Cost: 10 Forsaken Orbs"
+        document.getElementById('tierButton').innerHTML = "<b>Tier Up</b><br>Cost: 10 Forsaken Orbs [ID 21]"
     } else if (game.tiers == 2) {
-        document.getElementById('tierButton').innerHTML = "<b>Tier Up</b><br>Cost: 5 Fusion Orbs"
+        document.getElementById('tierButton').innerHTML = "<b>Tier Up</b><br>Cost: 5 Fusion Orbs [ID 30]"
     } else {
         document.getElementById('tierButton').innerHTML = "<b>Tier Up</b><br>(Maxed Tier Unlocked)"
     }
@@ -1343,7 +1343,7 @@ function updateRarityList() {
             slots[i].style.display = "block";
         }
 
-        slotsText[i].innerHTML = rarityNames[i] + "<br><span style='font-size: 17.5px'>$" + format(rarityValues[i]*moneyMult) + " • 1 in " + formatOneIn + " • Obtained: "+ game.orbsObtained[i] + "</span>";
+        slotsText[i].innerHTML = rarityNames[i] + " | ID: " + (i+1) + "<br><span style='font-size: 17.5px'>$" + format(rarityValues[i]*moneyMult) + " • 1 in " + formatOneIn + " • Obtained: "+ game.orbsObtained[i] + "</span>";
     }
     while (game.raritiesDisplayed < game.highestRarity || game.raritiesDisplayed < 4) {
         //Create a div with the class 'raritySlot'
