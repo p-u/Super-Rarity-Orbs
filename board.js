@@ -90,13 +90,17 @@ function buildBoard() {
         borderL = Bodies.rectangle(44, 495, 40, 15, { isStatic: true, angle: 0 });
         borderR = Bodies.rectangle(356, 495, 40, 15, { isStatic: true, angle: 0 });
         // if: game.tiers == 3, y val > 350-500 AND (x val >= 345 OR x val <= 55): x5 Multiplier.
+        let n = 2
+        if (game.boostTimes[3] >= 15) {
+            n = 1
+        }
         pegs2 = Composites.stack(140, 465, 2, 1, 66, 100, (x, y) => Bodies.circle(x, y, 10.5, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
         pegs4 = Composites.stack(50, 585, 4, 2, 66, 100, (x, y) => Bodies.circle(x, y, 10.5, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
-        pegs5 = Composites.stack(15, 525, 5, 2, 66, 100, (x, y) => Bodies.circle(x, y, 10.5, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
+        pegs5 = Composites.stack(15, 525, 5, n, 66, 100, (x, y) => Bodies.circle(x, y, 10.5, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
         
-        boardElements.push(funnelL, funnelR, deflectorBall, borderL, borderR, pegs2, pegs3, pegs4, pegs5);
+        boardElements.push(funnelL, funnelR, deflectorBall, borderL, borderR, pegs2, pegs3, pegs5);
         if (game.boostTimes[3] < 15) {
-
+            boardElements.push(pegs4)
         }
         boardElements.push(innerL, innerR);
     }
