@@ -1425,6 +1425,7 @@ function unlockWeather() {
         game.mechanicsUnlocked = 5
         updateText()
         document.getElementById("unlockWeatherButton").style.display = "none";
+        document.getElementById("weather").style.display = "inline-block";
     }
 }
 
