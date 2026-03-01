@@ -89,7 +89,7 @@
             <button class="increaseSpawnerLuckButton" onclick="increaseSpawnerLuck(2)">Increase Spawner luck<br>x1.50 >>
                 x1.65<br>Costs $8,000</button>
         </div>
-        <button class="spawnerTabBuyButton" onclick="buySpawner2()">Buy spawner 2<br>Costs $1,000</button>
+        <button class="spawnerTabBuyButton" onclick="buySpawner(2)">Buy spawner 2<br>Costs $1,000</button>
         <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
         <div class="spawnerTab" style="display: none">
             <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -103,7 +103,7 @@
             <button class="increaseSpawnerLuckButton" onclick="increaseSpawnerLuck(3)">Increase Spawner luck<br>x2.50 >>
                 x2.75<br>Costs $75,000</button>
         </div>
-        <button class="spawnerTabBuyButton" onclick="buySpawner3()">Buy spawner 3<br>Costs $20,000</button>
+        <button class="spawnerTabBuyButton" onclick="buySpawner(3)">Buy spawner 3<br>Costs $20,000</button>
         <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
         <div class="spawnerTab" style="display: none">
             <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -117,7 +117,7 @@
             <button class="increaseSpawnerLuckButton" onclick="increaseSpawnerLuck(4)">Increase Spawner luck<br>x10 >>
                 x11<br>Costs $1B</button>
         </div>
-        <button class="spawnerTabBuyButton" id="spawner4" onclick="buySpawner4()">Buy spawner 4<br>Costs $1B</button>
+        <button class="spawnerTabBuyButton" id="spawner4" onclick="buySpawner(4)">Buy spawner 4<br>Costs $1B</button>
         <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
         <div class="spawnerTab" style="display: none">
             <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -131,7 +131,7 @@
             <button class="increaseSpawnerLuckButton" onclick="increaseSpawnerLuck(5)">Increase Spawner luck<br>x100 >>
                 x110<br>Costs $25T</button>
         </div>
-        <button class="spawnerTabBuyButton" id="spawner5" onclick="buySpawner5()">Buy spawner 5<br>Costs $10T</button>
+        <button class="spawnerTabBuyButton" id="spawner5" onclick="buySpawner(5)">Buy spawner 5<br>Costs $10T</button>
         <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
         <div class="spawnerTab" style="display: none">
             <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -151,10 +151,10 @@
                 <p style="font-size: 36px; margin: 0;">Spawner 7</p>
                 <button class="maxBuySpawnerButton" onclick="maxBuySpawner(7)" style="display: none">Max Buy</button>
             </div>
-            <p class="spawnerInterval" style="font-size: 16px">Spawn interval: 300.000s</p>
+            <p class="spawnerInterval" style="font-size: 16px">Spawn interval: 250.000s</p>
             <p class="spawnerLuck" style="font-size: 16px">Total Luck: x10,000.00</p>
-            <button class="decreaseIntervalButton" onclick="decreaseInterval(7)">Decrease interval<br>300.000s >>
-                285.000s<br>Costs $1Dc</button>
+            <button class="decreaseIntervalButton" onclick="decreaseInterval(7)">Decrease interval<br>250.000s >>
+                237.500s<br>Costs $1Dc</button>
             <button class="increaseSpawnerLuckButton" onclick="increaseSpawnerLuck(7)">Increase Spawner luck<br>x10000
                 >>
                 x11000<br>Costs $10Dc</button>
@@ -194,7 +194,7 @@
             src="img/rebirthIcon.png" style="vertical-align: middle">
         <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
         <p id="rebirthText" style="color: #dbf">You have rebirthed 0 times<br>Rebirth luck multiplier: x1</p>
-        <button id="rebirthButton" onclick="rebirth()"><b>Rebirth</b><br>Costs $5,000<br>Luck x1 >> x2</button>
+        <button id="rebirthButton" onclick="rebirth()"><b>Rebirth</b><br>Costs $4,000<br>Luck x1 >> x2</button>
         <p id="rebirthDesc" style="color: #dbf">Rebirthing will reset your money, upgrades and boost times! It will also
             reset 10% of your diamonds</p>
         <div id="bulkRebContainer">
@@ -233,28 +233,6 @@
             rolled!<br>Currently: 1 weather available to be rolled<br>Costs 1 WP</button>
         <button id="WPxMoney" onclick="WPxMoney()">Multiply Money! (Resets on tier)<br>x1.00 >> x1.10<br>Costs 3
             WP</button>
-    </div>
-    <div id="rarities">
-        <div id="raritiesHeader">
-            <p
-                style="margin: 0; text-align: center; line-height: 80px; color: #444; font-size: 48px; font-weight: bold">
-                Rarity list</p>
-        </div>
-        <div id="raritiesScrollable">
-            <div id="raritiesList" style="width: 100%; margin: 0"></div>
-            <div class="nextRarity">
-                <p class="nextRarityText">To be discovered...</p>
-            </div>
-            <div class="nextRarity">
-                <p class="nextRarityText">To be discovered...</p>
-            </div>
-            <div class="nextRarity">
-                <p class="nextRarityText">To be discovered...</p>
-            </div>
-        </div>
-        <div id="raritiesUnlockedContainer">
-            <p style="font-size: 22px" id="raritiesUnlocked">You unlocked 0 rarities</p>
-        </div>
     </div>
     <div id="tier">
         <p style="vertical-align: middle; font-size: 64px; color: #6b7c93; display: inline-block">Tier</p><img
@@ -325,6 +303,28 @@
             </div>
         </div>
     </div>
+    <div id="rarities">
+        <div id="raritiesHeader">
+            <p
+                style="margin: 0; text-align: center; line-height: 80px; color: #444; font-size: 48px; font-weight: bold">
+                Rarity list</p>
+        </div>
+        <div id="raritiesScrollable">
+            <div id="raritiesList" style="width: 100%; margin: 0"></div>
+            <div class="nextRarity">
+                <p class="nextRarityText">To be discovered...</p>
+            </div>
+            <div class="nextRarity">
+                <p class="nextRarityText">To be discovered...</p>
+            </div>
+            <div class="nextRarity">
+                <p class="nextRarityText">To be discovered...</p>
+            </div>
+        </div>
+        <div id="raritiesUnlockedContainer">
+            <p style="font-size: 18px" id="raritiesUnlocked">You unlocked 0 rarities</p>
+        </div>
+    </div>
     <div id="settings">
         <p style="font-size: 24px">Settings</p>
         <button onclick="exportGame()">Export (to clipboard)</button>
@@ -357,7 +357,11 @@
                 affects Diamond gain and Rebirth cost</p>
         </div>
     </div>
-    <p style="position: fixed; bottom: 0px; text-align: right; right: 0px; color: #bbb">Super Rarity Orbs v0.5a,
+    <div id="tutorialBox" class="tutorial hidden">
+        <div id="tutorialContent"></div>
+        <button id="tutorialNext">Next</button>
+    </div>
+    <p style="position: fixed; bottom: 0px; text-align: right; right: 0px; color: #bbb">Super Rarity Orbs v0.5b,
         an<br>extension of Demonin's Rarity Orbs<br>Made by randim82</p>
     <script src="matter.js"></script>
     <script src="init.js"></script>

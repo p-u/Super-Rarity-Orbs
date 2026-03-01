@@ -190,14 +190,14 @@ button {
 
 #raritiesHeader {
     width: 100%;
-    height: 80px;
+    height: 75px;
     background-image: linear-gradient(#eee, #bbb);
     border-bottom: 2px solid #666;
 }
 
 .raritySlot {
     width: 100%;
-    height: 100px;
+    height: 85px;
     margin: 0;
     border-bottom: 2px solid #666;
     position: relative;
@@ -205,16 +205,16 @@ button {
 
 .raritySlotImage {
     position: absolute;
-    top: 18px;
+    top: 10px;
     left: 15px;
     filter: drop-shadow(0 0 4px #000000);
     display: inline-block;
-    width: 64px;
+    width: 50px;
 }
 
 .raritySlotText {
     color: white;
-    font-size: 32px;
+    font-size: 28px;
     text-shadow: 0 0 4px black;
     float: right;
     text-align: right;
@@ -222,7 +222,7 @@ button {
 
 .nextRarity {
     width: 100%;
-    height: 100px;
+    height: 85px;
     margin: 0;
     border-bottom: 2px solid #666;
     position: relative;
@@ -251,7 +251,7 @@ button {
     display: none;
     margin-left: 8px;
     margin-bottom: 20px;
-    height: 800px;
+    height: 842px;
     width: 350px;
     overflow-y: auto;
     border: 2px solid #666;
@@ -496,4 +496,27 @@ button {
     margin-right: 4px;
     padding: 5px;
     font-family: "Atkinson Hyperlegible Next", sans-serif;
+}
+
+.tutorial {
+  position: fixed;
+  top: 20%;
+  width: 320px;
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  z-index: 1000;
+}
+
+.tutorial.left {
+  left: 5%;
+}
+
+.tutorial.right {
+  right: 5%;
+}
+
+.hidden {
+  display: none;
 }

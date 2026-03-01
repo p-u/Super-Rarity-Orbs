@@ -9,12 +9,14 @@ function reset() {
         raritiesDisplayed: 0,
         diamonds: 0,
         diamondChance: 0.01,
-        spawnIntervals: [1000, 2000, 4000, 10000, 60000, 120000, 300000],
+        spawnIntervals: [1000, 2000, 4000, 10000, 60000, 120000, 250000],
         baseLuck: 1,
         totalLuck: 1,
         bestLuck: 1,
-        rebBaseCost: 5000,
+        rebBaseCost: 4000,
         weatherpts: 0,
+        resetlog: {},
+        newraritylog: {},
         rebScaling: 3.5,
         spawnerLuck: [1, 1.5, 2.5, 10, 100, 1000, 10000],
         numberFormat: "standard",
@@ -27,6 +29,7 @@ function reset() {
         weatherMoney: 1,
         weatherUnlocked: 1,
         weatherRolled: 0,
+        tutorialStep: 0,
         PWU: 0,
         ttlOrbSpawn: 0,
         spawnersUnlocked: 1, 
@@ -74,7 +77,7 @@ function reset() {
                 upgrades: [
                     { id: "RL-1", name: "Keep Upgrades", desc: "Keep % of Upgrade Levels on Rebirth", levels: [25, 50, 70, 85], costs: [1, 1, 2, 2], req: null },
                     { id: "RL-2", name: "Faster Recovery", desc: "If your Current Luck is less than your Best Luck, increase Luck", levels: [1, 2, 3, 4, 6], costs: [1, 1, 1, 1, 3], req: null }, // levels multiply to the formula (log2(lg(Luck))*0.05)
-                    { id: "RL-3", name: "Rebirth Keeper", desc: "Keep % of Rebirths on Tier", levels: [20, 40, 60, 80], costs: [2, 2, 3, 5], req: null },
+                    { id: "RL-3", name: "Rebirth Keeper", desc: "Keep % of Rebirths on Tier", levels: [20, 40, 50, 60, 70, 75, 80], costs: [2, 3, 2, 3, 4, 3, 5], req: null },
                     { id: "RL-4", name: "Rebirth Booster", desc: "Allow you to keep your boost times on Rebirth", cost: 1, req: null }
                 ],
                 bought: [0,0,0,0], 
@@ -105,10 +108,10 @@ function reset() {
             spawner: {
                 name: "Spawner Upgrades",
                 upgrades: [
-                    { id: "SPW-1", name: "New Spawner", desc: "Unlock 1 new Spawner (max 2)", cost: 1, req: null, max: 2 },
-                    { id: "SPW-2", name: "Orb Capacity", desc: "+25 Orb Cap (Max 2 upgrades)", cost: 1, req: null, max: 2 },
-                    { id: "SPW-3", name: "Orb Variants", desc: "Unlock Orb Variants (money multiplier chance)", cost: 2, req: null },
-                    { id: "SPW-4", name: "Double Drop", desc: "+5% Chance to double-drop (Max 10 ups)", cost: 1, req: null, max: 10 }
+                    { id: "SPW-1", name: "New Spawner", desc: "Unlock 1 new Spawner", cost: 1, req: null, max: 2 },
+                    { id: "SPW-2", name: "Orb Capacity", desc: "+25 Orb Cap", levels: [25, 50, 75], costs: [1, 1, 2], req: null, max: 3 },
+                    { id: "SPW-3", name: "Orb Variants", desc: "Unlock Orb Variants (recommended to get)", cost: 2, req: null },
+                    { id: "SPW-4", name: "Double Drop", desc: "+5% Chance to double-drop", cost: 1, req: null, max: 10 }
                 ],
                 bought: [0,0,0,0], 
                 unlocked: [true,true,true,true], 

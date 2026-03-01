@@ -136,6 +136,7 @@ function createOrb(spawner) {
     let chosenRarity = getRarity(spawner);
     if (game.highestRarity < chosenRarity) {
         game.highestRarity = chosenRarity;
+        game.newraritylog[game.highestRarity] = formatTime(game.timePlayed);
         updateRarityList();
     }
     game.ttlOrbSpawn++;
