@@ -252,7 +252,7 @@ button {
     margin-left: 8px;
     margin-bottom: 20px;
     height: 842px;
-    width: 350px;
+    width: 450px;
     overflow-y: auto;
     border: 2px solid #666;
 }
@@ -499,24 +499,90 @@ button {
 }
 
 .tutorial {
-  position: fixed;
-  top: 20%;
-  width: 320px;
-  background: white;
-  padding: 15px;
-  border-radius: 12px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.3);
-  z-index: 1000;
+    position: fixed;
+    top: 20%;
+    width: 320px;
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
 }
 
 .tutorial.left {
-  left: 5%;
+    left: 5%;
 }
 
 .tutorial.right {
-  right: 5%;
+    right: 5%;
 }
 
 .hidden {
-  display: none;
+    display: none;
+}
+
+/* Tier Milestones */
+#tierMilestones {
+    margin: 0 8px 20px 8px;
+    border: 2px solid #666;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+#tierMilestones>p {
+    padding: 10px 12px 0 12px;
+    margin: 0;
+}
+
+.milestone-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 16px 12px;
+    background-image: linear-gradient(#ddd, #bbb);
+    border-top: 2px solid #999;
+    min-height: 80px;
+    text-align: center;
+    transition: background-image 0.3s;
+}
+
+.milestone-card.milestone-unlocked {
+    background-image: linear-gradient(#b2f0b2, #80d980);
+    border-top: 2px solid #4a4;
+}
+
+.milestone-tier-label {
+    font-size: 26px;
+    font-weight: bold;
+    color: #333;
+    font-family: 'Lexend Deca', sans-serif;
+    line-height: 1.2;
+}
+
+.milestone-feature-label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #444;
+    font-family: 'Lexend Deca', sans-serif;
+    margin-top: 4px;
+}
+
+.milestone-unlock-dot {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: #999;
+    border: 2px solid #777;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.milestone-card.milestone-unlocked .milestone-unlock-dot {
+    background-color: #2a2;
+    border-color: #060;
+    box-shadow: 0 0 6px #0f0;
 }

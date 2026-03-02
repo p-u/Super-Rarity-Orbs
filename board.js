@@ -146,9 +146,9 @@ function createOrb(spawner) {
         let mn4Level = getSTUpAmt("MN-4");
         let rand = Math.random();
         
-        if (mn4Level >= 3 && rand < 0.001) {
+        if (mn4Level >= 4 && rand < 0.0014) {
             variant = "rainbow";
-        } else if (rand < 0.01) {
+        } else if (rand < ((mn4Level*0.005)+0.01)) {
             variant = "glowing";
         } else if (rand < ((0.01 * mn4Level) + 0.1)) {
             variant = "shiny";
@@ -192,9 +192,9 @@ function createDiamond() {
         let mn4Level = getSTUpAmt("MN-4");
         let rand = Math.random();
         
-        if (mn4Level >= 3 && rand < 0.001) {
+        if (mn4Level >= 4 && rand < 0.0014) {
             variant = "rainbow";
-        } else if (rand < 0.01) {
+        } else if (rand < ((mn4Level*0.005)+0.01)) {
             variant = "glowing";
         } else if (rand < ((0.01 * mn4Level) + 0.1)) {
             variant = "shiny";
@@ -216,9 +216,9 @@ function createWeather() {
         let mn4Level = getSTUpAmt("MN-4");
         let rand = Math.random();
         
-        if (mn4Level >= 3 && rand < 0.001) {
+        if (mn4Level >= 4 && rand < 0.001) {
             variant = "rainbow";
-        } else if (rand < 0.01) {
+        } else if (rand < ((mn4Level*0.005)+0.01)) {
             variant = "glowing";
         } else if (rand < ((0.01 * mn4Level) + 0.1)) {
             variant = "shiny";
@@ -263,7 +263,7 @@ function checkCollisions() {
         let variantMult = 1;
         if (bodies[i].variant === "shiny") variantMult = 2;
         else if (bodies[i].variant === "glowing") variantMult = 5;
-        else if (bodies[i].variant === "rainbow") variantMult = 10;
+        else if (bodies[i].variant === "rainbow") variantMult = 50;
         if (bodies[i].category === 'ball' && disappear) {
             let moneyGain = rarityValues[bodies[i].rarity - 1] * game.moneyMultiplier * game.weatherMoney * slotMultiplier * variantMult * (game.boostTimes[0] ? 2 : 1);
             if (game.mechanicsUnlocked >= 3) {
@@ -290,7 +290,11 @@ function checkCollisions() {
             if (game.rebirths >= 50) {
                 mult *= (0.025 * game.rebirths) - 0.15
             }
-            game.diamonds += 10 * game.diamondMult * variantMult;
+            if (game.tiers >= 2) {
+                game.diamonds += 7 * game.diamondMult * variantMult * slotMultiplier
+            } else {
+                game.diamonds += 10 * game.diamondMult * variantMult
+            };
             updateText()
             updateVisuals()
             Composite.remove(engine.world, bodies[i]);

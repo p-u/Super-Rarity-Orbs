@@ -303,6 +303,14 @@ function loadGame(loadgame) {
     }
     updateWeatherChance()
     game.ttlOrbSpawn = game.orbsObtained.reduce((acc, currentValue) => acc + currentValue, 0);
+
+    if (game.maxTP < 8) {
+        document.querySelector("#unlockWeatherTP").classList.remove('hidden');
+        document.querySelector("#weatherTP").classList.add('hidden');
+    } else {
+        document.querySelector("#unlockWeatherTP").classList.add('hidden');
+        document.querySelector("#weatherTP").classList.remove('hidden');
+    }
 }
 
 function spawn(id) {
@@ -867,9 +875,46 @@ function updateVisuals() {
         let costColor = game.money >= cost ? "#2e6f40" : "#950606"
         document.getElementById('rebirthButton').innerHTML = "<b>Rebirth</b><br><span style='color: " + costColor + "'>$" + format(game.money) + "/$" + format(cost) + "</span><br>Luck x" + format(2 ** game.rebirths) + " >> x" + format(2 ** (game.rebirths + 1))
     }
+    updateTierMilestones();
 }
 updateVisuals()
 setInterval(updateVisuals, 100);
+
+// Updates the Tier Milestones panel based on current tier
+function updateTierMilestones() {
+    const milestones = [
+        {
+            id: 1,
+            lockedText: "Unlock the Skill Tree",
+            unlockedText: "Unlock the Skill Tree"
+        },
+        {
+            id: 2,
+            lockedText: "Get Tier 2 to reveal the feature!",
+            unlockedText: "Diamonds are affected by slot multipliers"
+        },
+        {
+            id: 3,
+            lockedText: "Get Tier 3 to reveal the feature!",
+            unlockedText: "Automation (TBA)"
+        }
+    ];
+
+    for (const m of milestones) {
+        const card = document.getElementById(`milestone-tier${m.id}`);
+        const textEl = document.getElementById(`milestone-tier${m.id}-text`);
+        if (!card || !textEl) continue;
+
+        const unlocked = game.tiers >= m.id;
+        if (unlocked) {
+            card.classList.add("milestone-unlocked");
+            textEl.textContent = m.unlockedText;
+        } else {
+            card.classList.remove("milestone-unlocked");
+            textEl.textContent = m.lockedText;
+        }
+    }
+}
 
 function checkTutorial() {
     if (game.tutorialStep == 2 && game.upgradeCosts[0] != 50) {
@@ -1441,8 +1486,8 @@ function unlockRebirth() {
 }
 
 function unlockRBM() {
-    if (game.diamonds >= 1000 && game.mechanicsUnlocked==2) {
-        game.diamonds -= 1000
+    if (game.diamonds >= 800 && game.mechanicsUnlocked==2) {
+        game.diamonds -= 800
         game.mechanicsUnlocked = 3
         updateText()
         document.getElementById("unlockRBM").style.display = "none";
@@ -1451,8 +1496,8 @@ function unlockRBM() {
 }
 
 function unlockTier() {
-    if (game.diamonds >= 2500 && game.mechanicsUnlocked==3 && game.rebirths >= 15) {
-        game.diamonds -= 2500
+    if (game.diamonds >= 2000 && game.mechanicsUnlocked==3 && game.rebirths >= 15) {
+        game.diamonds -= 2000
         game.mechanicsUnlocked = 4
         updateText()
         document.getElementById("tier").style.display = "inline-block";
@@ -1821,10 +1866,11 @@ function updateVariantIndex() {
         variantList.innerHTML = "";
 
         let shinyProb = (0.1 + mn4 * 0.01) * 100;
+        let glowingProb = (0.01 + mn4*0.005)*100;
         addVariantItem("Shiny", "x2 Money", shinyProb.toFixed(2) + "%", "shiny");
-        addVariantItem("Glowing", "x5 Money", "1.00%", "glowing");
-        if (mn4 >= 3) {
-            addVariantItem("Rainbow", "x10 Money", "0.10%", "rainbow");
+        addVariantItem("Glowing", "x5 Money", glowingProb.toFixed(2) + "%", "glowing");
+        if (mn4 >= 4) {
+            addVariantItem("Rainbow", "x50 Money", "0.14%", "rainbow");
         }
     } else {
         variantIndex.style.display = "none";

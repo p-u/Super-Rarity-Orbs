@@ -57,9 +57,9 @@
         </div>
         <button id="unlockRebirthButton" onclick="unlockRebirth()">Unlock rebirth<br>Costs 50 diamonds</button>
         <button id="unlockBoostsButton" onclick="unlockBoosts()">Unlock boosts<br>Costs 250 diamonds</button>
-        <button id="unlockRBM" onclick="unlockRBM()">Total rarities unlocked boost Money<br>Costs 1,000
+        <button id="unlockRBM" onclick="unlockRBM()">Total rarities unlocked boost Money<br>Costs 800
             diamonds</button>
-        <button id="unlockTierButton" onclick="unlockTier()">Unlock Tiers<br>Costs 2,500 diamonds and Rebirth
+        <button id="unlockTierButton" onclick="unlockTier()">Unlock Tiers<br>Costs 2,000 diamonds and Rebirth
             15</button>
         <button id="unlockWeatherButton" onclick="unlockWeather()">Unlock Weather (v0.5) and other ways to gain
             TP<br>Costs 20,000 Diamonds and Tier 2</button>
@@ -249,6 +249,26 @@
             rarities. Additionally, it gives a Money and Luck Multiplier. Each Tier gives a Tier Point (TP), with the
             first Tier giving 2 TP. These TP can be spent on the Skill Tree to buy upgrades like Max buy, unlocking new
             spawners etc.<br><br> At Tier 1, unlock Rebirth Milestones.</p>
+
+        <!-- Tier Milestones Panel -->
+        <div id="tierMilestones">
+            <p style="font-size: 28px; margin: 0 0 10px 0; color: #c9c9c9;">Tier Milestones</p>
+            <div class="milestone-card" id="milestone-tier1">
+                <div class="milestone-tier-label">Tier 1</div>
+                <div class="milestone-feature-label" id="milestone-tier1-text">Unlock the Skill Tree</div>
+                <div class="milestone-unlock-dot" id="milestone-tier1-dot"></div>
+            </div>
+            <div class="milestone-card" id="milestone-tier2">
+                <div class="milestone-tier-label">Tier 2</div>
+                <div class="milestone-feature-label" id="milestone-tier2-text">Get Tier 2 to reveal the feature!</div>
+                <div class="milestone-unlock-dot" id="milestone-tier2-dot"></div>
+            </div>
+            <div class="milestone-card" id="milestone-tier3">
+                <div class="milestone-tier-label">Tier 3</div>
+                <div class="milestone-feature-label" id="milestone-tier3-text">Get Tier 3 to reveal the feature!</div>
+                <div class="milestone-unlock-dot" id="milestone-tier3-dot"></div>
+            </div>
+        </div>
         <button id="skillTreeToggle" style="font-size: 22.5px; margin-bottom: 20px" onclick="skillTreeToggle()">Go
             to
             the Skill Tree (can buy QOL Upgrades)</button>
@@ -257,6 +277,7 @@
             <p id="TPdisplay" style="font-size: 16px">Current TP: 0/0</p>
             <button id="moneyTP" onclick="TPgain(0)">Get 1 TP<br>Costs $1 Dc</button>
             <button id="diamondTP" onclick="TPgain(1)">Get 1 TP<br>Costs 10,000 Diamonds</button>
+            <p id="unlockWeatherTP">Get 8 Max TP to unlock another way to gain TP!</p>
             <button id="weatherTP" onclick="TPgain(2)">Get 1 TP<br>Requires 10 Weather rolled</button>
         </div>
         <div id="variantIndex"
@@ -361,7 +382,7 @@
         <div id="tutorialContent"></div>
         <button id="tutorialNext">Next</button>
     </div>
-    <p style="position: fixed; bottom: 0px; text-align: right; right: 0px; color: #bbb">Super Rarity Orbs v0.5b,
+    <p style="position: fixed; bottom: 0px; text-align: right; right: 0px; color: #bbb">Super Rarity Orbs v0.5c,
         an<br>extension of Demonin's Rarity Orbs<br>Made by randim82</p>
     <script src="matter.js"></script>
     <script src="init.js"></script>

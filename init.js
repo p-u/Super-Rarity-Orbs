@@ -100,7 +100,7 @@ function reset() {
                     { id: "MN-1", name: "Cash Flow", desc: "x1.05 Money", cost: 1, req: null, infinite: true },
                     { id: "MN-2", name: "Lucky Power", desc: "x1.1 Luck", cost: 1, req: null, infinite: true },
                     { id: "MN-3", name: "Gem Finder", desc: "x1.05 Diamonds", cost: 1, req: null, infinite: true },
-                    { id: "MN-4", name: "Glimmering", desc: "+1% Shiny chance, unlock a new variant on 3rd buy", cost: 1, req: ["SPW-3"], infinite: true }
+                    { id: "MN-4", name: "Glimmering", desc: "+1% Shiny chance and +0.5% Glowing chance, unlock a new variant on 4th buy", cost: 1, req: ["SPW-3"], infinite: true }
                 ],
                 bought: [0,0,0,0], 
                 unlocked: [true, true, true, true], 
