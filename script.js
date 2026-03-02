@@ -278,6 +278,19 @@ function loadGame(loadgame) {
         game.boostData[4].increment = 75
     }
 
+    game.boostData[1].increment = 15
+    game.boostData[3].increment = 15
+    game.boostData[2].increment = 100
+    game.boostData[4].increment = 100
+    if (game.boostData[1].baseCost > 50) {
+        game.boostData[1].baseCost -= 50
+        game.boostData[3].baseCost -= 50
+    }
+    if (game.boostData[2].baseCost > 250) {
+        game.boostData[2].baseCost -= 150
+        game.boostData[4].baseCost -= 150
+    }
+
     let add = Math.log(game.extUpgCosts[0] / 1e33)/Math.log(1e15) + Math.log(game.extUpgCosts[1] / 10000)/Math.log(5) + Math.log(game.extUpgCosts[2] / 10)/Math.log(5)
     game.maxTP = game.tiers + add
     game.currentTP = game.tiers + add - (game.spentTP || 0)
@@ -452,8 +465,8 @@ function updateText() {
     document.getElementById('WBoost').innerHTML = `Weather boost: x${format(game.weatherMult[0],2)} Luck, x${format(game.weatherMult[1],2)} Money, x${format(game.weatherMult[2],2)} Diamonds`
 
     if (getSTUpAmt("BST-1")) {
-        game.boostData[1].baseCost = 60, game.boostData[3].baseCost = 60
-        game.boostData[2].baseCost = 400, game.boostData[4].baseCost = 400, game.boostData[5].baseCost = 400
+        game.boostData[1].baseCost = 10, game.boostData[3].baseCost = 10
+        game.boostData[2].baseCost = 150, game.boostData[4].baseCost = 150, game.boostData[5].baseCost = 400
     }
     if (document.getElementById("SWChance").checked) {
         ttT = ""
