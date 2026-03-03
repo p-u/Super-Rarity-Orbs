@@ -1613,6 +1613,7 @@ function rebirth() {
         } else {
             game.rebirths++
         }
+        gtag('event', 'rebirth');
         game.resetlog[`t${game.tiers}r${game.rebirths}`] = formatTime(game.timePlayed);
         game.diamonds = Math.floor(game.diamonds / 10 * 9)
         keepUpLevels()
@@ -1676,6 +1677,7 @@ function tier() {
     if (canAffordTier()) {
         game.resetlog[`t${game.tiers}r${game.rebirths}`] = formatTime(game.timePlayed);
         game.tiers++
+        gtag('event', 'tier_up');
         if (getSTUpAmt("RL-3") >= 1) {
             game.rebirths = Math.floor(game.rebirths * game.skillTreeUpgs['rless']['upgrades'][2]['levels'][getSTUpAmt("RL-3")-1]/100)
         } else {
