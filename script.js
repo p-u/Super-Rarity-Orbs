@@ -1622,12 +1622,13 @@ function rebirth() {
         gtag('event', 'rebirth');
         game.resetlog[`t${game.tiers}r${game.rebirths}`] = formatTime(game.timePlayed);
         game.diamonds = Math.floor(game.diamonds / 10 * 9)
-        keepUpLevels()
+        // CurrencyReset must come BEFORE keepUpLevels so that the base values (moneyMultiplier, baseLuck, spawnIntervals, spawnerLuck, etc.) are established first, and keepUpLevels() can then multiply on top of them.
         if (getSTUpAmt("RL-4") < 1) {
             CurrencyReset(boost=true)
         } else {
             CurrencyReset(boost=false)
         }
+        keepUpLevels()
     }
 }
 
