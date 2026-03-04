@@ -324,6 +324,12 @@ function loadGame(loadgame) {
         document.querySelector("#unlockWeatherTP").classList.add('hidden');
         document.querySelector("#weatherTP").classList.remove('hidden');
     }
+    if (game.rebBaseCost == 2500) {
+        game.rebBaseCost = 2000
+    }
+    if (game.rebBaseCost == 5000) {
+        game.rebBaseCost = 4000
+    }
 }
 
 function spawn(id) {
