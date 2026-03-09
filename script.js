@@ -1842,7 +1842,7 @@ function buySkillTreeUpg(cat, index) {
 }
 
 function respecSkillTree() {
-    if (confirm("Are you sure? This will reduce your Rebirths by 5, and perform a Rebirth reset but diamonds are reset!")) {
+    if (confirm("Are you sure? This will reduce your Rebirths by 2, and perform a Rebirth reset but diamonds are reset!")) {
         // Refund TP
         for (const cat in game.skillTreeUpgs) {
             if (game.skillTreeUpgs[cat].bought) {
