@@ -1583,10 +1583,12 @@ function keepUpLevels() {
                        
                        if (sId > 0) {
                            if (isInt) {
+                               game.spawnIntervals[sId-1] = game.spawnIntervals[sId-1] || (sId===1?1000:(sId===2?2000:(sId===3?4000:(sId===4?10000:(sId===5?60000:(sId===6?120000:250000))))));
                                game.spawnIntervals[sId-1] *= (0.95 ** kept); 
                                if (game.spawnIntervals[sId-1] < 100) game.spawnIntervals[sId-1] = 100;
                            } else {
-                               game.spawnerLuck[sId-1] *= (1.1 ** kept);
+                               let baseSpawnerLuck = [1, 1.5, 2.5, 10, 100, 1000, 10000];
+                               game.spawnerLuck[sId-1] = baseSpawnerLuck[sId-1] * (1.1 ** kept);
                            }
                        }
                   }
@@ -1629,6 +1631,9 @@ function rebirth() {
             CurrencyReset(boost=false)
         }
         keepUpLevels()
+        updateAllUpgradeText()
+        updateVisuals()
+        save()
     }
 }
 
@@ -1697,6 +1702,8 @@ function tier() {
             game.boostData[i]['uses'] = 0
         }
         game.upgradeCosts = [50, 100, 500, 250, 1500, 25000, 2000, 8000, 75000, 1e10, 1e9, 5e13, 2.5e13, 1e20, 1e22, 1e33, 1e34];
+        if (!game.currentUpgrades) game.currentUpgrades = new Array(17).fill(0);
+        else game.currentUpgrades.fill(0);
         game.maxTP++;
         if (game.tiers == 1) {
             game.maxTP++;
