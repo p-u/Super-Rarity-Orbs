@@ -452,7 +452,7 @@ function updateText() {
     let norming = "You have rebirthed " + format(game.rebirths) + " times\nRebirth luck multiplier: x" + format(2 ** game.rebirths)
     if (game.tiers >= 1) {
         if (game.rebirths >= 50) {
-            document.getElementById('rebirthDesc').innerHTML = norm + "<br>After 100 Rebirths, Rebirths ?????."
+            document.getElementById('rebirthDesc').innerHTML = norm + "<br>After "+Math.max(100, game.rebirths+1)+" Rebirths, unlock a new feature (v0.6) ?????."
         } else if (game.rebirths >= 25) {
             document.getElementById('rebirthDesc').innerHTML = norm + "<br>After 50 Rebirths, Rebirths give a small boost to Diamonds."
         } else {

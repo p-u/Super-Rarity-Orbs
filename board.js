@@ -26,6 +26,42 @@ var render = Render.create({
 var ground, ceiling, wall1, wall2;
 var pegs, pegs2, pegs3, pegs4, pegs5, funnelL, funnelR, funnel2L, funnel2R, funnel3L, funnel3R, funnel4L, funnel4R, funnel5L, funnel5R, funnel6L, funnel6R, upgradedPegs;
 
+var orbImageWidths = {};
+
+function getOrbScale(radius, texture, category) {
+    const defaultWidth = 512;
+    const width = orbImageWidths[texture] || defaultWidth;
+    
+    // Target ratios relative to radius:
+    // ball: scale 0.025 * radius * 64 = 1.6 * radius
+    // diamond: scale 0.052 * 506 (current width) = 26.312. (15 radius -> 1.754 * radius)
+    // weather: scale 0.425 * 64 (current width) = 27.2. (15 radius -> 1.812 * radius)
+    let targetRatio = 1.6;
+    if (category === 'diamond') targetRatio = 1.754;
+    else if (category === 'weather' || category === 'energy') targetRatio = 1.812;
+    
+    const targetWidthOnScreen = targetRatio * radius;
+
+    if (!orbImageWidths[texture]) {
+        const img = new Image();
+        img.src = texture;
+        img.onload = () => {
+            orbImageWidths[texture] = img.width;
+            // Retroactively update existing orbs in the world
+            const bodies = Composite.allBodies(engine.world);
+            for (const body of bodies) {
+                if (body.render && body.render.sprite && body.render.sprite.texture === texture) {
+                    const newScale = targetWidthOnScreen / img.width;
+                    body.render.sprite.xScale = newScale;
+                    body.render.sprite.yScale = newScale;
+                }
+            }
+        };
+    }
+    
+    return targetWidthOnScreen / width;
+}
+
 function buildBoard() {
     // Save current orbs
     let currentBodies = Composite.allBodies(engine.world);
@@ -165,8 +201,8 @@ function createOrb(spawner) {
         render: {
             sprite: {
                 texture: "img/ball" + chosenRarity + ".png",
-                xScale: 0.025 * raritySizes[chosenRarity - 1],
-                yScale: 0.025 * raritySizes[chosenRarity - 1],
+                xScale: getOrbScale(raritySizes[chosenRarity - 1], "img/ball" + chosenRarity + ".png", 'ball'),
+                yScale: getOrbScale(raritySizes[chosenRarity - 1], "img/ball" + chosenRarity + ".png", 'ball'),
             }
         }
     });
@@ -203,8 +239,8 @@ function createDiamond() {
     var circle = Bodies.circle(Math.random() * 300 + 50, 30, 15, { category: 'diamond', restitution: 0.6, variant: variant, render: {
         sprite: {
             texture: "img/diamond.png",
-            xScale: 0.052,
-            yScale: 0.052,
+            xScale: getOrbScale(15, "img/diamond.png", 'diamond'),
+            yScale: getOrbScale(15, "img/diamond.png", 'diamond'),
         }
     }});
     Composite.add(engine.world, [circle]);
@@ -227,8 +263,8 @@ function createWeather() {
     var circle = Bodies.circle(Math.random() * 300 + 50, 30, 15, { category: 'weather', restitution: 0.7, variant: variant, render: {
         sprite: {
             texture: "img/weather.png",
-            xScale: 0.425,
-            yScale: 0.425,
+            xScale: getOrbScale(15, "img/weather.png", 'weather'),
+            yScale: getOrbScale(15, "img/weather.png", 'weather'),
         }
     }});
     Composite.add(engine.world, [circle]);
@@ -326,8 +362,8 @@ function duplicateOrbs() {
                 render: {
                     sprite: {
                         texture: "img/ball" + chosenRarity + ".png",
-                        xScale: 0.025 * raritySizes[chosenRarity - 1],
-                        yScale: 0.025 * raritySizes[chosenRarity - 1],
+                        xScale: getOrbScale(raritySizes[chosenRarity - 1], "img/ball" + chosenRarity + ".png", 'ball'),
+                        yScale: getOrbScale(raritySizes[chosenRarity - 1], "img/ball" + chosenRarity + ".png", 'ball'),
                     }
                 }
             });
@@ -342,8 +378,8 @@ function duplicateOrbs() {
                 render: {
                 sprite: {
                     texture: "img/diamond.png",
-                    xScale: 0.052,
-                    yScale: 0.052,
+                    xScale: getOrbScale(15, "img/diamond.png", 'diamond'),
+                    yScale: getOrbScale(15, "img/diamond.png", 'diamond'),
                 }
             }});
             Composite.add(engine.world, [circle]);
@@ -357,8 +393,8 @@ function duplicateOrbs() {
                 render: {
                 sprite: {
                     texture: "img/weather.png",
-                    xScale: 0.052,
-                    yScale: 0.052,
+                    xScale: getOrbScale(15, "img/weather.png", 'weather'),
+                    yScale: getOrbScale(15, "img/weather.png", 'weather'),
                 }
             }});
             Composite.add(engine.world, [circle]);
