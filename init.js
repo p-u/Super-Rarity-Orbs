@@ -22,7 +22,7 @@ function reset() {
         numberFormat: "standard",
         upgradeCosts: [50, 100, 500, 250, 1500, 25000, 2000, 8000, 75000, 1e10, 1e9, 5e13, 2.5e13, 1e20, 1e22, 1e33, 1e34], // for spawners and first few ups
         newUpgCosts: [200], // for diamonds
-        extUpgCosts: [1e33, 10000, 10, 5000], // for TPgain ups
+        extUpgCosts: [1e33, 10000, 10, 500000], // for TPgain ups
         weatherUpCosts: [0.8,1,3], // ID 0: Roll for Weather (Round([X+2]/3)), ID 1: Unlock new weather (Base 1, X*2 for each, only 1 weather unlocked at base), ID 2: Money Boost (Base 3, round(X*1.5) for each)
         diamondLuck: 1,
         diamondMult: 1,

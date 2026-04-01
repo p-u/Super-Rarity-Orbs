@@ -227,6 +227,9 @@ function loadGame(loadgame) {
     if (game.extUpgCosts.length == 3) {
         game.extUpgCosts.push(500000)
     }
+    if (game.extUpgCosts[3] == 5000) {
+        game.extUpgCosts[3] = 500000
+    }
     
     if (game.mechanicsUnlocked == 0) {
         if (game.boostsUnlocked) game.mechanicsUnlocked = 1
