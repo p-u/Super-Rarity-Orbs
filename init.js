@@ -22,7 +22,7 @@ function reset() {
         numberFormat: "standard",
         upgradeCosts: [50, 100, 500, 250, 1500, 25000, 2000, 8000, 75000, 1e10, 1e9, 5e13, 2.5e13, 1e20, 1e22, 1e33, 1e34], // for spawners and first few ups
         newUpgCosts: [200], // for diamonds
-        extUpgCosts: [1e33, 10000, 10], // for TPgain ups
+        extUpgCosts: [1e33, 10000, 10, 5000], // for TPgain ups
         weatherUpCosts: [0.8,1,3], // ID 0: Roll for Weather (Round([X+2]/3)), ID 1: Unlock new weather (Base 1, X*2 for each, only 1 weather unlocked at base), ID 2: Money Boost (Base 3, round(X*1.5) for each)
         diamondLuck: 1,
         diamondMult: 1,
@@ -36,6 +36,7 @@ function reset() {
         boostTimes: [0,0,0,0],
         weatherMult: [1,1,1],
         hideInfinity: false,
+        showBaseRarity: false,
         boostsUnlocked: false,
         ORActive: false,
         rebirthUnlocked: false,
@@ -121,6 +122,19 @@ function reset() {
         maxTP: 0,
         spentTP: 0,
         currentTP: 0,
+        maxQP: 0,
+        currentQP: 0,
+        qpRefunded: false,
+        weatherPower: 0,
+        weatherChance: 0,
+        spawnCap: 100,
+        automationpts: 0,
+        automation: {
+            levels: [0, 0, 0, 0], // AUTO 1-4
+            timers: [0, 0], // AUTO 1-2 current time
+            scales: [1.8 + Math.random() * 0.1, 1.8 + Math.random() * 0.1], // random scaling factor for AUTO 1-2
+            enabled: [true, true], // AUTO 1-2
+        }
     };
     document.getElementById("boosts").style.display = "none"
     document.getElementById("rebirth").style.display = "none"

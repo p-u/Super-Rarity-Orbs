@@ -59,10 +59,10 @@
         <button id="unlockBoostsButton" onclick="unlockBoosts()">Unlock boosts<br>Costs 250 diamonds</button>
         <button id="unlockRBM" onclick="unlockRBM()">Total rarities unlocked boost Money<br>Costs 800
             diamonds</button>
-        <button id="unlockTierButton" onclick="unlockTier()">Unlock Tiers<br>Costs 2,000 diamonds and Rebirth
+        <button id="unlockTierButton" onclick="unlockTier()">Unlock Tiers<br>Costs 1,600 diamonds and Rebirth
             15</button>
         <button id="unlockWeatherButton" onclick="unlockWeather()">Unlock Weather (v0.5) and other ways to gain
-            TP<br>Costs 20,000 Diamonds and Tier 2</button>
+            TP<br>Costs 8,000 Diamonds and Tier 2</button>
         <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
         <div class="spawnerTab">
             <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -203,6 +203,48 @@
                 Bulk Rebirths
             </label>
         </div>
+        <div id="automation">
+            <hr style="background-color: #666; margin-left: 8px; margin-right: 8px; margin-top: 40px">
+            <p style="vertical-align: middle; font-size: 48px; color: rgb(186, 186, 186); display: inline-block">Automation</p><img
+                src="img/gear.png" style="vertical-align: middle">
+            <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
+            <p id="automationptsText" style="color: rgb(240, 224, 255); font-size: 24px">You have 0 Automation Points (AP)</p>
+
+            <p style="color: rgb(154, 154, 154); font-size: 17.5px; margin-bottom: 20px; margin-top: 20px;">Automation Points is unlocked as a feature in
+                Tier 2, and well, as the name suggests, automates upgrades! Spend Automation Points on 4 Upgrades: AUTO-1, AUTO-2, which
+                buys one Main and Spawner Upgrade respectively, as well as AUTO-3 and AUTO-4, which unlocks max buy 
+                for AUTO-1 and AUTO-2 respectively (REQUIRES MAX BUY IN Skill Tree [MAX-1 and MAX-2] to max)<br>
+                Upgrades to AUTO-1 and 2 decreases the cooldown of the automation, base 60s.<br>
+                Automation Points is gained at a fixed 10% chance to gain [RarityID] AP on collect, not affected by slot or variant mults
+            </p>
+
+            <div id="automationContainer" style="display: flex; flex-wrap: wrap; gap: 15px; margin-top: 20px;">
+                <div class="automationUpgrade" style="width: 280px; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; border: 1px solid #444;">
+                    <button id="autoUpg1" class="autoButton" onclick="buyAutomation(0)" style="width: 100%; height: 85px; margin-bottom: 10px;">Automate MAIN (Increase Money Mult, Base Luck, Diamond Chance Upgrades)<br>Cost: 1,000 AP</button>
+                    <div style="display: flex; align-items: center; margin-bottom: 10px; justify-content: center;">
+                        <input type="checkbox" id="autoToggle1" onchange="toggleAutomation(0)">
+                        <label for="autoToggle1" style="font-family: 'Lexend Deca', sans-serif; color: white; margin-left: 5px;">Enable Automation</label>
+                    </div>
+                    <div class="progressBarContainer" style="width: 100%; height: 20px; background: #333; border-radius: 10px; overflow: hidden; position: relative;">
+                        <div id="autoBar1" class="progressBar" style="width: 0%; height: 100%; background: #a0f;"></div>
+                        <span id="autoTimerText1" class="progressText" style="position: absolute; width: 100%; text-align: center; top: 0; left: 0; font-size: 12px; line-height: 20px; color: white;">60.0s</span>
+                    </div>
+                </div>
+                <div class="automationUpgrade" style="width: 280px; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; border: 1px solid #444;">
+                    <button id="autoUpg2" class="autoButton" onclick="buyAutomation(1)" style="width: 100%; height: 85px; margin-bottom: 10px;">Automate ALL Spawner Upgrades<br>Cost: 2,500 AP</button>
+                    <div style="display: flex; align-items: center; margin-bottom: 10px; justify-content: center;">
+                        <input type="checkbox" id="autoToggle2" onchange="toggleAutomation(1)">
+                        <label for="autoToggle2" style="font-family: 'Lexend Deca', sans-serif; color: white; margin-left: 5px;">Enable Automation</label>
+                    </div>
+                    <div class="progressBarContainer" style="width: 100%; height: 20px; background: #333; border-radius: 10px; overflow: hidden; position: relative;">
+                        <div id="autoBar2" class="progressBar" style="width: 0%; height: 100%; background: #a0f;"></div>
+                        <span id="autoTimerText2" class="progressText" style="position: absolute; width: 100%; text-align: center; top: 0; left: 0; font-size: 12px; line-height: 20px; color: white;">60.0s</span>
+                    </div>
+                </div>
+                <button id="autoUpg3" class="autoButton" onclick="buyAutomation(2)" style="width: 100%; height: 55px;">MAIN Automation MAX BUY (Also requires MAX-1)<br>Cost: 500,000 AP</button>
+                <button id="autoUpg4" class="autoButton" onclick="buyAutomation(3)" style="width: 100%; height: 55px;">Spawner Automation MAX BUY (Also requires MAX-2)<br>Cost: 700,000 AP</button>
+            </div>
+        </div>
     </div>
     </div>
     <div id="weather">
@@ -217,6 +259,10 @@
             rolled.<br>
             You can unlock more Weathers on roll using WP, and you also can multiply your Money using WP (Upgrade resets
             on tier)</p>
+        <p id="WPText" style="color: rgb(255, 255, 255); font-size: 20.5px; margin-bottom: 20px">You have 0 Weather
+            Power (WPower)<br>WPower increases Weather chance by 0% and Spawn Cap by 0</p>
+        <p style="color: rgb(154, 154, 154); font-size: 16.5px; margin-bottom: 20px">Weather Power is gained on roll, where you
+            gain 2^ID_Rolled Weather Power on roll.
         <hr style="background-color: #666; margin-left: 8px; margin-right: 8px">
         <div id="SWCContainer">
             <input type="checkbox" id="SWChance" name="SWChance" value="SWChance" />
@@ -277,8 +323,9 @@
             <p id="TPdisplay" style="font-size: 16px">Current TP: 0/0</p>
             <button id="moneyTP" onclick="TPgain(0)">Get 1 TP<br>Costs $1 Dc</button>
             <button id="diamondTP" onclick="TPgain(1)">Get 1 TP<br>Costs 10,000 Diamonds</button>
-            <p id="unlockWeatherTP">Get 7 Max TP to unlock another way to gain TP!</p>
             <button id="weatherTP" onclick="TPgain(2)">Get 1 TP<br>Requires 10 Weather rolled</button>
+            <button id="orbspawnTP" onclick="TPgain(3)">Get 1 TP<br>Requires 500,000 Orbs spawned</button>
+            <p id="unlockMWTGTP">Get 7 Max TP to unlock another way to gain TP!</p>
         </div>
         <div id="variantIndex"
             style="display: none; max-height: 400px; height: auto; border: 2px solid #666; flex-direction: column; margin-top: 20px;">
@@ -299,29 +346,42 @@
             <p style="font-size: 64px; text-align: center; margin: 0;">Skill Tree</p>
             <button id="respecButton" onclick="respecSkillTree()">Respec<br>(Refund all TP, -2 Rebirths)</button>
         </div>
-        <p id="skillPtsText" style="font-size: 32px; text-align: center; margin-top: 15px;">You have 0/0 Tier Points
-            (TP). You can spend TP on Upgrades to aid your progression!</p>
         <div id="skillTreeColumns">
-            <div class="skillTreeColumn" id="column-main">
-                <p class="columnTitle">Main</p>
-                <div class="upgradeList"></div>
-            </div>
-            <div class="skillTreeColumn" id="column-spawner">
-                <p class="columnTitle">Spawner</p>
-                <div class="upgradeList"></div>
-            </div>
-            <div class="skillTreeColumn" id="column-boost">
-                <p class="columnTitle">Boosts</p>
-                <div class="upgradeList"></div>
-            </div>
-            <div class="skillTreeColumn" id="column-rless">
-                <p class="columnTitle">Reset Less</p>
-                <div class="upgradeList"></div>
-            </div>
-            <div class="skillTreeColumn" id="column-max">
-                <p class="columnTitle">Max Buy</p>
-                <div class="upgradeList"></div>
-            </div>
+            <section class="black-section">
+                <h2 class="section-title">Tier Points (TP)</h2>
+                <p id="skillPtsText" style="font-size: 24px; text-align: center; margin-bottom: 5px;">You have 0/0 Tier Points (TP).</p>
+                <p style="font-size: 16px; color: #aaa; margin-bottom: 15px; text-align: center;">Use Tier Points on upgrades. You can refund points using the <b>Respec</b> button.</p>
+                <div class="skillTreeColumns">
+                    <div class="skillTreeColumn" id="column-main">
+                        <p class="columnTitle">Main</p>
+                        <div class="upgradeList"></div>
+                    </div>
+                    <div class="skillTreeColumn" id="column-spawner">
+                        <p class="columnTitle">Spawner</p>
+                        <div class="upgradeList"></div>
+                    </div>
+                    <div class="skillTreeColumn" id="column-boost">
+                        <p class="columnTitle">Boosts</p>
+                        <div class="upgradeList"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="blue-section">
+                <h2 class="section-title">QoL Points (QP)</h2>
+                <p id="qolPtsText" style="font-size: 20px; text-align: center; margin-bottom: 5px; color: #a2c8ff;">You have 0/0 QoL Points (QP). Gain 1 QP for every 5 TP and for every Tier.</p>
+                <p style="font-size: 16px; color: #a2c8ffb3; margin-bottom: 15px; text-align: center;">Note: Unlike TP, QP Upgrades are permanent.</p>
+                <div class="skillTreeColumns">
+                    <div class="skillTreeColumn" id="column-rless">
+                        <p class="columnTitle">Reset Less</p>
+                        <div class="upgradeList"></div>
+                    </div>
+                    <div class="skillTreeColumn" id="column-max">
+                        <p class="columnTitle">Max Buy</p>
+                        <div class="upgradeList"></div>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
     <div id="rarities">
@@ -364,6 +424,11 @@
             <label for="hideInfinityButton" style="font-family: Lexend Deca; margin-left: 5px;">Hide Impossible
                 Rarities in Rarity Index</label>
         </div>
+        <div style="display: flex; align-items: center; margin-top: 5px;">
+            <input type="checkbox" id="showBaseRarity" onclick="showBaseRarity()">
+            <label for="showBaseRarity" style="font-family: Lexend Deca; margin-left: 5px;">Show Base Rarity chance in
+                Rarity Index</label>
+        </div>
         <div style="margin-top: 20px;">
             <p for="difficultySelect" style="color: white; margin-right: 10px;">Difficulty:</p>
             <select id="difficultySelect" onchange="changeDifficulty()"
@@ -382,7 +447,7 @@
         <div id="tutorialContent"></div>
         <button id="tutorialNext">Next</button>
     </div>
-    <p style="position: fixed; bottom: 0px; text-align: right; right: 0px; color: #bbb">Super Rarity Orbs v0.5d,
+    <p style="position: fixed; bottom: 0px; text-align: right; right: 0px; color: #bbb">Super Rarity Orbs v0.6,
         an<br>extension of Demonin's Rarity Orbs<br>Made by randim82</p>
     <script src="matter.js"></script>
     <script src="init.js"></script>

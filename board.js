@@ -164,9 +164,9 @@ function createBox() {
 }
 
 function createOrb(spawner) {
-    if (currentOrbs >= 100 + getSTUpAmt("SPW-2") * 25) return;
+    if (currentOrbs >= game.spawnCap) return;
     if (game.mechanicsUnlocked >= 5) {
-        if (Math.random() < (game.diamondChance/250)) {createWeather(); return}
+        if (Math.random() < game.weatherChance) {createWeather(); return}
     }
     if (Math.random() < game.diamondChance) {createDiamond(); return}
     let chosenRarity = getRarity(spawner);
@@ -222,7 +222,7 @@ function countOrbs() {
 }
 
 function createDiamond() {
-    if (currentOrbs >= 100 + getSTUpAmt("SPW-2") * 25) return;
+    if (currentOrbs >= game.spawnCap) return;
     let variant = null;
     if (getSTUpAmt("SPW-3") > 0) {
         let mn4Level = getSTUpAmt("MN-4");
@@ -246,7 +246,7 @@ function createDiamond() {
     Composite.add(engine.world, [circle]);
 }
 function createWeather() {
-    if (currentOrbs >= 100 + getSTUpAmt("SPW-2") * 25) return;
+    if (currentOrbs >= game.spawnCap) return;
     let variant = null;
     if (getSTUpAmt("SPW-3") > 0) {
         let mn4Level = getSTUpAmt("MN-4");
@@ -314,6 +314,11 @@ function checkCollisions() {
             updateVisuals()
             Composite.remove(engine.world, bodies[i]);
             currentOrbs = countOrbs()
+            if (game.tiers >= 2) {
+                if (Math.random() < 0.1) {
+                    game.automationpts += bodies[i].rarity
+                }
+            }
         }
         else if (bodies[i].category === 'diamond' && disappear) {
             let mult = 1
@@ -326,10 +331,13 @@ function checkCollisions() {
             if (game.rebirths >= 50) {
                 mult *= (0.025 * game.rebirths) - 0.15
             }
+            if (game.rebirths >= 80) {
+                mult *= 1.01**(game.rebirths - 80)
+            }
             if (game.tiers >= 2) {
-                game.diamonds += 7 * game.diamondMult * variantMult * slotMultiplier
+                game.diamonds += 10 * mult * variantMult * slotMultiplier
             } else {
-                game.diamonds += 10 * game.diamondMult * variantMult
+                game.diamonds += 10 * mult * variantMult
             };
             updateText()
             updateVisuals()
