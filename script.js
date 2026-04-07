@@ -481,7 +481,7 @@ function updateText() {
         document.getElementsByClassName("spawnerInterval")[i].innerText = "Spawn interval: " + (game.spawnIntervals[i]/1000).toFixed(3) + "s";
         document.getElementsByClassName("spawnerLuck")[i].innerText = "Luck: x" + format(game.totalLuck*game.spawnerLuck[i], 2);
     }
-    let norm = "Rebirthing will reset your money, upgrades and boost times! It will also halve your diamonds."
+    let norm = "Rebirthing will reset your money, upgrades and boost times! It will also reset 10% of your diamonds."
     let norming = "You have rebirthed " + format(game.rebirths) + " times\nRebirth luck multiplier: x" + format(2 ** game.rebirths)
     if (game.tiers >= 1) {
         if (game.rebirths >= 80) {
@@ -1763,6 +1763,11 @@ function tier() {
             game.rebirths = 0
         }
         game.diamonds = 0
+        game.weatherpts = 0
+        game.automationpts = 0
+        game.weatherPower = Math.floor(game.weatherPower / 2)
+        game.weatherUpCosts[2] = 3
+        game.weatherUpCosts[0] = 0.8
         game.spawnersUnlocked = 1
         game.timeSpentinTier = 0
         for (let i=1; i<=6; i++) {
@@ -1776,7 +1781,6 @@ function tier() {
             game.maxTP++;
             game.currentTP++;
         }
-        game.weatherUpCosts[2] = 3
         game.weatherMoney = 1
         game.currentTP++;
         game.maxQP++;
