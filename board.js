@@ -276,8 +276,8 @@ function checkCollisions() {
         let disappear = false;
         if (bodies[i].position.y > 775) disappear = true
         if (game.tiers == 3) {
-            if (bodies[i].position.x <= 55 && bodies[i].position.y >= 460 && bodies[i].position.y <= 500) disappear = true
-            if (bodies[i].position.x >= 345 && bodies[i].position.y >= 460 && bodies[i].position.y <= 500) disappear = true
+            if (bodies[i].position.x <= 55 && bodies[i].position.y >= 450 && bodies[i].position.y <= 500) disappear = true
+            if (bodies[i].position.x >= 345 && bodies[i].position.y >= 450 && bodies[i].position.y <= 500) disappear = true
         }
         let slotMultiplier = 1;
         if (game.tiers < 1) {
@@ -289,8 +289,8 @@ function checkCollisions() {
         } else if (game.tiers < 3) {
             slotMultiplier = 2;
         } else {
-            if (bodies[i].position.x <= 55 && bodies[i].position.y >= 450 && bodies[i].position.y <= 500) {slotMultiplier = 10;}
-            if (bodies[i].position.x >= 345 && bodies[i].position.y >= 450 && bodies[i].position.y <= 500) {slotMultiplier = 10;}
+            if (bodies[i].position.x <= 56 && bodies[i].position.y >= 450 && bodies[i].position.y <= 505) {slotMultiplier = 10;}
+            if (bodies[i].position.x >= 344 && bodies[i].position.y >= 450 && bodies[i].position.y <= 505) {slotMultiplier = 10;}
             else if (bodies[i].position.x < 66) {slotMultiplier = 2.25;}
             else if (bodies[i].position.x > 155 && bodies[i].position.x < 244) {slotMultiplier = 2;}
             else if (bodies[i].position.x > 333) {slotMultiplier = 2.25;}
@@ -310,6 +310,14 @@ function checkCollisions() {
             }
             game.orbsObtained[bodies[i].rarity - 1] += 1
             game.money += moneyGain
+            game.totalMoney += moneyGain
+            if (bodies[i].variant == null) {
+                bodies[i].variant = "regular"
+            }
+            bodies[i].variant = bodies[i].variant.charAt(0).toUpperCase() + bodies[i].variant.slice(1).toLowerCase();
+            if (moneyGain > game.mostValuableOrb["value"]) {
+                game.mostValuableOrb = {value: moneyGain, variant: bodies[i].variant, slotMulti: slotMultiplier, rarity: bodies[i].rarity}
+            }
             updateText()
             updateVisuals()
             Composite.remove(engine.world, bodies[i]);
@@ -335,9 +343,11 @@ function checkCollisions() {
                 mult *= 1.01**(game.rebirths - 80)
             }
             if (game.tiers >= 2) {
-                game.diamonds += 10 * mult * variantMult * slotMultiplier
+                game.diamonds += 10 * mult * variantMult * slotMultiplier * 1+((15*game.tiers)/100)
+                game.totalDiamonds += 10 * mult * variantMult * slotMultiplier * 1+((15*game.tiers)/100)
             } else {
-                game.diamonds += 10 * mult * variantMult
+                game.diamonds += 10 * mult * variantMult * 1+((15*game.tiers)/100)
+                game.totalDiamonds += 10 * mult * variantMult * 1+((15*game.tiers)/100)
             };
             updateText()
             updateVisuals()

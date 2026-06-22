@@ -3,8 +3,8 @@ let lastVariantLevels = { spw3: -1, mn4: -1 };
 const illionsShort = ["K","M","B","T","Qa","Qt","Sx","Sp","Oc","No","Dc","UDc","DDc","TDc","QaDc","QiDc","SxDc","SpDc","OcDc","NoDc","Vg","UVg","DVg","TVg","QaVg","QiVg","SxVg","SpVg","OcVg","NoVg","Tg","UTg","DTg","TTg","QaTg","QiTg","SxTg","SpTg","OcTg","NoTg","Qag","UQag","DQag","TQag","QaQag","QiQag","SxQag","SpQag","OcQag","NoQag","Qtg","UQtg","DQtg","TQtg","QaQtg","QiQtg","SxQtg","SpQtg","OcQtg","NoQtg","Sxg","USxg","DSxg","TSxg","QaSxg","QiSxg","SxSxg","SpSxg","OcSxg","NoSxg","Spg","USpg","DSpg","TSpg","QaSpg","QiSpg","SxSpg","SpSpg","OcSpg","NoSpg","Og","UOg","DOg","TOg","QaOg","QiOg","SxOg","SpOg","OcOg","NoOg","Ng","UNg","DNg","TNg","QaNg","QiNg","SxNg","SpNg","OcNg","NoNg","Ce","UCe"];
 const rarities     = [1, 4, 15, 50, 250, 1200,7000, 30000,140000,750000,6e6, 2e7, 4.5e8, 7e9, 2.5e12, 7e13, 1.5e15, 3e16, 5.8e17, 1e20,  8e21,  7.5e23, 1.6e26, 5.5e27, 4e29,3.2e30,2.4e32,5e33,  1.5e35,  5e37,  8e38,  1.5e40,   2e41, 6e42, 5e44, 1e46, 1e47, 5e48, 1e50, 2.8e51, 2.8e53, 1.7e54, 5e55, 1e57,    5e58, 2.5e60, 2.5e62, 5e64, 2.5e67, 2.5e70];
 const rarityNames = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythical', 'Exotic', 'Ethereal', 'Galactic', 'Divine', 'Transcendental', 'Angelic', 'Demonic', 'Void', 'Antimatter', 'Quantum', 'Extreme', 'Radiant', 'Celestial', 'Ascended', 'Forsaken', 'Astral', 'Supernova', 'Toxic', 'Nuclear', 'Lightning', 'Duke', 'Prince', 'King', 'Fusion', 'Fusion Mk. II', 'Fusion Mk. III', 'Fusion Mk. IV', 'Fusion Mk. V', 'Earth', 'City', 'Magma', 'Volcano', 'Earthquake', 'Country', 'Space', 'Planet', 'Solar System', 'Nebula', 'Galaxy', 'Universal', 'Timeless', 'Infinity', 'Absolute Infinity', 'Finality'];
-const raritySizes = [6, 7, 7, 8, 8, 9, 9, 10, 10, 10, 11, 11, 11, 11, 12, 12, 12, 12, 13, 13, 13, 13, 14, 14, 14, 14, 14, 14, 14, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15]
-const rarityValues = [1, 3, 10, 25, 100, 300, 1000, 3000, 10000, 40000, 2.5e5, 5e5, 7e6, 4e7, 1e9, 1e10, 1e11, 1e12,      1e13,   5e14,  1e16,  2.5e17,  1e19, 1.5e20, 5e21, 2e22, 4e23, 2.5e24,  2.5e25, 1.5e27, 7.5e27, 4e28,    2e29, 2e30, 8e31, 6e32, 4e33, 8e34, 8e35, 1e37,   5e38,  1.2e39, 1.5e40, 1.2e41, 1.8e42,1.8e43,1.8e44,1.8e45,1.8e46,1.8e49]
+const raritySizes = [5, 6, 6, 6, 7, 7, 7, 8, 8, 9, 9, 9, 10, 10, 10, 10, 11, 11, 11, 11, 11, 12, 12, 12, 12, 12, 13, 13, 13, 13, 13, 14, 14, 14, 14, 14, 14, 14, 14, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15]
+const rarityValues = [1, 4, 14, 35, 145, 450, 1600, 4800, 16000, 60000, 4e5, 8.25e5, 1.1e7, 6.7e7, 1.57e9, 1.62e10, 1.64e11, 1.72e12,      1.78e13,   9e14,  1.85e16,  4e17,  1.7e19, 2.9e20, 7.9e21, 3e22, 6e23, 3.5e24,  3.3e25, 1.9e27, 9e27, 5e28,    2.7e29, 2.6e30, 1e32, 7e32, 4e33, 8e34, 8e35, 1e37,   5e38,  1.2e39, 1.5e40, 1.2e41, 1.8e42,1.8e43,1.8e44,1.8e45,1.8e46,1.8e49]
 const rarityColours = ['#bbbbbb', '#bbbbbb', '#45bb45', '#45bb45', '#4545bb', '#4545bb', '#8845bb', '#8845bb', '#ff8800', '#ff8800', '#ff0000', '#ff0000', '#ff7b00', '#bb24bb', '#4800ff', '#000000', '#8200ff', '#000042', '#00c8ff', '#0084ff','#82ff49', '#14c98d', '#ffffff', '#ffe500', '#ff0000', '#5c0000', '#333333', '#111111', '#c307eb', '#11053a', '#d946ff', "#ffffff", "#0ba67f", "#07fbdd", "#ef9a1f", "#fcf046", "#52e5f6", "#ffffff", "#0c1381", "#635cdd", "#9f0811", "#fb0102", "#fe4dfe", "#e167cf", "#ffa700", "#ff4000", "#1cd328","#03660f", "#ffd600", "#ffc800", "#f0e606", "#ebc808", "#118cc1", "#49b5e2", "#70bfff", "#709dff", "#f59540", "#f79947", "#1618ff", "#00efff", "#ffff00", "#00efff", "#ffa500", "#00efff", "#ffbf00", "#ff0062", "#e4c81b", "#66e799", "#6e5445", "#38ffe1", "#082a61", "#06ade4", "#f93335", "#f77f27", "#1f030b", "#f21901", "#3d3937", "#7b685c", "#fdca00", "#d50b03", "#40275e", "#76569e", "#5dc500", "#0e5bb1", "#f9cd1c", "#0e162a", "#f87ec7", "#2987b8", "#78aede", "#feddee", "#1700de", "#f27a2f", "#fdfa42", "#cc5215", "#d5d5d5", "#6a6a6a", "#060c17", "#fac832", "#cc3e19", "#2d144f"]
 const weatherNames = ["Drizzle", "Rain", "Thunderstorm", "Snow", "Hail", "Avalanche", "Tornado", "Hurricane", "Asteroid Impact", "Meteor Shower"]
 const weatherEff = [[0.5, 0, 0, 60], [0, 0.5, 0, 60], [0.5, 0.5, 0, 60], [1, 0.5, 0.1, 75], [1.25, 0.5, 0.25, 75], [1.75, 1, 0.25, 120], [2.5, 1, 0.25, 150], [2.5, 2, 0.25, 150], [2.5, 2, 2, 150], [5, 3, 2, 150]] // [[]] represents whole list, 1 weather is 1 list. 4 idx - Luck mult, Money mult, Diamonds mult (all additive), Weather duration (secs)
@@ -31,6 +31,7 @@ const tutorialSteps = [
     requireClick: true
   }
 ];
+const maxTier = 3
 
 setAutoSave()
 
@@ -230,6 +231,12 @@ function loadGame(loadgame) {
     if (game.extUpgCosts[3] == 5000) {
         game.extUpgCosts[3] = 500000
     }
+    if (game.moneyAvgRate == null) {
+        game.moneyAvgRate = 0
+    }
+    if (game.diamondAvgRate == null) {
+        game.diamondAvgRate = 0
+    }
     
     if (game.mechanicsUnlocked == 0) {
         if (game.boostsUnlocked) game.mechanicsUnlocked = 1
@@ -243,13 +250,16 @@ function loadGame(loadgame) {
     if (game.boostTimes.length == 3) {
         game.boostTimes.push(0)
     }
+    if (game.accurateTimePlayed == 0) {
+        game.accurateTimePlayed = game.timePlayed
+    }
     game.inSkillTree = false;
     document.getElementById("skillTree").style.display = "none";
 
     //Boosts
     if (game.boostTimes[0] == 0) {
         document.getElementsByClassName("boostText")[0].style.color = "#bbb"
-        document.getElementsByClassName("boostText")[0].innerText = "2x money gain - 0:00 (not active)"
+        document.getElementsByClassName("boostText")[0].innerText = "2x money gain - 0:00 (Inactive)"
     }
     else {
         document.getElementsByClassName("boostText")[0].style.color = "#8f8"
@@ -257,7 +267,7 @@ function loadGame(loadgame) {
     }
     if (game.boostTimes[1] == 0) {
         document.getElementsByClassName("boostText")[1].style.color = "#bbb"
-        document.getElementsByClassName("boostText")[1].innerText = "2x luck - 0:00 (not active)"
+        document.getElementsByClassName("boostText")[1].innerText = "2x luck - 0:00 (Inactive)"
     }
     else {
         document.getElementsByClassName("boostText")[1].style.color = "#8f8"
@@ -371,7 +381,7 @@ function spawn(id) {
     }
     if (game.spawnersUnlocked >= id) {
         createOrb(id);
-        if (Math.random() < getSTUpAmt("SPW-4")*0.05) createOrb(id); // double spawn
+        if (Math.random() < getSTUpAmt("SPW-4")*0.1) createOrb(id); // double spawn
     }
     setTimeout(() => spawn(id), game.spawnIntervals[id-1]);
 }
@@ -504,7 +514,11 @@ function updateText() {
         document.getElementById('rebirthText').innerText = norming
     }
     updateWeatherStats();
-    document.getElementById('tierText').innerHTML = `Your Tier is ${game.tiers} >> ${game.tiers+1}<br>Tier Luck Multiplier x${3**game.tiers} >> x${3**(game.tiers+1)}<br>Tier Money Multiplier x${2**game.tiers} >> x${2**(game.tiers+1)}`
+    let tierdesc = `Your Tier is ${game.tiers} >> ${game.tiers+1}<br>Tier Luck Multiplier x${3**game.tiers} >> x${3**(game.tiers+1)}<br>Tier Money Multiplier x${2**game.tiers} >> x${2**(game.tiers+1)}<br>Tier Diamond Increase: +${15*game.tiers}% >> +${15*(game.tiers+1)}%`
+    if (game.tiers >= maxTier) {
+        tierdesc = `Your Tier is ${game.tiers} (MAXED)<br>Tier Luck Multiplier x${3**game.tiers} (MAXED)<br>Tier Money Multiplier x${2**game.tiers} (MAXED)<br>Tier Diamond Increase: +${15*game.tiers}% (MAXED)`
+    }
+    document.getElementById('tierText').innerHTML = tierdesc
     document.getElementById('weatherText').innerHTML = `You have ${game.weatherpts} Weather Points (WP) (+1/orb) <br> You have a 1/${format(1/game.weatherChance)} chance to gain a Weather Orb`
     document.getElementById('WPText').innerHTML = `You have ${game.weatherPower} Weather Power (WPower)<br>WPower increases Weather chance by ${format(10*(Math.log2(game.weatherPower+1)), 3)}% and Spawn Cap by ${Math.floor(Math.log(game.weatherPower+1)/Math.log(3)*2)}`
     document.getElementById('automationptsText').innerHTML = `You have ${format(game.automationpts)} Automation Points (AP)`
@@ -512,8 +526,10 @@ function updateText() {
     document.getElementById('WBoost').innerHTML = `Weather boost: x${format(game.weatherMult[0],2)} Luck, x${format(game.weatherMult[1],2)} Money, x${format(game.weatherMult[2],2)} Diamonds`
 
     if (getSTUpAmt("BST-1")) {
-        game.boostData[1].baseCost = 10, game.boostData[3].baseCost = 10
-        game.boostData[2].baseCost = 150, game.boostData[4].baseCost = 150, game.boostData[5].baseCost = 400
+        game.boostData[1].baseCost = 0, game.boostData[3].baseCost = 0
+        game.boostData[2].baseCost = 200, game.boostData[4].baseCost = 200, game.boostData[5].baseCost = 450, game.boostData[6].baseCost = 200
+        game.boostData[1].increment = 12, game.boostData[3].increment = 12
+        game.boostData[2].increment = 80, game.boostData[4].increment = 80
     }
     if (document.getElementById("SWChance").checked) {
         ttT = ""
@@ -543,7 +559,7 @@ function updateText() {
 updateText()
 setInterval(updateText, 100);
 
-function updateBoosts() {
+function updateBoostsandData() {
     if (game.inSkillTree) return;
     if (game.boostTimes[0] > 0) game.boostTimes[0]--
     if (game.boostTimes[1] > 0) game.boostTimes[1]--
@@ -564,7 +580,7 @@ function updateBoosts() {
     game.timeSpentinReb ++
     if (game.boostTimes[0] == 0) {
         document.getElementById("moneyBoostText").style.color = "#bbb"
-        document.getElementById("moneyBoostText").innerText = "2x money gain - 0:00 (not active)"
+        document.getElementById("moneyBoostText").innerText = "2x money gain - 0:00 (Inactive)"
     }
     else {
         document.getElementById("moneyBoostText").style.color = "#8f8"
@@ -572,7 +588,7 @@ function updateBoosts() {
     }
     if (game.boostTimes[1] == 0) {
         document.getElementById("luckBoostText").style.color = "#bbb"
-        document.getElementById("luckBoostText").innerText = "2x luck - 0:00 (not active)"
+        document.getElementById("luckBoostText").innerText = "2x luck - 0:00 (Inactive)"
         updateRarityList()
     }
     else {
@@ -584,7 +600,7 @@ function updateBoosts() {
         game.boostTimes[3]--
         if (game.boostTimes[3] == 0) {
             document.getElementById("ruoBoostText").style.color = "#bbb"
-            document.getElementById("ruoBoostText").innerText = "Obstacle Remover - 0:00 (not active)"
+            document.getElementById("ruoBoostText").innerText = "Obstacle Remover - 0:00 (Inactive)"
             buildBoard();
         } else if (game.boostTimes[3] == 15) {
             // Active phase ends, obstacles return
@@ -603,9 +619,9 @@ function updateBoosts() {
     }
     document.getElementById("dupeBoostText").innerText = "Duplicate cooldown: " + game.boostTimes[2] + "s"
 }
-updateBoosts()
-setInterval(updateBoosts, 1000);
-setInterval(updateAutomation, 100);
+updateBoostsandData()
+setInterval(updateBoostsandData, 1000);
+setInterval(updateAutomationAndData, 100);
 setInterval(updateRarityList, 200);
 setInterval(updateAllUpgradeText, 1000);
 
@@ -934,7 +950,12 @@ function updateVisuals() {
     } else {
         document.getElementById("xLuckBODiamondButton").style.display = "none"
     }
-    document.getElementById("timePlayed").innerHTML = `Your Time Played is ${formatTime(game.timePlayed)}<br> Your last Rebirth was ${formatTime(game.timeSpentinReb)} ago<br>You are in Tier ${game.tiers} for ${formatTime(game.timeSpentinTier)}<br>Your best Luck is x${format(game.bestLuck, 2)}<br>Total Orbs Spawned: ${format(game.ttlOrbSpawn)}<br>Total Weather Rolled: ${format(game.weatherRolled)}`
+    let timeplayedHTML = `Your Time Played is ${formatTime(game.timePlayed)}<br> Your last Rebirth was ${formatTime(game.timeSpentinReb)} ago<br>You are in Tier ${game.tiers} for ${formatTime(game.timeSpentinTier)}<br>Your best Luck is x${format(game.bestLuck, 2)}<br>Total Orbs Spawned: ${format(game.ttlOrbSpawn)}<br>`
+    timeplayedHTML += `You have gotten a total of $${format(game.totalMoney)} (since v0.6r update)<br>You have gotten a total of ${format(game.totalDiamonds)} Diamonds (since v0.6r update)<br>Most Valuable Rarity: $${format(game.mostValuableOrb["value"])} (${game.mostValuableOrb["variant"]} ${rarityNames[game.mostValuableOrb["rarity"]]} Orb - x${game.mostValuableOrb["slotMulti"]} Slot Multiplier)<br>`
+    if (game.mechanicsUnlocked >= 5) timeplayedHTML += `Total Weather Rolled: ${format(game.weatherRolled)}<br>`
+    document.getElementById("extraStatsMPS").innerHTML = `Average Money/sec: $${format(game.moneyAvgRate)}`
+    document.getElementById("extraStatsDPS").innerHTML = `Average Diamonds/sec: ${format(game.diamondAvgRate)}`
+    document.getElementById("timePlayed").innerHTML = timeplayedHTML
     document.getElementById("notationButton").innerText = "Notation: " + game.numberFormat;
     document.getElementById("autoPotionContainer").style.display = (getSTUpAmt("BST-4") >= 1) ? "block" : "none";
     if (document.getElementById("autoPotion").checked) {
@@ -983,6 +1004,12 @@ function updateVisuals() {
     } else {
         document.getElementById("automation").style.display = "none";
     }
+
+    timeLastRarity = game.newraritylog[Object.keys(game.newraritylog).at(-1)]
+    if (timeLastRarity == undefined) timeLastRarity = "0:0:0"
+    splitted = timeLastRarity.split(":")
+    secsThen = formatTime(game.timePlayed - (((Number(splitted[0])*60)+Number(splitted[1]))*60)+Number(splitted[2]))
+    
 }
 updateVisuals()
 setInterval(updateVisuals, 100);
@@ -1715,9 +1742,9 @@ function CurrencyReset(boost=true) {
     if (boost) {
         game.boostTimes = [0, 0, 0, 0];
         document.getElementsByClassName("boostText")[0].style.color = "#bbb"
-        document.getElementsByClassName("boostText")[0].innerText = "2x money gain - 0:00 (not active)"
+        document.getElementsByClassName("boostText")[0].innerText = "2x money gain - 0:00 (Inactive)"
         document.getElementsByClassName("boostText")[1].style.color = "#bbb"
-        document.getElementsByClassName("boostText")[1].innerText = "2x luck - 0:00 (not active)"
+        document.getElementsByClassName("boostText")[1].innerText = "2x luck - 0:00 (Inactive)"
         document.getElementsByClassName("boostText")[2].innerText = "Duplicate cooldown: " + game.boostTimes[2] + "s"
     }
     updateRarityList()
@@ -1874,7 +1901,7 @@ function toggleAutomation(idx) {
     updateAutomationUI();
 }
 
-function updateAutomation() {
+function updateAutomationAndData() {
     if (game.inSkillTree) return;
     for (let i = 0; i < 2; i++) {
         let isEnabled = game.automation.enabled ? game.automation.enabled[i] : true;
@@ -1888,6 +1915,23 @@ function updateAutomation() {
             }
         }
     }
+
+    // data part
+    game.accurateTimePlayed += 0.1
+    if (game.accurateTimePlayed < game.timePlayed) {
+        game.accurateTimePlayed = game.timePlayed
+    }
+    game.moneyHistory.push({time: game.accurateTimePlayed, amt: game.totalMoney})
+    game.diamondHistory.push({time: game.accurateTimePlayed, amt: game.diamonds})
+    if (game.accurateTimePlayed-60 > game.moneyHistory[0]["time"]) {
+        game.moneyHistory.splice(0, game.accurateTimePlayed - (game.moneyHistory[0]["time"] + 60)); 
+    }
+    if (game.accurateTimePlayed-60 >= game.diamondHistory[0]["time"]) {
+        game.diamondHistory.splice(0, game.accurateTimePlayed - (game.diamondHistory[0]["time"] + 60)); 
+    }
+    game.moneyAvgRate = (Object(game.moneyHistory).at(-1)["amt"]-game.moneyHistory[0]["amt"])/Math.min((Object(game.moneyHistory).at(-1)["time"]-game.moneyHistory[0]["time"]),1)
+    game.diamondAvgRate = (Object(game.diamondHistory).at(-1)["amt"]-game.diamondHistory[0]["amt"])/Math.min((Object(game.diamondHistory).at(-1)["time"]-game.diamondHistory[0]["time"]))
+
     updateAutomationUI();
 }
 
@@ -2028,7 +2072,7 @@ function renderSkillTree() {
             else if (upg.id === "SPW-1") effectText = `Current: +${boughtCount} Spawners`;
             else if (upg.id === "SPW-2") effectText = `Current: +${boughtCount * 25} Capacity`;
             else if (upg.id === "SPW-3") effectText = `Current: ${variantCount} Variants Unlocked`;
-            else if (upg.id === "SPW-4") effectText = `Current: +${boughtCount * 5}% Chance`;
+            else if (upg.id === "SPW-4") effectText = `Current: +${boughtCount * 10}% Chance`;
 
             if (isMaxed) {
                 statusText = `<p class="upgradeStatus boughtText">Bought!</p>`;
@@ -2341,3 +2385,7 @@ function changeDifficulty() {
         game.rebScaling = 3.56
     }
 }
+
+
+
+// sfxes

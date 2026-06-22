@@ -32,6 +32,10 @@
         <div id="orbCapContainer">
             <p id="orbCapText">Orbs: 0 / 100</p>
         </div>
+        <div id="extraStats">
+            <p id="extraStatsMPS">Average Money/sec: $0</p>
+            <p id="extraStatsDPS">Average Diamonds/sec: 0</p>
+        </div>
     </div>
     <div id="info">
         <p style="font-size: 48px" id="money">Money: $0</p>
@@ -164,12 +168,12 @@
         <div id="boosts">
             <p style="font-size: 48px">Boosts</p>
             <hr style="background-color: #666; margin-left: 8px; margin-right: 8px"><br>
-            <p id="moneyBoostText" class="boostText" style="font-size: 24px">2x money gain - 0:00 (not active)</p>
+            <p id="moneyBoostText" class="boostText" style="font-size: 24px">2x money gain - 0:00 (Inactive)</p>
             <img src="img/moneyIcon.png" style="vertical-align: top; margin: 4px"><button id="boost1"
                 class="boostButton" onclick="buyBoost(1)"></button><br>
             <img src="img/moneyIcon.png" style="vertical-align: top; margin: 4px"><button id="boost2"
                 class="boostButton" onclick="buyBoost(2)"></button><br><br>
-            <p id="luckBoostText" class="boostText" style="font-size: 24px">2x luck - 0:00 (not active)</p>
+            <p id="luckBoostText" class="boostText" style="font-size: 24px">2x luck - 0:00 (Inactive)</p>
             <img src="img/luckIcon.png" style="vertical-align: top; margin: 4px"><button id="boost3" class="boostButton"
                 onclick="buyBoost(3)"></button><br>
             <img src="img/luckIcon.png" style="vertical-align: top; margin: 4px"><button id="boost4" class="boostButton"
@@ -178,7 +182,7 @@
             <img src="img/duplicateIcon.png" style="vertical-align: top; margin: 4px"><button id="boost5"
                 class="boostButton" onclick="buyBoost(5)"></button><br><br>
             <div id="obstacleRemoverArea" style="display: none;">
-                <p id="ruoBoostText" class="boostText" style="font-size: 24px">Obstacle Remover - 0:00 (not active)</p>
+                <p id="ruoBoostText" class="boostText" style="font-size: 24px">Obstacle Remover - 0:00 (Inactive)</p>
                 <img src="img/rebirthIcon.png" style="vertical-align: top; margin: 4px"><button id="boost6"
                     class="boostButton" onclick="buyBoost(6)"></button>
             </div>
@@ -227,7 +231,7 @@
                     </div>
                     <div class="progressBarContainer" style="width: 100%; height: 20px; background: #333; border-radius: 10px; overflow: hidden; position: relative;">
                         <div id="autoBar1" class="progressBar" style="width: 0%; height: 100%; background: #a0f;"></div>
-                        <span id="autoTimerText1" class="progressText" style="position: absolute; width: 100%; text-align: center; top: 0; left: 0; font-size: 12px; line-height: 20px; color: white;">60.0s</span>
+                        <span id="autoTimerText1" class="progressText" style="font-family: 'Lexend Deca', sans-serif; position: absolute; width: 100%; text-align: center; top: 0; left: 0; font-size: 12px; line-height: 20px; color: white;">60.0s</span>
                     </div>
                 </div>
                 <div class="automationUpgrade" style="width: 280px; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; border: 1px solid #444;">
@@ -238,7 +242,7 @@
                     </div>
                     <div class="progressBarContainer" style="width: 100%; height: 20px; background: #333; border-radius: 10px; overflow: hidden; position: relative;">
                         <div id="autoBar2" class="progressBar" style="width: 0%; height: 100%; background: #a0f;"></div>
-                        <span id="autoTimerText2" class="progressText" style="position: absolute; width: 100%; text-align: center; top: 0; left: 0; font-size: 12px; line-height: 20px; color: white;">60.0s</span>
+                        <span id="autoTimerText2" class="progressText" style="font-family: 'Lexend Deca', sans-serif; position: absolute; width: 100%; text-align: center; top: 0; left: 0; font-size: 12px; line-height: 20px; color: white;">60.0s</span>
                     </div>
                 </div>
                 <button id="autoUpg3" class="autoButton" onclick="buyAutomation(2)" style="width: 100%; height: 55px;">MAIN Automation MAX BUY (Also requires MAX-1)<br>Cost: 500,000 AP</button>

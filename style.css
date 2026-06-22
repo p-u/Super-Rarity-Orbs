@@ -90,7 +90,27 @@ button {
     text-align: center;
 }
 
+#extraStats {
+    background-color: #262638;
+    padding: 10px;
+    border-top: 2px solid #666;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+}
+
 #orbCapText {
+    margin: 0;
+    font-size: 18px;
+    color: #bff;
+}
+
+#extraStatsMPS {
+    margin: 0;
+    font-size: 18px;
+    color: rgb(82, 218, 58);
+}
+#extraStatsDPS {
     margin: 0;
     font-size: 18px;
     color: #bff;
