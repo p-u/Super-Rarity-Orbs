@@ -1922,15 +1922,15 @@ function updateAutomationAndData() {
         game.accurateTimePlayed = game.timePlayed
     }
     game.moneyHistory.push({time: game.accurateTimePlayed, amt: game.totalMoney})
-    game.diamondHistory.push({time: game.accurateTimePlayed, amt: game.diamonds})
+    game.diamondHistory.push({time: game.accurateTimePlayed, amt: game.totalDiamonds})
     if (game.accurateTimePlayed-60 > game.moneyHistory[0]["time"]) {
         game.moneyHistory.splice(0, game.accurateTimePlayed - (game.moneyHistory[0]["time"] + 60)); 
     }
     if (game.accurateTimePlayed-60 >= game.diamondHistory[0]["time"]) {
         game.diamondHistory.splice(0, game.accurateTimePlayed - (game.diamondHistory[0]["time"] + 60)); 
     }
-    game.moneyAvgRate = (Object(game.moneyHistory).at(-1)["amt"]-game.moneyHistory[0]["amt"])/Math.min((Object(game.moneyHistory).at(-1)["time"]-game.moneyHistory[0]["time"]),1)
-    game.diamondAvgRate = (Object(game.diamondHistory).at(-1)["amt"]-game.diamondHistory[0]["amt"])/Math.min((Object(game.diamondHistory).at(-1)["time"]-game.diamondHistory[0]["time"]))
+    game.moneyAvgRate = (Object(game.moneyHistory).at(-1)["amt"]-game.moneyHistory[0]["amt"])/Math.max((Object(game.moneyHistory).at(-1)["time"]-game.moneyHistory[0]["time"]),1)
+    game.diamondAvgRate = (Object(game.diamondHistory).at(-1)["amt"]-game.diamondHistory[0]["amt"])/Math.max((Object(game.diamondHistory).at(-1)["time"]-game.diamondHistory[0]["time"]), 1)
 
     updateAutomationUI();
 }
