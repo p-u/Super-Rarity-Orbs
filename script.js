@@ -951,7 +951,7 @@ function updateVisuals() {
         document.getElementById("xLuckBODiamondButton").style.display = "none"
     }
     let timeplayedHTML = `Your Time Played is ${formatTime(game.timePlayed)}<br> Your last Rebirth was ${formatTime(game.timeSpentinReb)} ago<br>You are in Tier ${game.tiers} for ${formatTime(game.timeSpentinTier)}<br>Your best Luck is x${format(game.bestLuck, 2)}<br>Total Orbs Spawned: ${format(game.ttlOrbSpawn)}<br>`
-    timeplayedHTML += `You have gotten a total of $${format(game.totalMoney)} (since v0.6r update)<br>You have gotten a total of ${format(game.totalDiamonds)} Diamonds (since v0.6r update)<br>Most Valuable Rarity: $${format(game.mostValuableOrb["value"])} (${game.mostValuableOrb["variant"]} ${rarityNames[game.mostValuableOrb["rarity"]]} Orb - x${game.mostValuableOrb["slotMulti"]} Slot Multiplier)<br>`
+    timeplayedHTML += `You have gotten a total of $${format(game.totalMoney)} (since v0.6r update)<br>You have gotten a total of ${format(game.totalDiamonds)} Diamonds (since v0.6r update)<br>Most Valuable Rarity: $${format(game.mostValuableOrb["value"])} (${game.mostValuableOrb["variant"]} ${rarityNames[game.mostValuableOrb["rarity"]-1]} Orb - x${game.mostValuableOrb["slotMulti"]} Slot Multiplier)<br>`
     if (game.mechanicsUnlocked >= 5) timeplayedHTML += `Total Weather Rolled: ${format(game.weatherRolled)}<br>`
     document.getElementById("extraStatsMPS").innerHTML = `Average Money/sec: $${format(game.moneyAvgRate)}`
     document.getElementById("extraStatsDPS").innerHTML = `Average Diamonds/sec: ${format(game.diamondAvgRate)}`
