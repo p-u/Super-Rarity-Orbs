@@ -58,6 +58,8 @@
                 Upgrades</button>
             <button id="maxBuyAllSpawnersButton" class="maxBuyButton" onclick="maxBuyAllSpawners()"
                 style="display: none">Max Buy All Spawner Upgrades</button>
+            <button id="maxBuyMain+Spawners" class="maxBuyButton" onclick="maxBuyALL()"
+                style="display: none">Max Buy Main and all Spawner Upgrades</button>
         </div>
         <button id="unlockRebirthButton" onclick="unlockRebirth()">Unlock rebirth<br>Costs 50 diamonds</button>
         <button id="unlockBoostsButton" onclick="unlockBoosts()">Unlock boosts<br>Costs 250 diamonds</button>
@@ -318,17 +320,23 @@
                 <div class="milestone-feature-label" id="milestone-tier3-text">Get Tier 3 to reveal the feature!</div>
                 <div class="milestone-unlock-dot" id="milestone-tier3-dot"></div>
             </div>
+            <div class="milestone-card" id="milestone-tier4">
+                <div class="milestone-tier-label">Tier 4</div>
+                <div class="milestone-feature-label" id="milestone-tier4-text">Get Tier 4 to reveal the feature!</div>
+                <div class="milestone-unlock-dot" id="milestone-tier4-dot"></div>
+            </div>
         </div>
         <button id="skillTreeToggle" style="font-size: 22.5px; margin-bottom: 20px" onclick="skillTreeToggle()">Go
             to
             the Skill Tree (can buy QOL Upgrades)</button>
         <div id="TPup" style="display: none">
-            <p style="font-size: 36px; margin: 0;">Other ways to gain TP</p>
+            <p style="font-size: 36px; margin: 0;">Other ways to gain TP/QP</p>
             <p id="TPdisplay" style="font-size: 16px">Current TP: 0/0</p>
             <button id="moneyTP" onclick="TPgain(0)">Get 1 TP<br>Costs $1 Dc</button>
             <button id="diamondTP" onclick="TPgain(1)">Get 1 TP<br>Costs 10,000 Diamonds</button>
             <button id="weatherTP" onclick="TPgain(2)">Get 1 TP<br>Requires 10 Weather rolled</button>
             <button id="orbspawnTP" onclick="TPgain(3)">Get 1 TP<br>Requires 500,000 Orbs spawned</button>
+            <button id="maxRarityQP" onclick="QPgain(0)">Get 1 QP<br>Requires MaxRarityID 40</button>
             <p id="unlockMWTGTP">Get 7 Max TP to unlock another way to gain TP!</p>
         </div>
         <div id="variantIndex"
@@ -452,7 +460,7 @@
         <div id="tutorialContent"></div>
         <button id="tutorialNext">Next</button>
     </div>
-    <p style="position: fixed; bottom: 0px; text-align: right; right: 0px; color: #bbb">Super Rarity Orbs v0.6r,
+    <p style="position: fixed; bottom: 0px; text-align: right; right: 0px; color: #bbb">Super Rarity Orbs v0.7,
         an<br>extension of Demonin's Rarity Orbs<br>Made by randim82</p>
     <script src="matter.js"></script>
     <script src="init.js"></script>

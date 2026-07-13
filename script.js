@@ -3,7 +3,8 @@ let lastVariantLevels = { spw3: -1, mn4: -1 };
 const illionsShort = ["K","M","B","T","Qa","Qt","Sx","Sp","Oc","No","Dc","UDc","DDc","TDc","QaDc","QiDc","SxDc","SpDc","OcDc","NoDc","Vg","UVg","DVg","TVg","QaVg","QiVg","SxVg","SpVg","OcVg","NoVg","Tg","UTg","DTg","TTg","QaTg","QiTg","SxTg","SpTg","OcTg","NoTg","Qag","UQag","DQag","TQag","QaQag","QiQag","SxQag","SpQag","OcQag","NoQag","Qtg","UQtg","DQtg","TQtg","QaQtg","QiQtg","SxQtg","SpQtg","OcQtg","NoQtg","Sxg","USxg","DSxg","TSxg","QaSxg","QiSxg","SxSxg","SpSxg","OcSxg","NoSxg","Spg","USpg","DSpg","TSpg","QaSpg","QiSpg","SxSpg","SpSpg","OcSpg","NoSpg","Og","UOg","DOg","TOg","QaOg","QiOg","SxOg","SpOg","OcOg","NoOg","Ng","UNg","DNg","TNg","QaNg","QiNg","SxNg","SpNg","OcNg","NoNg","Ce","UCe"];
 const rarities     = [1, 4, 15, 50, 250, 1200,7000, 30000,140000,750000,6e6, 2e7, 4.5e8, 7e9, 2.5e12, 7e13, 1.5e15, 3e16, 5.8e17, 1e20,  8e21,  7.5e23, 1.6e26, 5.5e27, 4e29,3.2e30,2.4e32,5e33,  1.5e35,  5e37,  8e38,  1.5e40,   2e41, 6e42, 5e44, 1e46, 1e47, 5e48, 1e50, 2.8e51, 2.8e53, 1.7e54, 5e55, 1e57,    5e58, 2.5e60, 2.5e62, 5e64, 2.5e67, 2.5e70];
 const rarityNames = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythical', 'Exotic', 'Ethereal', 'Galactic', 'Divine', 'Transcendental', 'Angelic', 'Demonic', 'Void', 'Antimatter', 'Quantum', 'Extreme', 'Radiant', 'Celestial', 'Ascended', 'Forsaken', 'Astral', 'Supernova', 'Toxic', 'Nuclear', 'Lightning', 'Duke', 'Prince', 'King', 'Fusion', 'Fusion Mk. II', 'Fusion Mk. III', 'Fusion Mk. IV', 'Fusion Mk. V', 'Earth', 'City', 'Magma', 'Volcano', 'Earthquake', 'Country', 'Space', 'Planet', 'Solar System', 'Nebula', 'Galaxy', 'Universal', 'Timeless', 'Infinity', 'Absolute Infinity', 'Finality'];
-const raritySizes = [5, 6, 6, 6, 7, 7, 7, 8, 8, 9, 9, 9, 10, 10, 10, 10, 11, 11, 11, 11, 11, 12, 12, 12, 12, 12, 13, 13, 13, 13, 13, 14, 14, 14, 14, 14, 14, 14, 14, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15]
+var raritySizes = [5, 6, 6, 6, 7, 7, 7, 8, 8, 9, 9, 9, 10, 10, 10, 10, 11, 11, 11, 11, 11, 12, 12, 12, 12, 12, 13, 13, 13, 13, 13, 14, 14, 14, 14, 14, 14, 14, 14, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15]
+const baseRaritySizes = [5, 6, 6, 6, 7, 7, 7, 8, 8, 9, 9, 9, 10, 10, 10, 10, 11, 11, 11, 11, 11, 12, 12, 12, 12, 12, 13, 13, 13, 13, 13, 14, 14, 14, 14, 14, 14, 14, 14, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15]
 const rarityValues = [1, 4, 14, 35, 145, 450, 1600, 4800, 16000, 60000, 4e5, 8.25e5, 1.1e7, 6.7e7, 1.57e9, 1.62e10, 1.64e11, 1.72e12,      1.78e13,   9e14,  1.85e16,  4e17,  1.7e19, 2.9e20, 7.9e21, 3e22, 6e23, 3.5e24,  3.3e25, 1.9e27, 9e27, 5e28,    2.7e29, 2.6e30, 1e32, 7e32, 4e33, 8e34, 8e35, 1e37,   5e38,  1.2e39, 1.5e40, 1.2e41, 1.8e42,1.8e43,1.8e44,1.8e45,1.8e46,1.8e49]
 const rarityColours = ['#bbbbbb', '#bbbbbb', '#45bb45', '#45bb45', '#4545bb', '#4545bb', '#8845bb', '#8845bb', '#ff8800', '#ff8800', '#ff0000', '#ff0000', '#ff7b00', '#bb24bb', '#4800ff', '#000000', '#8200ff', '#000042', '#00c8ff', '#0084ff','#82ff49', '#14c98d', '#ffffff', '#ffe500', '#ff0000', '#5c0000', '#333333', '#111111', '#c307eb', '#11053a', '#d946ff', "#ffffff", "#0ba67f", "#07fbdd", "#ef9a1f", "#fcf046", "#52e5f6", "#ffffff", "#0c1381", "#635cdd", "#9f0811", "#fb0102", "#fe4dfe", "#e167cf", "#ffa700", "#ff4000", "#1cd328","#03660f", "#ffd600", "#ffc800", "#f0e606", "#ebc808", "#118cc1", "#49b5e2", "#70bfff", "#709dff", "#f59540", "#f79947", "#1618ff", "#00efff", "#ffff00", "#00efff", "#ffa500", "#00efff", "#ffbf00", "#ff0062", "#e4c81b", "#66e799", "#6e5445", "#38ffe1", "#082a61", "#06ade4", "#f93335", "#f77f27", "#1f030b", "#f21901", "#3d3937", "#7b685c", "#fdca00", "#d50b03", "#40275e", "#76569e", "#5dc500", "#0e5bb1", "#f9cd1c", "#0e162a", "#f87ec7", "#2987b8", "#78aede", "#feddee", "#1700de", "#f27a2f", "#fdfa42", "#cc5215", "#d5d5d5", "#6a6a6a", "#060c17", "#fac832", "#cc3e19", "#2d144f"]
 const weatherNames = ["Drizzle", "Rain", "Thunderstorm", "Snow", "Hail", "Avalanche", "Tornado", "Hurricane", "Asteroid Impact", "Meteor Shower"]
@@ -31,7 +32,7 @@ const tutorialSteps = [
     requireClick: true
   }
 ];
-const maxTier = 3
+const maxTier = 4
 
 setAutoSave()
 
@@ -237,6 +238,13 @@ function loadGame(loadgame) {
     if (game.diamondAvgRate == null) {
         game.diamondAvgRate = 0
     }
+    if (game.skillTreeUpgs["rless"]["bought"].length == 4) {
+        game.skillTreeUpgs["rless"]["bought"].push(0)
+        game.skillTreeUpgs["max"]["bought"].push(0)
+        game.skillTreeUpgs["boost"]["bought"].push(0)
+        game.skillTreeUpgs["main"]["bought"].push(0)
+        game.skillTreeUpgs["spawner"]["bought"].push(0)
+    }
     
     if (game.mechanicsUnlocked == 0) {
         if (game.boostsUnlocked) game.mechanicsUnlocked = 1
@@ -244,7 +252,7 @@ function loadGame(loadgame) {
         if (game.tierUnlocked) game.mechanicsUnlocked = 4
     }
     if (game.boostData[6] == undefined) {
-        game.boostData[6] = { baseCost: 250, increment: 25, uses: 0 }
+        game.boostData[6] = { baseCost: 250, increment: 50, uses: 0 }
     }
 
     if (game.boostTimes.length == 3) {
@@ -308,10 +316,11 @@ function loadGame(loadgame) {
         game.boostData[4].increment = 75
     }
 
-    game.boostData[1].increment = 15
+    game.boostData[1].increment = 25
     game.boostData[3].increment = 15
-    game.boostData[2].increment = 100
+    game.boostData[2].increment = 150
     game.boostData[4].increment = 100
+    game.boostData[6].increment = 50
     if (game.boostData[1].baseCost > 50) {
         game.boostData[1].baseCost -= 50
         game.boostData[3].baseCost -= 50
@@ -320,8 +329,11 @@ function loadGame(loadgame) {
         game.boostData[2].baseCost -= 150
         game.boostData[4].baseCost -= 150
     }
+    if ((Math.log(game.extUpgCosts[2] / 10)/Math.log(4)) != Math.floor((Math.log(game.extUpgCosts[2] / 10)/Math.log(4)))) {
+        game.extUpgCosts[2] = 10 * (4 ** (Math.log(game.extUpgCosts[2] / 10)/Math.log(5)))
+    }
 
-    let add = Math.log(game.extUpgCosts[0] / 1e33)/Math.log(1e15) + (Math.log(game.extUpgCosts[1] / 10000)/Math.log(5)) + (Math.log(game.extUpgCosts[2] / 10)/Math.log(5))
+    let add = Math.log(game.extUpgCosts[0] / 1e33)/Math.log(1e15) + (Math.log(game.extUpgCosts[1] / 10000)/Math.log(5)) + (Math.log(game.extUpgCosts[2] / 10)/Math.log(4))
     add = add + (Math.log(game.extUpgCosts[3] / 500000)/Math.log(4))
     game.maxTP = game.tiers + add
     game.currentTP = game.tiers + add - (game.spentTP || 0)
@@ -352,8 +364,8 @@ function loadGame(loadgame) {
         document.querySelector("#unlockMWTGTP").classList.remove('hidden');
         document.querySelector("#weatherTP").classList.add('hidden');
         document.querySelector("#orbspawnTP").classList.add('hidden');
-    } else if (game.maxTP < 14) {
-        document.querySelector("#unlockMWTGTP").innerHTML = "Get 14 Max TP to unlock another way to gain TP!"
+    } else if (game.maxTP < 12) {
+        document.querySelector("#unlockMWTGTP").innerHTML = "Get 12 Max TP to unlock another way to gain TP!"
         document.querySelector("#weatherTP").classList.remove('hidden');
         document.querySelector("#orbspawnTP").classList.add('hidden');
     } else {
@@ -467,6 +479,7 @@ function updateText() {
     game.totalLuck = game.baseLuck * (game.boostTimes[1] ? 2 : 1) * game.diamondLuck;
     if (game.tiers >= 1) {
         game.totalLuck *= (1.1 ** getSTUpAmt("MN-2"))
+        game.totalLuck *= (1.3 ** getSTUpAmt("MN-5"))
     }
     if (game.mechanicsUnlocked>= 5) {
         game.totalLuck *= game.weatherMult[0]
@@ -495,7 +508,7 @@ function updateText() {
     let norming = "You have rebirthed " + format(game.rebirths) + " times\nRebirth luck multiplier: x" + format(2 ** game.rebirths)
     if (game.tiers >= 1) {
         if (game.rebirths >= 80) {
-            document.getElementById('rebirthDesc').innerHTML = norm + "<br>After "+Math.max(111, game.rebirths+1)+" Rebirths, unlock a new feature (v0.7) ?????."
+            document.getElementById('rebirthDesc').innerHTML = norm + "<br>After "+Math.max(120, game.rebirths+1)+" Rebirths, unlock a new feature (v0.8) ?????."
         } else if (game.rebirths >= 50) {
             document.getElementById('rebirthDesc').innerHTML = norm + "<br>After 80 Rebirths, Rebirths give a compounding boost to Diamonds."
         } else if (game.rebirths >= 25) {
@@ -595,27 +608,32 @@ function updateBoostsandData() {
         document.getElementById("luckBoostText").style.color = "#8f8"
         document.getElementById("luckBoostText").innerText = "2x luck - " + Math.floor(game.boostTimes[1]/60) + ":" + (game.boostTimes[1]%60).toString().padStart(2, "0")
     }
+    let prior = ""
+    if ((getSTUpAmt("BST-3")) > 1) prior = "[ENHANCED] "
 
     if (game.boostTimes[3] > 0) {
         game.boostTimes[3]--
         if (game.boostTimes[3] == 0) {
             document.getElementById("ruoBoostText").style.color = "#bbb"
-            document.getElementById("ruoBoostText").innerText = "Obstacle Remover - 0:00 (Inactive)"
+            document.getElementById("ruoBoostText").innerText = `${prior}Obstacle Remover - 0:00 (Inactive)`
             buildBoard();
-        } else if (game.boostTimes[3] == 15) {
+        } else if (game.boostTimes[3] == 20) {
             // Active phase ends, obstacles return
             document.getElementById("ruoBoostText").style.color = "#f88" // Red for cooldown
-            document.getElementById("ruoBoostText").innerText = "Obstacle Remover - 0:15 (cooldown)"
+            document.getElementById("ruoBoostText").innerText = `${prior}Obstacle Remover - 0:20 (cooldown)`
             buildBoard();
-        } else if (game.boostTimes[3] > 15) {
+        } else if (game.boostTimes[3] > 20) {
             document.getElementById("ruoBoostText").style.color = "#8f8"
-            let activeTime = game.boostTimes[3] - 15;
-            document.getElementById("ruoBoostText").innerText = "Obstacle Remover - " + Math.floor(activeTime/60) + ":" + (activeTime%60).toString().padStart(2, "0")
+            let activeTime = game.boostTimes[3] - 20;
+            document.getElementById("ruoBoostText").innerText = prior + "Obstacle Remover - " + Math.floor(activeTime/60) + ":" + (activeTime%60).toString().padStart(2, "0")
         } else {
             // Cooldown phase
             document.getElementById("ruoBoostText").style.color = "#f88"
-            document.getElementById("ruoBoostText").innerText = "Obstacle Remover - " + Math.floor(game.boostTimes[3]/60) + ":" + (game.boostTimes[3]%60).toString().padStart(2, "0") + " (CD)"
+            document.getElementById("ruoBoostText").innerText = prior + "Obstacle Remover - " + Math.floor(game.boostTimes[3]/60) + ":" + (game.boostTimes[3]%60).toString().padStart(2, "0") + " (cooldown)"
         }
+    } else {
+        document.getElementById("ruoBoostText").style.color = "#bbb"
+        document.getElementById("ruoBoostText").innerText = `${prior}Obstacle Remover - 0:00 (Inactive)`
     }
     document.getElementById("dupeBoostText").innerText = "Duplicate cooldown: " + game.boostTimes[2] + "s"
 }
@@ -652,7 +670,12 @@ function updateAllUpgradeText() {
         }
         document.getElementsByClassName("increaseSpawnerLuckButton")[i-1].innerHTML = "Increase luck<br>x" + format(game.spawnerLuck[i-1],2) + " >> x" + format(game.spawnerLuck[i-1]*1.1,2) + "<br>Costs $" + format(game.upgradeCosts[5+i])
     }
-    document.getElementById("WPxMoney").innerHTML = "Multiply Money! (Resets on tier)<br>x" + format(game.weatherMoney,2) + " >> x" + format(game.weatherMoney*1.1,2) + "<br>Costs " + format(game.weatherUpCosts[2]) + " WP"
+    if (getSTUpAmt("RL-5")) {
+        nx = "Keep"
+    } else {
+        nx = "Resets"
+    }
+    document.getElementById("WPxMoney").innerHTML = `Multiply Money! (${nx} on tier)<br>x${format(game.weatherMoney,2)} >> x${format(game.weatherMoney*1.1,2)}<br>Costs ${format(game.weatherUpCosts[2])} WP`
     for (let i=4; i<=7; i++) {
         if (game.spawnIntervals[i-1]*0.95 < 100) {
             document.getElementsByClassName("decreaseIntervalButton")[i-1].innerHTML = "Decrease interval<br>" + (game.spawnIntervals[i-1]/1000).toFixed(3) + "s >> " + "0.100s<br>Costs $" + format(game.upgradeCosts[1+2*i])
@@ -667,6 +690,8 @@ function updateAllUpgradeText() {
         document.getElementById('tierButton').innerHTML = "<b>Tier Up</b><br>Cost: 10 Forsaken Orbs [ID 21]"
     } else if (game.tiers == 2) {
         document.getElementById('tierButton').innerHTML = "<b>Tier Up</b><br>Cost: 5 Fusion Orbs [ID 30]"
+    } else if (game.tiers == 3) {
+        document.getElementById('tierButton').innerHTML = "<b>Tier Up</b><br>Cost: 750 Volcano Orbs [ID 38]"
     } else {
         document.getElementById('tierButton').innerHTML = "<b>Tier Up</b><br>(Maxed Tier Unlocked)"
     }
@@ -684,6 +709,7 @@ function updateAllUpgradeText() {
     document.getElementById('diamondTP').innerHTML = "Get 1 TP<br>Costs " + format(game.extUpgCosts[1]) + " Diamonds"
     document.getElementById('weatherTP').innerHTML = "Get 1 TP<br>Requires " + format(game.extUpgCosts[2]) + " Weather rolled"
     document.getElementById('orbspawnTP').innerHTML = "Get 1 TP<br>Requires " + format(game.extUpgCosts[3]) + " Orbs Spawned"
+    document.getElementById('maxRarityQP').innerHTML = "Get 1 QP<br>Requires MaxRarityID " + format(game.QUpgCosts[0])
 }
 
 function updateVisuals() {
@@ -774,6 +800,13 @@ function updateVisuals() {
     } else {
         document.getElementById("orbspawnTP").style.backgroundImage = "linear-gradient(#fff, #bbb)";
         document.getElementById("orbspawnTP").style.border = "2px solid #888";
+    }
+    if (game.highestRarity >= game.QUpgCosts[0]) {
+        document.getElementById("maxRarityQP").style.backgroundImage = "linear-gradient(#9e9, #7c7)";
+        document.getElementById("maxRarityQP").style.border = "2px solid #060";
+    } else {
+        document.getElementById("maxRarityQP").style.backgroundImage = "linear-gradient(#fff, #bbb)";
+        document.getElementById("maxRarityQP").style.border = "2px solid #888";
     }
     if (game.weatherRollCooldown > 0) {
         document.getElementById("rollWeather").style.backgroundImage = "linear-gradient(#888, #555)";
@@ -875,14 +908,24 @@ function updateVisuals() {
         document.querySelector("#unlockMWTGTP").classList.remove('hidden');
         document.querySelector("#weatherTP").classList.add('hidden');
         document.querySelector("#orbspawnTP").classList.add('hidden');
-    } else if (game.maxTP < 14) {
-        document.querySelector("#unlockMWTGTP").innerHTML = "Get 14 Max TP to unlock another way to gain TP!"
+        document.querySelector("#maxRarityQP").classList.add('hidden');
+    } else if (game.maxTP < 12) {
+        document.querySelector("#unlockMWTGTP").innerHTML = "Get 12 Max TP to unlock another way to gain TP!"
+        document.querySelector("#unlockMWTGTP").classList.remove('hidden');
         document.querySelector("#weatherTP").classList.remove('hidden');
         document.querySelector("#orbspawnTP").classList.add('hidden');
+        document.querySelector("#maxRarityQP").classList.add('hidden');
+    } else if (game.maxTP < 15) {
+        document.querySelector("#unlockMWTGTP").innerHTML = "Get 15 Max TP to unlock a way to gain QP!";
+        document.querySelector("#unlockMWTGTP").classList.remove('hidden');
+        document.querySelector("#weatherTP").classList.remove('hidden');
+        document.querySelector("#orbspawnTP").classList.remove('hidden');
+        document.querySelector("#maxRarityQP").classList.add('hidden');
     } else {
         document.querySelector("#unlockMWTGTP").classList.add('hidden');
         document.querySelector("#weatherTP").classList.remove('hidden');
         document.querySelector("#orbspawnTP").classList.remove('hidden');
+        document.querySelector("#maxRarityQP").classList.remove('hidden');
     }
     
     // Sync settings
@@ -900,6 +943,7 @@ function updateVisuals() {
     document.getElementById("maxBuyButtonsArea").style.display = (max1 || max4) ? "flex" : "none";
     document.getElementById("maxBuyMainButton").style.display = max1 ? "block" : "none";
     document.getElementById("maxBuyAllSpawnersButton").style.display = max4 ? "block" : "none";
+    document.getElementById("maxBuyMain+Spawners").style.display = max4 ? "block" : "none";
     
     const maxBuySpawnerBtns = document.getElementsByClassName("maxBuySpawnerButton");
     for (let i = 0; i < maxBuySpawnerBtns.length; i++) {
@@ -909,7 +953,7 @@ function updateVisuals() {
         maxBuySpawnerBtns[i].style.display = (max2 && isUnlocked) ? "block" : "none";
     }
 
-    if (game.ORActive == true && game.boostTimes[3] < 15) {
+    if (game.ORActive == true && game.boostTimes[3] < 20) {
         buildBoard()
         game.ORActive = false
     }
@@ -931,6 +975,10 @@ function updateVisuals() {
         values = ["x2.25", "x1.75", "x2.0", "x1.75", "x2.25"]
         colors = ["#dab1da", "#90d5ff", "#8f8", "#90d5ff", "#dab1da"]
     }
+    if (game.tiers >= 4) {
+        values = ["x4.0", "x3.0", "x2.0", "x3.0", "x4.0"]
+        colors = ["#ff58c5", "#0074bd", "#8f8", "#0074bd", "#ff58c5"]
+    }
     values.forEach((v, i) => {
         const el = document.getElementById("mult" + (i + 1))
         if (!el) return
@@ -938,7 +986,7 @@ function updateVisuals() {
         el.style.color = colors[i]
     })
     
-    if (game.tiers >= 3) {
+    if (game.tiers == 3) {
         document.getElementById("multLeft").style.display = "block";
         document.getElementById("multRight").style.display = "block";
     } else {
@@ -966,6 +1014,12 @@ function updateVisuals() {
             buyBoost(3)
         }
     }
+    if (!(baseRaritySizes[0]*(100 - (getSTUpAmt("SPW-5")*5))/100 == raritySizes[0])) {
+        raritySizes = []
+        for (let i=0; i<baseRaritySizes.length; i++) {
+            raritySizes.push(baseRaritySizes[i]*(100 - (getSTUpAmt("SPW-5")*5))/100)
+        }
+    }
     document.getElementById("bulkRebContainer").style.display = (getSTUpAmt("MAX-3") >= 1) ? "block" : "none";
 
     // Difficulty Select Locking
@@ -982,18 +1036,23 @@ function updateVisuals() {
     }
     if (document.getElementById("bulkReb").checked) {
         if (getSTUpAmt("MAX-3") >= 1) {
-            let projreb = Math.floor((Math.log(game.money / game.rebBaseCost) / Math.log(game.rebScaling)) + 1)
+            let rebCost = game.rebBaseCost
+            rebCost /= (2 ** getSTUpAmt("MN-5"))
+            let projreb = Math.floor((Math.log(game.money / rebCost) / Math.log(game.rebScaling)) + 1)
             let bulkreb = Math.max(projreb-game.rebirths, 1)
             let pricereb = game.rebScaling ** (game.rebirths + bulkreb - 1) * game.rebBaseCost
+            pricereb /= (2 ** getSTUpAmt("MN-5"))
             let costColor = game.money >= pricereb ? "#2e6f40" : "#950606"
             document.getElementById('rebirthButton').innerHTML = "<b>Rebirth (BULK ON)</b><br><span style='color: " + costColor + "'>$" + format(game.money) + "/$" + format(pricereb) + "</span><br>Luck x" + format(2 ** game.rebirths) + " >> x" + format(2 ** (game.rebirths + bulkreb)) + "<br> +" + format(bulkreb) + " Rebirths on rebirth <br>" + "Next Rebirth costs $" + format(pricereb*game.rebScaling)
         } else {
             let cost = game.rebScaling ** game.rebirths * game.rebBaseCost
+            cost /= (2 ** getSTUpAmt("MN-5"))
             let costColor = game.money >= cost ? "#2e6f40" : "#950606"
             document.getElementById('rebirthButton').innerHTML = "<b>Rebirth (BULK OFF)</b><br><span style='color: " + costColor + "'>$" + format(game.money) + "/$" + format(cost) + "</span><br>Luck x" + format(2 ** game.rebirths) + " >> x" + format(2 ** (game.rebirths + 1))
         }
     } else {
         let cost = game.rebScaling ** game.rebirths * game.rebBaseCost
+        cost /= (2 ** getSTUpAmt("MN-5"))
         let costColor = game.money >= cost ? "#2e6f40" : "#950606"
         document.getElementById('rebirthButton').innerHTML = "<b>Rebirth</b><br><span style='color: " + costColor + "'>$" + format(game.money) + "/$" + format(cost) + "</span><br>Luck x" + format(2 ** game.rebirths) + " >> x" + format(2 ** (game.rebirths + 1))
     }
@@ -1031,6 +1090,11 @@ function updateTierMilestones() {
             id: 3,
             lockedText: "Get Tier 3 to reveal the feature!",
             unlockedText: "Diamonds are affected by slot multipliers"
+        },
+        {
+            id: 4,
+            lockedText: "Get Tier 4 to reveal the feature!",
+            unlockedText: "Add a whole new role of Skill Tree upgrades, AND unlock Deflation (v0.7)"
         }
     ];
 
@@ -1173,7 +1237,6 @@ function WPxMoney(updateUI = true) {
             updateText()
             updateVisuals()
         }
-        document.getElementById("WPxMoney").innerHTML = "Multiply Money! (Resets on tier)<br>x" + format(game.weatherMoney,2) + " >> x" + format(game.weatherMoney*1.1,2) + "<br>Costs " + format(game.weatherUpCosts[2]) + " WP"
     }
 }
 
@@ -1244,7 +1307,7 @@ function rollWeather(){
             
             // Apply Effect
             let dur = weatherEff[winnerIdx][3];
-            game.weatherDuration[winnerIdx] += dur;
+            game.weatherDuration[winnerIdx] += (dur + (10 * getSTUpAmt("BST-5")));
             game.weatherPower += 2**winnerIdx
             
             updateText();
@@ -1379,6 +1442,11 @@ function maxBuyAllSpawners() {
     updateRarityList();
 }
 
+function maxBuyALL(){
+    maxBuyMain()
+    maxBuyAllSpawners()
+}
+
 function unlockBoosts() {
     if (game.diamonds >= 250 && game.mechanicsUnlocked==1) {
         game.diamonds -= 250
@@ -1409,13 +1477,26 @@ function TPgain(idx) {
         if (game.weatherRolled >= game.extUpgCosts[2]) {
             game.currentTP += 1;
             game.maxTP += 1;
-            game.extUpgCosts[2] *= 5;
+            game.extUpgCosts[2] *= 4;
         }
     } else if (idx == 3) {
         if (game.ttlOrbSpawn >= game.extUpgCosts[3]) {
             game.currentTP += 1;
             game.maxTP += 1;
             game.extUpgCosts[3] *= 4;
+        }
+    }
+    updateText();
+    updateAllUpgradeText();
+    updateVisuals();
+}
+
+function QPgain(idx) {
+    if (idx == 0) {
+        if (game.highestRarity >= game.QUpgCosts[0]) {
+            game.currentQP += 1;
+            game.maxQP += 1;
+            game.QUpgCosts[0] += 5;
         }
     }
     updateText();
@@ -1434,8 +1515,10 @@ function updateBoostButtons() {
     `Boost for 5m<br>Costs ${getBoostCost(4)} diamonds`;
   document.getElementById("boost5").innerHTML =
     `Duplicate all current orbs!<br>Costs ${getBoostCost(5)} diamonds`;
+    let dur = 60
+    if ((getSTUpAmt("BST-3")) > 1) dur = 100
   document.getElementById("boost6").innerHTML =
-    `Remove useful obstacles for 45s!<br>Costs ${getBoostCost(6)} diamonds`;
+    `Remove useful obstacles for ${dur}s!<br>Costs ${getBoostCost(6)} diamonds`;
 }
 
 function buyBoost(x) {
@@ -1473,16 +1556,24 @@ function buyBoost(x) {
     }
     else if (x==5) {
         let dupeCD = 60
-        if (getSTUpAmt("BST-2")) dupeCD = 30
+        if (getSTUpAmt("BST-2")) dupeCD = 40
         game.boostTimes[2] = dupeCD
         duplicateOrbs()
         document.getElementById("dupeBoostText").innerText = "Duplicate cooldown: " + game.boostTimes[2] + "s"
         updateText()
     }
     else if (x==6) {
-        game.boostTimes[3] = 60 // 45s active + 15s downtime
+        let prior = ""
+        let dur = "00"
+        if ((getSTUpAmt("BST-3")) > 1) {
+            game.boostTimes[3] = 120 // 100s active + 20s downtime
+            prior = "[ENHANCED] "
+            dur = "40"
+        } else {
+            game.boostTimes[3] = 80
+        }
         document.getElementById("ruoBoostText").style.color = "#8f8"
-        document.getElementById("ruoBoostText").innerText = "Obstacle Remover - 0:45"
+        document.getElementById("ruoBoostText").innerText = `${prior}Obstacle Remover - 1:${dur}`
         buildBoard()
         game.ORActive = true
         updateText()
@@ -1495,6 +1586,7 @@ function updateRarityList() {
     if (game.mechanicsUnlocked>=3) moneyMult *= 1.06**game.highestRarity
     if (game.tiers >= 1) {
         moneyMult *= (1.05 ** getSTUpAmt("MN-1"))
+        moneyMult *= (1.3 ** getSTUpAmt("MN-5"))
     }
 
     function getOneIn(idx) {
@@ -1694,22 +1786,29 @@ function rebirth() {
     let bulk = false
     // Update visuals of button
     let rebirthreq = game.rebScaling ** game.rebirths * game.rebBaseCost
+    rebirthreq /= (2 ** getSTUpAmt("MN-5"))
     if (document.getElementById("bulkReb").checked) {
         if (getSTUpAmt("MAX-3") >= 1) {
             bulk = true
             let projreb = Math.floor((Math.log(game.money / game.rebBaseCost) / Math.log(game.rebScaling)) + 1)
             let bulkreb = Math.max(projreb-game.rebirths, 1)
             let pricereb = game.rebScaling ** (game.rebirths + bulkreb - 1) * game.rebBaseCost
+            pricereb /= (2 ** getSTUpAmt("MN-5"))
             rebirthreq = game.rebScaling ** (game.rebirths + bulkreb - 1) * game.rebBaseCost
+            rebirthreq /= (2 ** getSTUpAmt("MN-5"))
             document.getElementById('rebirthButton').innerHTML = "<b>Rebirth (BULK ON)</b><br>Costs $" + format(pricereb) + "<br>Luck x" + format(2 ** game.rebirths) + " >> x" + format(2 ** (game.rebirths + bulkreb)) + "<br> +" + format(bulkreb) + " Rebirths on rebirth <br>" + "Next Rebirth costs $" + format(pricereb*3.5)
         }
     } else {
-        document.getElementById('rebirthButton').innerHTML = "<b>Rebirth</b><br>Costs $" + format(game.rebScaling ** game.rebirths * game.rebBaseCost) + "<br>Luck x" + format(2 ** game.rebirths) + " >> x" + format(2 ** (game.rebirths + 1))
+        let cost = game.rebScaling ** game.rebirths * game.rebBaseCost
+        cost /= (2 ** getSTUpAmt("MN-5"))
+        document.getElementById('rebirthButton').innerHTML = "<b>Rebirth</b><br>Costs $" + format(cost) + "<br>Luck x" + format(2 ** game.rebirths) + " >> x" + format(2 ** (game.rebirths + 1))
     }
     // Calculation of Rebirth reset
     if (game.money > rebirthreq) {
         if (bulk) {
-            let projreb = Math.floor((Math.log(game.money / game.rebBaseCost) / Math.log(game.rebScaling)) + 1)
+            let rebCost = game.rebBaseCost
+            rebCost /= (2 ** getSTUpAmt("MN-5"))
+            let projreb = Math.floor((Math.log(game.money / rebCost) / Math.log(game.rebScaling)) + 1)
             let bulkreb = Math.max(projreb-game.rebirths, 1)
             game.rebirths = game.rebirths + bulkreb
         } else {
@@ -1774,6 +1873,8 @@ function canAffordTier() {
         return true
     } else if (game.tiers == 2 && game.orbsObtained[29] >= 5) {
         return true
+    } else if (game.tiers == 3 && game.orbsObtained[37] >= 750) {
+        return true
     } else {
         return false
     }
@@ -1793,7 +1894,7 @@ function tier() {
         game.weatherpts = 0
         game.automationpts = 0
         game.weatherPower = Math.floor(game.weatherPower / 2)
-        game.weatherUpCosts[2] = 3
+        if (!(getSTUpAmt("RL-5"))) game.weatherUpCosts[2] = 3
         game.weatherUpCosts[0] = 0.8
         game.spawnersUnlocked = 1
         game.timeSpentinTier = 0
@@ -1808,7 +1909,7 @@ function tier() {
             game.maxTP++;
             game.currentTP++;
         }
-        game.weatherMoney = 1
+        if (!(getSTUpAmt("RL-5"))) game.weatherMoney = 1
         game.currentTP++;
         game.maxQP++;
         game.currentQP++;
@@ -1849,11 +1950,12 @@ function recalculateSpentPoints() {
     game.spentTP = spentTP;
     
     // Recalculate maxTP and maxQP to ensure consistency
-    let add = Math.log(game.extUpgCosts[0] / 1e33) / Math.log(1e15) + Math.log(game.extUpgCosts[1] / 10000) / Math.log(5) + Math.log(game.extUpgCosts[2] / 10) / Math.log(5) + (Math.log(game.extUpgCosts[3] / 500000)/Math.log(4));
+    let add = Math.log(game.extUpgCosts[0] / 1e33) / Math.log(1e15) + Math.log(game.extUpgCosts[1] / 10000) / Math.log(5) + Math.log(game.extUpgCosts[2] / 10) / Math.log(4) + (Math.log(game.extUpgCosts[3] / 500000)/Math.log(4));
     game.maxTP = game.tiers + add;
     if (game.tiers >= 1) game.maxTP++;
     
     game.maxQP = game.tiers + Math.floor(game.maxTP / 5);
+    game.maxQP += (game.QUpgCosts[0] - 40)/5
     
     game.currentTP = game.maxTP - game.spentTP;
     game.currentQP = game.maxQP - spentQP;
@@ -2007,6 +2109,13 @@ function updateSkillTree() {
     renderSkillTree();
     document.getElementById("skillPtsText").innerText = "You have " + game.currentTP + "/" + game.maxTP + " Tier Points (TP). You can spend TP on Upgrades to aid your progression!"
     document.getElementById("qolPtsText").innerText = "You have " + game.currentQP + "/" + game.maxQP + " QoL Points (QP). Gain 1 QP for every 5 TP and for every Tier."
+    if (game.tiers >= 4) {
+        game.skillTreeUpgs["max"]["unlocked"][4] = true
+        game.skillTreeUpgs["rless"]["unlocked"][4] = true
+        game.skillTreeUpgs["spawner"]["unlocked"][4] = true
+        game.skillTreeUpgs["boost"]["unlocked"][4] = true
+        game.skillTreeUpgs["main"]["unlocked"][4] = true
+    }
 }
 
 function checkUpgradeUnlocked(reqs) {
@@ -2040,6 +2149,8 @@ function renderSkillTree() {
         const catData = game.skillTreeUpgs[cat];
         if (!catData || !catData.upgrades) return;
         catData.upgrades.forEach((upg, index) => {
+            if (catData.unlocked && !catData.unlocked[index]) return;
+
             const card = document.createElement('div');
             card.className = 'upgradeCard';
             const boughtCount = catData.bought[index];
@@ -2064,15 +2175,18 @@ function renderSkillTree() {
             if (upg.id === "MN-1") effectText = `Current: x${(1.05 ** boughtCount).toFixed(2)} Money`;
             else if (upg.id === "MN-2") effectText = `Current: x${(1.10 ** boughtCount).toFixed(2)} Luck`;
             else if (upg.id === "MN-3") effectText = `Current: x${(1.05 ** boughtCount).toFixed(2)} Diamonds`;
+            else if (upg.id === "MN-5") effectText = `Current: /${(2 ** boughtCount).toFixed(2)} Rebirth Cost, x${(1.3 ** boughtCount).toFixed(2)} Luck`;
             else if (upg.id === "MN-4") effectText = `Current: +${boughtCount}% Shiny`;
             else if (upg.id === "RL-1") effectText = `Current: ${upg.levels[boughtCount-1] || 0}% Upgrades Kept`;
             else if (upg.id === "RL-2") effectText = `Current: ${format(1 + (Math.log2(Math.log10(Math.max(game.totalLuck, 100)))/20*boughtCount), 4)}x Luck if Current Luck below Best Luck (Effect increases when Best Luck is higher)`; 
             else if (upg.id === "RL-3") effectText = `Current: ${upg.levels[boughtCount-1] || 0}% Rebirths Kept`;
             else if (upg.id === "BST-2") effectText = `Current: ${boughtCount > 0 ? '30s' : '60s'} Cooldown`;
+            else if (upg.id === "BST-5") effectText = `Current: +${boughtCount * 10}s Duration`;
             else if (upg.id === "SPW-1") effectText = `Current: +${boughtCount} Spawners`;
             else if (upg.id === "SPW-2") effectText = `Current: +${boughtCount * 25} Capacity`;
             else if (upg.id === "SPW-3") effectText = `Current: ${variantCount} Variants Unlocked`;
             else if (upg.id === "SPW-4") effectText = `Current: +${boughtCount * 10}% Chance`;
+            else if (upg.id === "SPW-5") effectText = `Current: ${100 - (boughtCount * 5)}% Orb Size`;
 
             if (isMaxed) {
                 statusText = `<p class="upgradeStatus boughtText">Bought!</p>`;
@@ -2115,6 +2229,8 @@ function buySkillTreeUpg(cat, index) {
     const upg = catData.upgrades[index];
     const currentLevel = catData.bought[index];
     
+    if ((catData.unlocked && !catData.unlocked[index]) || !checkUpgradeUnlocked(upg.req)) return;
+
     let cost = upg.costs ? upg.costs[currentLevel] : upg.cost;
     if (upg.infinite && upg.id !== "MN-1" && upg.id !== "MN-2" && upg.id !== "MN-3" && upg.id !== "MN-4") cost = upg.cost * (2 ** currentLevel);
     
@@ -2389,3 +2505,13 @@ function changeDifficulty() {
 
 
 // sfxes
+
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'r' || event.key === 'R') {
+        if (event.target.tagName !== 'INPUT' && event.target.tagName !== 'TEXTAREA') {
+            if (game.mechanicsUnlocked >= 1) {
+                rebirth();
+            }
+        }
+    }
+});

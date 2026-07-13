@@ -74,14 +74,23 @@ function buildBoard() {
     var wall2 = Bodies.rectangle(-10, 400, 60, 800, { isStatic: true });
     
     let boardElements = [ground, ceiling, wall1, wall2];
-    funnelL = Bodies.rectangle(80, 125, 200, 20, { isStatic: true, angle: Math.PI / 4 });
-    funnelR = Bodies.rectangle(320, 125, 200, 20, { isStatic: true, angle: -Math.PI / 4 });
+    funnelL = Bodies.rectangle(320, 140, 200, 15, { isStatic: true, angle: -Math.PI / 4 });
+    funnelR = Bodies.rectangle(80, 140, 200, 15, { isStatic: true, angle: Math.PI / 4 });
+    if (getSTUpAmt("BST-3") > 1 && game.boostTimes[3] >= 20) {
+        funnelL = Bodies.rectangle(370, 110, 40, 15, { isStatic: true, angle: -Math.PI / 4 });
+        funnelR = Bodies.rectangle(30, 110, 40, 15, { isStatic: true, angle: Math.PI / 4 });
+    }
     pegs3 = Composites.stack(60, 775, 4, 1, 66, 80, (x, y) => Bodies.circle(x, y, 10.5, { isStatic: true, render: { fillStyle: '#6a6a6aff' }  })); 
 
     if (game.tiers == 0) { // Board 1
-        let rows = game.boostTimes[3] > 15 ? 4 : 6;
-        pegs = Composites.stack(10, 220, 5, rows, 66, 80, (x, y) => Bodies.circle(x, y, 12, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
-        pegs2 = Composites.stack(54, 167, 4, rows, 66, 80, (x, y) => Bodies.circle(x, y, 12, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
+        let rows = game.boostTimes[3] >= 20 ? 4 : 6;
+        if (getSTUpAmt("BST-3") > 1 && game.boostTimes[3] >= 20) {
+            rows = 1
+        }
+        if (game.tiers == 0) n = 12
+        if (game.tiers == 3) n = 10.5
+        pegs = Composites.stack(10, 220, 5, rows, 66, 80, (x, y) => Bodies.circle(x, y, n, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
+        pegs2 = Composites.stack(54, 167, 4, rows, 66, 80, (x, y) => Bodies.circle(x, y, n, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
         boardElements.push(pegs, pegs2, pegs3);
     } else if (game.tiers == 1) {
         // Board 2
@@ -90,10 +99,14 @@ function buildBoard() {
             restitution: 1.2, 
             render: { fillStyle: '#8e8e8eff' } 
         });
-        pegs4 = Composites.stack(10, 325, 5, 4, 66, 100, (x, y) => Bodies.circle(x, y, 12, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
-        pegs5 = Composites.stack(54, 385, 5, 4, 66, 100, (x, y) => Bodies.circle(x, y, 12, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
+        let rows = 4
+        if (getSTUpAmt("BST-3") > 1 && game.boostTimes[3] >= 20) {
+            rows = 1
+        }
+        pegs4 = Composites.stack(10, 325, 5, rows, 66, 100, (x, y) => Bodies.circle(x, y, 12, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
+        pegs5 = Composites.stack(54, 385, 5, rows, 66, 100, (x, y) => Bodies.circle(x, y, 12, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
         
-        if (game.boostTimes[3] < 15) {
+        if (game.boostTimes[3] <= 20) {
             boardElements.push(funnelL, funnelR);
         }
         boardElements.push(pegs4, pegs5, deflectorBall);
@@ -111,14 +124,17 @@ function buildBoard() {
         funnel6R = Bodies.rectangle(360, 625, 125, 15, { isStatic: true, angle: -Math.PI / 3 });
         
         boardElements.push(funnelL, funnelR);
-        if (game.boostTimes[3] < 15) {
-            boardElements.push(funnel2L, funnel2R, funnel3L, funnel3R, funnel4L, funnel4R);
+        if (game.boostTimes[3] <= 20) {
+            boardElements.push(funnel3L, funnel3R, funnel4L, funnel4R);
         }
-        boardElements.push(funnel5L, funnel5R, funnel6L, funnel6R);
+        if (!(getSTUpAmt("BST-3") > 1 && game.boostTimes[3] >= 20)) {
+            boardElements.push(funnel2L, funnel2R, funnel6L, funnel6R)
+        }
+        boardElements.push(funnel5L, funnel5R, funnel6R);
     } else if (game.tiers == 3) {
         deflectorBall = Bodies.circle(200, 350, 25, { 
             isStatic: true, 
-            restitution: 1.2, 
+            restitution: 1.33, 
             render: { fillStyle: '#8e8e8eff' } 
         });
         innerL = Bodies.rectangle(66, 400, 175, 15, { isStatic: true, angle: -Math.PI / 2 });
@@ -127,18 +143,43 @@ function buildBoard() {
         borderR = Bodies.rectangle(356, 495, 40, 15, { isStatic: true, angle: 0 });
         // if: game.tiers == 3, y val > 350-500 AND (x val >= 345 OR x val <= 55): x5 Multiplier.
         let n = 2
-        if (game.boostTimes[3] >= 15) {
-            n = 1
+        if (game.boostTimes[3] >= 20) {
+            if (getSTUpAmt("BST-3") > 1) {
+                n = 0
+            }
         }
         pegs2 = Composites.stack(140, 465, 2, 1, 66, 100, (x, y) => Bodies.circle(x, y, 10.5, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
         pegs4 = Composites.stack(50, 585, 4, 2, 66, 100, (x, y) => Bodies.circle(x, y, 10.5, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
         pegs5 = Composites.stack(15, 525, 5, n, 66, 100, (x, y) => Bodies.circle(x, y, 10.5, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
         
-        boardElements.push(funnelL, funnelR, deflectorBall, borderL, borderR, pegs2, pegs3, pegs5);
-        if (game.boostTimes[3] < 15) {
+        boardElements.push(funnelL, funnelR, deflectorBall, borderL, borderR, pegs3, pegs5);
+        if (game.boostTimes[3] <= 20) {
             boardElements.push(pegs4)
         }
+        if (getSTUpAmt("BST-3") <= 1) {
+            boardElements.push(pegs2)
+        } else if (game.boostTimes[3] <= 20) {
+            boardElements.push(pegs2)
+        }
         boardElements.push(innerL, innerR);
+    } else if (game.tiers == 4) { 
+        let rows = 4
+        let columns = 4
+        if (game.boostTimes[3] >= 20) {
+            columns = 3
+        }
+        n = 11.5
+        if (getSTUpAmt("BST-3") > 1 && game.boostTimes[3] >= 20) {
+            columns = 2
+            pegs = Composites.stack(81, 218, columns+1, rows, 66, 174, (x, y) => Bodies.circle(x, y, n, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
+            pegs2 = Composites.stack(118, 150, columns, rows, 70, 167, (x, y) => Bodies.circle(x, y, n, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
+            pegs4 = Composites.stack(137, 276, columns, rows, 63, 174, (x, y) => Bodies.circle(x, y, n, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
+        } else {
+            pegs = Composites.stack(15, 218, columns+1, rows, 66, 174, (x, y) => Bodies.circle(x, y, n, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
+            pegs2 = Composites.stack(48, 150, columns, rows, 70, 167, (x, y) => Bodies.circle(x, y, n, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
+            pegs4 = Composites.stack(74, 276, columns, rows, 63, 174, (x, y) => Bodies.circle(x, y, n, { isStatic: true, render: { fillStyle: '#6a6a6aff' } }));
+        }
+        boardElements.push(pegs, pegs2, pegs3, pegs4);
     }
     const finalElements = boardElements.filter(item => item != null);
     Composite.add(engine.world, finalElements);
@@ -288,13 +329,18 @@ function checkCollisions() {
             if (bodies[i].position.x > 155 && bodies[i].position.x < 244) {slotMultiplier = 5;}     
         } else if (game.tiers < 3) {
             slotMultiplier = 2;
-        } else {
+        } else if (game.tiers < 3) {
             if (bodies[i].position.x <= 56 && bodies[i].position.y >= 450 && bodies[i].position.y <= 505) {slotMultiplier = 10;}
             if (bodies[i].position.x >= 344 && bodies[i].position.y >= 450 && bodies[i].position.y <= 505) {slotMultiplier = 10;}
             else if (bodies[i].position.x < 66) {slotMultiplier = 2.25;}
             else if (bodies[i].position.x > 155 && bodies[i].position.x < 244) {slotMultiplier = 2;}
             else if (bodies[i].position.x > 333) {slotMultiplier = 2.25;}
             else {slotMultiplier = 1.75;}
+        } else {
+            if (bodies[i].position.x < 66) {slotMultiplier = 4;}
+            else if (bodies[i].position.x > 155 && bodies[i].position.x < 244) {slotMultiplier = 2.25;}
+            else if (bodies[i].position.x > 333) {slotMultiplier = 4;}
+            else {slotMultiplier = 3;}
         }
         let variantMult = 1;
         if (bodies[i].variant === "shiny") variantMult = 2;
