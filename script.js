@@ -220,7 +220,6 @@ function loadGame(loadgame) {
             game.upgradeCosts.push(1e40)
         }
     }
-    if (game.upgradeCosts[15] = )
     if (game.spawnIntervals[6] > 250000) {
         game.spawnIntervals[6] = 250000
     }
