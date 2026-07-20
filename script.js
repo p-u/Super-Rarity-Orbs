@@ -216,10 +216,11 @@ function loadGame(loadgame) {
         } else if (i == 6) {
             game.spawnIntervals.push(250000)
             game.spawnerLuck.push(10000)
-            game.upgradeCosts.push(1e33)
-            game.upgradeCosts.push(1e34)
+            game.upgradeCosts.push(1e38)
+            game.upgradeCosts.push(1e40)
         }
     }
+    if (game.upgradeCosts[15] = )
     if (game.spawnIntervals[6] > 250000) {
         game.spawnIntervals[6] = 250000
     }
@@ -1726,7 +1727,7 @@ function keepUpLevels() {
     if (getSTUpAmt("RL-1") >= 1) {
         keptPct = game.skillTreeUpgs['rless']['upgrades'][0]['levels'][getSTUpAmt("RL-1")-1] / 100;
     }
-    const baseCosts = [50, 100, 500, 250, 1500, 25000, 2000, 8000, 75000, 1e10, 1e9, 5e13, 2.5e13, 1e20, 1e22, 1e33, 1e34];
+    const baseCosts = [50, 100, 500, 250, 1500, 25000, 2000, 8000, 75000, 1e10, 1e9, 5e13, 2.5e13, 1e20, 1e22, 1e38, 1e40];
     game.upgradeCosts = [...baseCosts];
     for (let i = 0; i < game.currentUpgrades.length; i++) {
              let kept = Math.floor(game.currentUpgrades[i] * keptPct);
@@ -1773,7 +1774,7 @@ function keepUpLevels() {
                                game.spawnIntervals[sId-1] *= (0.95 ** kept); 
                                if (game.spawnIntervals[sId-1] < 100) game.spawnIntervals[sId-1] = 100;
                            } else {
-                               let baseSpawnerLuck = [1, 1.5, 2.5, 10, 100, 1000, 10000];
+                               let baseSpawnerLuck = [1, 1.5, 2.5, 10, 100, 1000, 25000];
                                game.spawnerLuck[sId-1] = baseSpawnerLuck[sId-1] * (1.1 ** kept);
                            }
                        }
@@ -1836,8 +1837,8 @@ function CurrencyReset(boost=true) {
     game.baseLuck = (2 ** game.rebirths) * (3 ** game.tiers)
     game.diamondChance = 0.01
     game.timeSpentinReb = 0
-    game.spawnIntervals = [1000, 2000, 4000, 10000, 60000, 120000, 250000];
-    game.spawnerLuck = [1, 1.5, 2.5, 10, 100, 1000, 10000];
+    game.spawnIntervals = [1000, 2000, 4000, 10000, 60000, 100000, 180000];
+    game.spawnerLuck = [1, 1.5, 2.5, 10, 100, 1000, 25000];
     if (boost) {
         game.boostTimes = [0, 0, 0, 0];
         document.getElementsByClassName("boostText")[0].style.color = "#bbb"
@@ -1901,7 +1902,7 @@ function tier() {
         for (let i=1; i<=6; i++) {
             game.boostData[i]['uses'] = 0
         }
-        game.upgradeCosts = [50, 100, 500, 250, 1500, 25000, 2000, 8000, 75000, 1e10, 1e9, 5e13, 2.5e13, 1e20, 1e22, 1e33, 1e34];
+        game.upgradeCosts = [50, 100, 500, 250, 1500, 25000, 2000, 8000, 75000, 1e10, 1e9, 5e13, 2.5e13, 1e20, 1e22, 1e38, 1e40];
         if (!game.currentUpgrades) game.currentUpgrades = new Array(17).fill(0);
         else game.currentUpgrades.fill(0);
         game.maxTP++;
@@ -2262,7 +2263,7 @@ function respecSkillTree() {
         game.rebirths = Math.max(game.rebirths - 2, 0);
         game.diamonds = 0;
         game.spawnersUnlocked = 1;
-        game.upgradeCosts = [50, 100, 500, 250, 1500, 25000, 2000, 8000, 75000, 1e10, 1e9, 5e13, 2.5e13, 1e20, 1e22, 1e33, 1e34];
+        game.upgradeCosts = [50, 100, 500, 250, 1500, 25000, 2000, 8000, 75000, 1e10, 1e9, 5e13, 2.5e13, 1e20, 1e22, 1e38, 1e40];
         
         // Explicitly reset current upgrades count as we are wiping the costs
         if (!game.currentUpgrades) game.currentUpgrades = new Array(17).fill(0);
@@ -2441,7 +2442,7 @@ function recalcCurrentUpgrades() {
     // 11,12,13: Interval 5-7
     // 14,15,16: Luck 5-7
 
-    const baseCosts = [50, 100, 500, 250, 1500, 25000, 2000, 8000, 75000, 1e10, 1e9, 5e13, 2.5e13, 1e20, 1e22, 1e33, 1e34];
+    const baseCosts = [50, 100, 500, 250, 1500, 25000, 2000, 8000, 75000, 1e10, 1e9, 5e13, 2.5e13, 1e20, 1e22, 1e38, 1e40];
     
     // Helper for log base
     const getLevels = (current, base, mult) => Math.round(Math.log(current/base) / Math.log(mult));
