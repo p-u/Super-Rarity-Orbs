@@ -267,21 +267,21 @@ function loadGame(loadgame) {
     //Boosts
     if (game.boostTimes[0] == 0) {
         document.getElementsByClassName("boostText")[0].style.color = "#bbb"
-        document.getElementsByClassName("boostText")[0].innerText = "2x money gain - 0:00 (Inactive)"
+        document.getElementsByClassName("boostText")[0].innerText = "2x money gain - 0:00:00 (Inactive)"
     }
     else {
         document.getElementsByClassName("boostText")[0].style.color = "#8f8"
-        document.getElementsByClassName("boostText")[0].innerText = "2x money gain - " + Math.floor(game.boostTimes[0]/60) + ":" + (game.boostTimes[0]%60).toString().padStart(2, "0")
+        document.getElementsByClassName("boostText")[0].innerText = "2x money gain - " + formatBoostTime(game.boostTimes[0])
     }
     if (game.boostTimes[1] == 0) {
         document.getElementsByClassName("boostText")[1].style.color = "#bbb"
-        document.getElementsByClassName("boostText")[1].innerText = "2x luck - 0:00 (Inactive)"
+        document.getElementsByClassName("boostText")[1].innerText = "2x luck - 0:00:00 (Inactive)"
     }
     else {
         document.getElementsByClassName("boostText")[1].style.color = "#8f8"
-        document.getElementsByClassName("boostText")[1].innerText = "2x luck - " + Math.floor(game.boostTimes[1]/60) + ":" + (game.boostTimes[1]%60).toString().padStart(2, "0")
+        document.getElementsByClassName("boostText")[1].innerText = "2x luck - " + formatBoostTime(game.boostTimes[1])
     }
-    document.getElementsByClassName("boostText")[2].innerText = "Duplicate cooldown: " + game.boostTimes[2] + "s"
+    document.getElementsByClassName("boostText")[2].innerText = "Duplicate cooldown: " + formatBoostTime(game.boostTimes[2])
     document.getElementById("unlockWeatherButton").style.display = "none";
     document.getElementById("weather").style.display = "none";
     if (game.mechanicsUnlocked >= 1) {
@@ -447,6 +447,20 @@ function formatTime(x) {
     return String(hr) + ":" + String(min).padStart(2, "0") + ":" + String(sec).padStart(2, "0")
 }
 
+function formatBoostTime(x) {
+    const total = Math.max(0, Math.floor(x || 0));
+    const hours = Math.floor(total / 3600);
+    const minutes = Math.floor(total / 60) % 60;
+    const seconds = total % 60;
+    return `${hours}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+}
+
+function formatPlayTime(x) {
+    const total = Math.max(0, Math.floor(x || 0));
+    const days = Math.floor(total / 86400);
+    return `${days} days, ${formatBoostTime(total - days * 86400)}`;
+}
+
 function updateText() {
     if (game.inSkillTree) return;
     document.getElementById('money').innerText = "Money: $" + format(game.money);
@@ -593,20 +607,20 @@ function updateBoostsandData() {
     game.timeSpentinReb ++
     if (game.boostTimes[0] == 0) {
         document.getElementById("moneyBoostText").style.color = "#bbb"
-        document.getElementById("moneyBoostText").innerText = "2x money gain - 0:00 (Inactive)"
+        document.getElementById("moneyBoostText").innerText = "2x money gain - 0:00:00 (Inactive)"
     }
     else {
         document.getElementById("moneyBoostText").style.color = "#8f8"
-        document.getElementById("moneyBoostText").innerText = "2x money gain - " + Math.floor(game.boostTimes[0]/60) + ":" + (game.boostTimes[0]%60).toString().padStart(2, "0")
+        document.getElementById("moneyBoostText").innerText = "2x money gain - " + formatBoostTime(game.boostTimes[0])
     }
     if (game.boostTimes[1] == 0) {
         document.getElementById("luckBoostText").style.color = "#bbb"
-        document.getElementById("luckBoostText").innerText = "2x luck - 0:00 (Inactive)"
+        document.getElementById("luckBoostText").innerText = "2x luck - 0:00:00 (Inactive)"
         updateRarityList()
     }
     else {
         document.getElementById("luckBoostText").style.color = "#8f8"
-        document.getElementById("luckBoostText").innerText = "2x luck - " + Math.floor(game.boostTimes[1]/60) + ":" + (game.boostTimes[1]%60).toString().padStart(2, "0")
+        document.getElementById("luckBoostText").innerText = "2x luck - " + formatBoostTime(game.boostTimes[1])
     }
     let prior = ""
     if ((getSTUpAmt("BST-3")) > 1) prior = "[ENHANCED] "
@@ -615,7 +629,7 @@ function updateBoostsandData() {
         game.boostTimes[3]--
         if (game.boostTimes[3] == 0) {
             document.getElementById("ruoBoostText").style.color = "#bbb"
-            document.getElementById("ruoBoostText").innerText = `${prior}Obstacle Remover - 0:00 (Inactive)`
+            document.getElementById("ruoBoostText").innerText = `${prior}Obstacle Remover - 0:00:00 (Inactive)`
             buildBoard();
         } else if (game.boostTimes[3] == 20) {
             // Active phase ends, obstacles return
@@ -625,17 +639,17 @@ function updateBoostsandData() {
         } else if (game.boostTimes[3] > 20) {
             document.getElementById("ruoBoostText").style.color = "#8f8"
             let activeTime = game.boostTimes[3] - 20;
-            document.getElementById("ruoBoostText").innerText = prior + "Obstacle Remover - " + Math.floor(activeTime/60) + ":" + (activeTime%60).toString().padStart(2, "0")
+            document.getElementById("ruoBoostText").innerText = prior + "Obstacle Remover - " + formatBoostTime(activeTime)
         } else {
             // Cooldown phase
             document.getElementById("ruoBoostText").style.color = "#f88"
-            document.getElementById("ruoBoostText").innerText = prior + "Obstacle Remover - " + Math.floor(game.boostTimes[3]/60) + ":" + (game.boostTimes[3]%60).toString().padStart(2, "0") + " (cooldown)"
+            document.getElementById("ruoBoostText").innerText = prior + "Obstacle Remover - " + formatBoostTime(game.boostTimes[3]) + " (cooldown)"
         }
     } else {
         document.getElementById("ruoBoostText").style.color = "#bbb"
-        document.getElementById("ruoBoostText").innerText = `${prior}Obstacle Remover - 0:00 (Inactive)`
+        document.getElementById("ruoBoostText").innerText = `${prior}Obstacle Remover - 0:00:00 (Inactive)`
     }
-    document.getElementById("dupeBoostText").innerText = "Duplicate cooldown: " + game.boostTimes[2] + "s"
+    document.getElementById("dupeBoostText").innerText = "Duplicate cooldown: " + formatBoostTime(game.boostTimes[2])
 }
 updateBoostsandData()
 setInterval(updateBoostsandData, 1000);
@@ -998,7 +1012,7 @@ function updateVisuals() {
     } else {
         document.getElementById("xLuckBODiamondButton").style.display = "none"
     }
-    let timeplayedHTML = `Your Time Played is ${formatTime(game.timePlayed)}<br> Your last Rebirth was ${formatTime(game.timeSpentinReb)} ago<br>You are in Tier ${game.tiers} for ${formatTime(game.timeSpentinTier)}<br>Your best Luck is x${format(game.bestLuck, 2)}<br>Total Orbs Spawned: ${format(game.ttlOrbSpawn)}<br>`
+    let timeplayedHTML = `Your Time Played is ${formatPlayTime(game.timePlayed)}<br> Your last Rebirth was ${formatPlayTime(game.timeSpentinReb)} ago<br>You are in Tier ${game.tiers} for ${formatPlayTime(game.timeSpentinTier)}<br>Your best Luck is x${format(game.bestLuck, 2)}<br>Total Orbs Spawned: ${format(game.ttlOrbSpawn)}<br>`
     timeplayedHTML += `You have gotten a total of $${format(game.totalMoney)} (since v0.6r update)<br>You have gotten a total of ${format(game.totalDiamonds)} Diamonds (since v0.6r update)<br>Most Valuable Rarity: $${format(game.mostValuableOrb["value"])} (${game.mostValuableOrb["variant"]} ${rarityNames[game.mostValuableOrb["rarity"]-1]} Orb - x${game.mostValuableOrb["slotMulti"]} Slot Multiplier)<br>`
     if (game.mechanicsUnlocked >= 5) timeplayedHTML += `Total Weather Rolled: ${format(game.weatherRolled)}<br>`
     document.getElementById("extraStatsMPS").innerHTML = `Average Money/sec: $${format(game.moneyAvgRate)}`
@@ -1531,26 +1545,26 @@ function buyBoost(x) {
     if (x==1) {
         game.boostTimes[0] += 60
         document.getElementById("moneyBoostText").style.color = "#8f8"
-        document.getElementById("moneyBoostText").innerText = "2x money gain - " + Math.floor(game.boostTimes[0]/60) + ":" + (game.boostTimes[0]%60).toString().padStart(2, "0")
+        document.getElementById("moneyBoostText").innerText = "2x money gain - " + formatBoostTime(game.boostTimes[0])
         updateText()
     }
     else if (x==2) {
         game.boostTimes[0] += 300
         document.getElementById("moneyBoostText").style.color = "#8f8"
-        document.getElementById("moneyBoostText").innerText = "2x money gain - " + Math.floor(game.boostTimes[0]/60) + ":" + (game.boostTimes[0]%60).toString().padStart(2, "0")
+        document.getElementById("moneyBoostText").innerText = "2x money gain - " + formatBoostTime(game.boostTimes[0])
         updateText()
     }
     else if (x==3) {
         game.boostTimes[1] += 60
         document.getElementById("luckBoostText").style.color = "#8f8"
-        document.getElementById("luckBoostText").innerText = "2x luck - " + Math.floor(game.boostTimes[1]/60) + ":" + (game.boostTimes[1]%60).toString().padStart(2, "0")
+        document.getElementById("luckBoostText").innerText = "2x luck - " + formatBoostTime(game.boostTimes[1])
         updateText()
         updateRarityList()
     }
     else if (x==4) {
         game.boostTimes[1] += 300
         document.getElementById("luckBoostText").style.color = "#8f8"
-        document.getElementById("luckBoostText").innerText = "2x luck - " + Math.floor(game.boostTimes[1]/60) + ":" + (game.boostTimes[1]%60).toString().padStart(2, "0")
+        document.getElementById("luckBoostText").innerText = "2x luck - " + formatBoostTime(game.boostTimes[1])
         updateText()
         updateRarityList()
     }
@@ -1559,7 +1573,7 @@ function buyBoost(x) {
         if (getSTUpAmt("BST-2")) dupeCD = 40
         game.boostTimes[2] = dupeCD
         duplicateOrbs()
-        document.getElementById("dupeBoostText").innerText = "Duplicate cooldown: " + game.boostTimes[2] + "s"
+        document.getElementById("dupeBoostText").innerText = "Duplicate cooldown: " + formatBoostTime(game.boostTimes[2])
         updateText()
     }
     else if (x==6) {
@@ -1631,9 +1645,9 @@ function updateRarityList() {
         let newSlot = document.createElement("div");
         newSlot.className = "raritySlot";
         newSlot.style.backgroundImage = "linear-gradient(" + rarityColours[game.raritiesDisplayed*2] + ", " + rarityColours[game.raritiesDisplayed*2+1] + ")";
-        let oneIn = getOneIn(i);
+        let oneIn = getOneIn(game.raritiesDisplayed);
         if (game.showBaseRarity) {
-            oneIn = rarities[i];
+            oneIn = rarities[game.raritiesDisplayed];
         }
         const formatOneIn = formatChance(oneIn);
         
@@ -1841,9 +1855,9 @@ function CurrencyReset(boost=true) {
     if (boost) {
         game.boostTimes = [0, 0, 0, 0];
         document.getElementsByClassName("boostText")[0].style.color = "#bbb"
-        document.getElementsByClassName("boostText")[0].innerText = "2x money gain - 0:00 (Inactive)"
+        document.getElementsByClassName("boostText")[0].innerText = "2x money gain - 0:00:00 (Inactive)"
         document.getElementsByClassName("boostText")[1].style.color = "#bbb"
-        document.getElementsByClassName("boostText")[1].innerText = "2x luck - 0:00 (Inactive)"
+        document.getElementsByClassName("boostText")[1].innerText = "2x luck - 0:00:00 (Inactive)"
         document.getElementsByClassName("boostText")[2].innerText = "Duplicate cooldown: " + game.boostTimes[2] + "s"
     }
     updateRarityList()

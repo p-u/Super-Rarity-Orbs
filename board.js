@@ -388,7 +388,7 @@ function checkCollisions() {
             if (game.rebirths >= 80) {
                 mult *= 1.01**(game.rebirths - 80)
             }
-            if (game.tiers >= 2) {
+            if (game.tiers >= 1) {
                 game.diamonds += 10 * mult * variantMult * slotMultiplier * 1+((15*game.tiers)/100)
                 game.totalDiamonds += 10 * mult * variantMult * slotMultiplier * 1+((15*game.tiers)/100)
             } else {
