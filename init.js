@@ -11,7 +11,7 @@ function reset() {
         diamonds: 0,
         totalDiamonds: 0,
         diamondChance: 0.01,
-        spawnIntervals: [1000, 2000, 4000, 10000, 60000, 100000, 180000],
+        spawnIntervals: [1000, 2000, 4000, 10000, 50000, 100000, 180000],
         baseLuck: 1,
         totalLuck: 1,
         bestLuck: 1,
@@ -23,7 +23,7 @@ function reset() {
         rebScaling: 3.5,
         spawnerLuck: [1, 1.5, 2.5, 10, 100, 1000, 25000],
         numberFormat: "standard",
-        upgradeCosts: [50, 100, 500, 250, 1500, 25000, 2000, 8000, 75000, 1e10, 1e9, 5e13, 2.5e13, 1e20, 1e22, 1e38, 1e40], // for spawners and first few ups
+        upgradeCosts: [50, 100, 500, 250, 1500, 25000, 2000, 8000, 75000, 1e10, 1e9, 5e15, 2.5e15, 1e20, 1e22, 1e38, 1e33], // for spawners and first few ups
         newUpgCosts: [200], // for diamonds
         extUpgCosts: [1e33, 10000, 10, 500000], // for TPgain ups
         QUpgCosts: [40], // for QPgain ups
