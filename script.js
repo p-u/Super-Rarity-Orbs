@@ -8,7 +8,7 @@ const baseRaritySizes = [5, 6, 6, 6, 7, 7, 7, 8, 8, 9, 9, 9, 10, 10, 10, 10, 11,
 const rarityValues = [1, 4, 14, 35, 145, 450, 1600, 4800, 16000, 60000, 4e5, 8.25e5, 1.1e7, 6.7e7, 1.57e9, 1.62e10, 1.64e11, 1.72e12,      1.78e13,   9e14,  1.85e16,  4e17,  1.7e19, 2.9e20, 7.9e21, 3e22, 6e23, 3.5e24,  3.3e25, 1.9e27, 9e27, 5e28,    2.7e29, 2.6e30, 1e32, 7e32, 4e33, 8e34, 8e35, 1e37,   5e38,  1.2e39, 1.5e40, 1.2e41, 1.8e42,1.8e43,1.8e44,1.8e45,1.8e46,1.8e49]
 const rarityColours = ['#bbbbbb', '#bbbbbb', '#45bb45', '#45bb45', '#4545bb', '#4545bb', '#8845bb', '#8845bb', '#ff8800', '#ff8800', '#ff0000', '#ff0000', '#ff7b00', '#bb24bb', '#4800ff', '#000000', '#8200ff', '#000042', '#00c8ff', '#0084ff','#82ff49', '#14c98d', '#ffffff', '#ffe500', '#ff0000', '#5c0000', '#333333', '#111111', '#c307eb', '#11053a', '#d946ff', "#ffffff", "#0ba67f", "#07fbdd", "#ef9a1f", "#fcf046", "#52e5f6", "#ffffff", "#0c1381", "#635cdd", "#9f0811", "#fb0102", "#fe4dfe", "#e167cf", "#ffa700", "#ff4000", "#1cd328","#03660f", "#ffd600", "#ffc800", "#f0e606", "#ebc808", "#118cc1", "#49b5e2", "#70bfff", "#709dff", "#f59540", "#f79947", "#1618ff", "#00efff", "#ffff00", "#00efff", "#ffa500", "#00efff", "#ffbf00", "#ff0062", "#e4c81b", "#66e799", "#6e5445", "#38ffe1", "#082a61", "#06ade4", "#f93335", "#f77f27", "#1f030b", "#f21901", "#3d3937", "#7b685c", "#fdca00", "#d50b03", "#40275e", "#76569e", "#5dc500", "#0e5bb1", "#f9cd1c", "#0e162a", "#f87ec7", "#2987b8", "#78aede", "#feddee", "#1700de", "#f27a2f", "#fdfa42", "#cc5215", "#d5d5d5", "#6a6a6a", "#060c17", "#fac832", "#cc3e19", "#2d144f"]
 const weatherNames = ["Drizzle", "Rain", "Thunderstorm", "Snow", "Hail", "Avalanche", "Tornado", "Hurricane", "Asteroid Impact", "Meteor Shower"]
-const weatherEff = [[0.5, 0, 0, 60], [0, 0.5, 0, 60], [0.5, 0.5, 0, 60], [1, 0.5, 0.1, 75], [1.25, 0.5, 0.25, 75], [1.75, 1, 0.25, 120], [2.5, 1, 0.25, 150], [2.5, 2, 0.25, 150], [2.5, 2, 2, 150], [5, 3, 2, 150]] // [[]] represents whole list, 1 weather is 1 list. 4 idx - Luck mult, Money mult, Diamonds mult (all additive), Weather duration (secs)
+var weatherEff = [[0.5, 0, 0, 60], [0, 0.5, 0, 60], [0.5, 0.5, 0, 75], [1, 0.5, 0.1, 75], [1.25, 0.5, 0.25, 90], [2, 1, 0.5, 120], [2.5, 1.5, 0.5, 150], [3, 2, 1, 150], [4, 4, 1.5, 180], [6, 6, 2, 200]] // [[]] represents whole list, 1 weather is 1 list. 4 idx - Luck mult, Money mult, Diamonds mult (all additive), Weather duration (secs)
 const weatherColours = ['#ADD8E6', '#4a90e2', '#4a4ae2', '#ffffff', '#87ABA5', '#e3f4ff', '#888888', '#555555', '#767676', '#242ab2']
 const tutorialSteps = [
   {
@@ -318,7 +318,7 @@ function loadGame(loadgame) {
 
     game.boostData[1].increment = 25
     game.boostData[3].increment = 15
-    game.boostData[2].increment = 150
+    game.boostData[2].increment = 100
     game.boostData[4].increment = 100
     game.boostData[6].increment = 50
     if (game.boostData[1].baseCost > 50) {
@@ -387,15 +387,15 @@ function loadGame(loadgame) {
 }
 
 function spawn(id) {
+    // Keep the spawn loop alive even if one orb update hits a runtime error.
+    setTimeout(() => spawn(id), game.spawnIntervals[id-1]);
     if (game.inSkillTree) {
-        setTimeout(() => spawn(id), game.spawnIntervals[id-1]);
         return;
     }
     if (game.spawnersUnlocked >= id) {
         createOrb(id);
         if (Math.random() < getSTUpAmt("SPW-4")*0.1) createOrb(id); // double spawn
     }
-    setTimeout(() => spawn(id), game.spawnIntervals[id-1]);
 }
 
 for (let i = 1; i <= 7; i++) {
@@ -467,7 +467,7 @@ function updateText() {
     let moneyMult = game.moneyMultiplier * (game.boostTimes[0] ? 2 : 1) * game.weatherMoney
     if (game.mechanicsUnlocked>=3) moneyMult *= 1.06**game.highestRarity
     if (game.tiers >= 1) {
-        moneyMult *= (1.05 ** getSTUpAmt("MN-1"))
+        moneyMult *= (1.07 ** getSTUpAmt("MN-1"))
     }
     if (game.mechanicsUnlocked>= 5) {
         moneyMult *= game.weatherMult[1]
@@ -513,7 +513,8 @@ function updateText() {
     
     document.getElementById('diamonds').innerText = "Diamonds: " + format(Math.floor(game.diamonds));
     document.getElementById('diamondChance').innerText = "Diamond chance: " + format(game.diamondChance*100, 2) + "%";
-    document.getElementById("orbCapText").innerText = "Orbs: " + currentOrbs + " / " + game.spawnCap;
+    document.getElementById("orbCapText").innerText = "Base Spawn Cap: " + currentOrbs + " / " + game.spawnCap + " (Any Spawner)";
+    document.getElementById("SUPERorbCapText").innerText = "Super Spawn Cap: " + currentOrbsSuper + " / " + game.superSpawnCap + " (Only Spawners 5+)";
     for (let i=0; i<=6; i++) {
         document.getElementsByClassName("spawnerInterval")[i].innerText = "Spawn interval: " + (game.spawnIntervals[i]/1000).toFixed(3) + "s";
         document.getElementsByClassName("spawnerLuck")[i].innerText = "Luck: x" + format(game.totalLuck*game.spawnerLuck[i], 2);
@@ -541,22 +542,25 @@ function updateText() {
         document.getElementById('rebirthText').innerText = norming
     }
     updateWeatherStats();
-    let tierdesc = `Your Tier is ${game.tiers} >> ${game.tiers+1}<br>Tier Luck Multiplier x${3**game.tiers} >> x${3**(game.tiers+1)}<br>Tier Money Multiplier x${2**game.tiers} >> x${2**(game.tiers+1)}<br>Tier Diamond Increase: +${15*game.tiers}% >> +${15*(game.tiers+1)}%`
+    let tierdesc = `Your Tier is ${game.tiers} >> ${game.tiers+1}<br>Tier Luck Multiplier x${3**game.tiers} >> x${3**(game.tiers+1)}<br>Tier Money Multiplier x${2**game.tiers} >> x${2**(game.tiers+1)}<br>Tier Diamond Increase: +${15*game.tiers}% >> +${15*(game.tiers+1)}%<br>Extra Spawn Cap: +${10*game.tiers} >> +${10*(game.tiers+1)}`
     if (game.tiers >= maxTier) {
-        tierdesc = `Your Tier is ${game.tiers} (MAXED)<br>Tier Luck Multiplier x${3**game.tiers} (MAXED)<br>Tier Money Multiplier x${2**game.tiers} (MAXED)<br>Tier Diamond Increase: +${15*game.tiers}% (MAXED)`
+        tierdesc = `Your Tier is ${game.tiers} (MAXED)<br>Tier Luck Multiplier x${3**game.tiers} (MAXED)<br>Tier Money Multiplier x${2**game.tiers} (MAXED)<br>Tier Diamond Increase: +${15*game.tiers}% (MAXED)<br>Extra Spawn Cap: +${10*game.tiers} (MAXED)`
     }
     document.getElementById('tierText').innerHTML = tierdesc
     document.getElementById('weatherText').innerHTML = `You have ${game.weatherpts} Weather Points (WP) (+1/orb) <br> You have a 1/${format(1/game.weatherChance)} chance to gain a Weather Orb`
-    document.getElementById('WPText').innerHTML = `You have ${game.weatherPower} Weather Power (WPower)<br>WPower increases Weather chance by ${format(10*(Math.log2(game.weatherPower+1)), 3)}% and Spawn Cap by ${Math.floor(Math.log(game.weatherPower+1)/Math.log(3)*2)}`
+    document.getElementById('WPText').innerHTML = `You have ${game.weatherPower} Weather Power (WPower)<br>WPower increases Weather chance by ${format(10*(Math.log2(game.weatherPower+1)), 3)}% and Super Spawn Cap by ${Math.floor(Math.log(game.weatherPower+1)/Math.log(3)*2)}`
     document.getElementById('automationptsText').innerHTML = `You have ${format(game.automationpts)} Automation Points (AP)`
     updateAutomationUI();
     document.getElementById('WBoost').innerHTML = `Weather boost: x${format(game.weatherMult[0],2)} Luck, x${format(game.weatherMult[1],2)} Money, x${format(game.weatherMult[2],2)} Diamonds`
 
     if (getSTUpAmt("BST-1")) {
         game.boostData[1].baseCost = 0, game.boostData[3].baseCost = 0
-        game.boostData[2].baseCost = 200, game.boostData[4].baseCost = 200, game.boostData[5].baseCost = 450, game.boostData[6].baseCost = 200
+        game.boostData[2].baseCost = 200, game.boostData[4].baseCost = 200
         game.boostData[1].increment = 12, game.boostData[3].increment = 12
         game.boostData[2].increment = 80, game.boostData[4].increment = 80
+    }
+    if (getSTUpAmt("BST-2")) {
+        game.boostData[5].baseCost = 250, game.boostData[5].increment = 50
     }
     if (document.getElementById("SWChance").checked) {
         ttT = ""
@@ -567,6 +571,7 @@ function updateText() {
             } else {
                 ttT += " (" + game.weatherDuration[i] + " seconds left)"
             }
+            ttT += "<br>On roll, weather duration increases by "+ (weatherEff[i][3]+(10 * getSTUpAmt("BST-5"))) + " seconds"
             // Check for any effects
             if (weatherEff[i][0] > 0 || weatherEff[i][1] > 0 || weatherEff[i][2] > 0) {
                  ttT += " <br>Effect:"
@@ -709,7 +714,7 @@ function updateAllUpgradeText() {
     } else {
         document.getElementById('tierButton').innerHTML = "<b>Tier Up</b><br>(Maxed Tier Unlocked)"
     }
-    if (game.weatherUnlocked == 9) {
+    if (game.weatherUnlocked == 10) {
         document.getElementById("newWeather").innerHTML = "Unlock a new Weather that is available to be rolled!<br>Currently: " + game.weatherUnlocked + " weathers available to be rolled<br>(Maxed)"
     } else {
         document.getElementById("newWeather").innerHTML = "Unlock a new Weather that is available to be rolled!<br>Currently: " + game.weatherUnlocked + " weathers available to be rolled<br>Costs " + format(game.weatherUpCosts[1]) + " WP"
@@ -1260,7 +1265,7 @@ function newWeather() {
         game.weatherUnlocked++;
         game.weatherUpCosts[1] = Math.round(game.weatherUpCosts[1]*2);
         document.getElementById("newWeather").innerHTML = "Unlock a new Weather that is available to be rolled!<br>Currently: " + game.weatherUnlocked + " weathers available to be rolled<br>Costs " + format(game.weatherUpCosts[1]) + " WP"
-    } else if (game.weatherUnlocked == 9) {
+    } else if (game.weatherUnlocked == 10) {
         document.getElementById("newWeather").innerHTML = "Unlock a new Weather that is available to be rolled!<br>Currently: " + game.weatherUnlocked + " weathers available to be rolled<br>(Maxed)"
     }
     updateWeatherChance()
@@ -1339,40 +1344,40 @@ function rollWeather(){
 
 function updateWeatherChance() {
     if (game.weatherUnlocked >= 2) {
-        game.weatherChances[0] = 0.45
-        game.weatherChances[1] = 0.55
+        game.weatherChances[0] = 0.4
+        game.weatherChances[1] = 0.6
     }
     if (game.weatherUnlocked >= 3) {
-        game.weatherChances[1] = 0.25
-        game.weatherChances[2] = 0.3
+        game.weatherChances[1] = 0.27
+        game.weatherChances[2] = 0.33
     }
     if (game.weatherUnlocked >= 4) {
-        game.weatherChances[2] = 0.15
-        game.weatherChances[3] = 0.15
+        game.weatherChances[2] = 0.17
+        game.weatherChances[3] = 0.16
     }
     if (game.weatherUnlocked >= 5) {
         game.weatherChances[3] = 0.08
-        game.weatherChances[4] = 0.07
+        game.weatherChances[4] = 0.08
     }
     if (game.weatherUnlocked >= 6) {
         game.weatherChances[4] = 0.05
-        game.weatherChances[5] = 0.02
+        game.weatherChances[5] = 0.03
     }
     if (game.weatherUnlocked >= 7) {
-        game.weatherChances[5] = 0.011
-        game.weatherChances[6] = 0.009
+        game.weatherChances[5] = 0.018
+        game.weatherChances[6] = 0.012
     }
     if (game.weatherUnlocked >= 8) {
-        game.weatherChances[6] = 0.006
-        game.weatherChances[7] = 0.003
+        game.weatherChances[6] = 0.008
+        game.weatherChances[7] = 0.004
     }
     if (game.weatherUnlocked >= 9) {
-        game.weatherChances[7] = 0.0025
-        game.weatherChances[8] = 0.0005
+        game.weatherChances[7] = 0.003
+        game.weatherChances[8] = 0.001
     }
     if (game.weatherUnlocked >= 10) {
-        game.weatherChances[8] = 0.0003
-        game.weatherChances[9] = 0.0002
+        game.weatherChances[8] = 0.0007
+        game.weatherChances[9] = 0.0003
     }
 }
 
@@ -1570,7 +1575,6 @@ function buyBoost(x) {
     }
     else if (x==5) {
         let dupeCD = 60
-        if (getSTUpAmt("BST-2")) dupeCD = 40
         game.boostTimes[2] = dupeCD
         duplicateOrbs()
         document.getElementById("dupeBoostText").innerText = "Duplicate cooldown: " + formatBoostTime(game.boostTimes[2])
@@ -1605,7 +1609,7 @@ function updateRarityList() {
 
     function getOneIn(idx) {
         if (idx < 0 || idx >= rarities.length) return Infinity;
-        const t = (i) => Math.min(1, game.totalLuck / rarities[i]);
+        const t = (rarityIndex) => Math.min(1, game.totalLuck / rarities[rarityIndex]);
         let p = 0;
         if (idx === rarities.length - 1) {
             p = t(idx);
@@ -1625,20 +1629,20 @@ function updateRarityList() {
     //Update pre-existing rarity slot text
     const slots = document.getElementsByClassName("raritySlot");
     const slotsText = document.getElementsByClassName("raritySlotText");
-    for (let i=0; i<slotsText.length; i++) {
-        let oneIn = getOneIn(i);
+    for (let slotIndex=0; slotIndex<slotsText.length; slotIndex++) {
+        let oneIn = getOneIn(slotIndex);
         let formatOneIn = formatChance(oneIn);
         if (game.hideInfinity && formatOneIn === "Infinity") {
-            slots[i].style.display = "none";
+            slots[slotIndex].style.display = "none";
         } else {
-            slots[i].style.display = "block";
+            slots[slotIndex].style.display = "block";
         }
         if (game.showBaseRarity) {
-            oneIn = rarities[i];
+            oneIn = rarities[slotIndex];
             formatOneIn = formatChance(oneIn);
         }
 
-        slotsText[i].innerHTML = rarityNames[i] + " | ID: " + (i+1) + "<br><span style='font-size: 17px'>$" + format(rarityValues[i]*moneyMult) + " • 1 in " + formatOneIn + " • Obtained: "+ game.orbsObtained[i] + "</span>";
+        slotsText[slotIndex].innerHTML = rarityNames[slotIndex] + " | ID: " + (slotIndex+1) + "<br><span style='font-size: 17px'>$" + format(rarityValues[slotIndex]*moneyMult) + " • 1 in " + formatOneIn + " • Obtained: "+ game.orbsObtained[slotIndex] + "</span>";
     }
     while (game.raritiesDisplayed < game.highestRarity || game.raritiesDisplayed < 4) {
         //Create a div with the class 'raritySlot'
@@ -1981,9 +1985,12 @@ function updateWeatherStats() {
     let mult = 1 + (0.1 * Math.log2(game.weatherPower + 1));
     game.weatherChance = baseChance * mult;
 
-    let baseCap = 100 + getSTUpAmt("SPW-2") * 25;
+    let baseCap = 50 + getSTUpAmt("SPW-2") * 20;
+    let tierBonus = game.tiers * 10
+    let superCap = 10 + getSTUpAmt("SPW-2")*2;
     let powerBonus = Math.floor(Math.log(game.weatherPower + 1) / Math.log(3) * 2);
-    game.spawnCap = baseCap + powerBonus;
+    game.spawnCap = baseCap + tierBonus;
+    game.superSpawnCap = superCap + powerBonus
 }
 
 function buyAutomation(idx) {
@@ -2186,7 +2193,7 @@ function renderSkillTree() {
             if (getSTUpAmt("SPW-3") > 0) variantCount++;
             if (getSTUpAmt("SPW-3") > 0) variantCount++;
             if (getSTUpAmt("MN-4") > 4) variantCount++;
-            if (upg.id === "MN-1") effectText = `Current: x${(1.05 ** boughtCount).toFixed(2)} Money`;
+            if (upg.id === "MN-1") effectText = `Current: x${(1.07 ** boughtCount).toFixed(2)} Money`;
             else if (upg.id === "MN-2") effectText = `Current: x${(1.10 ** boughtCount).toFixed(2)} Luck`;
             else if (upg.id === "MN-3") effectText = `Current: x${(1.05 ** boughtCount).toFixed(2)} Diamonds`;
             else if (upg.id === "MN-5") effectText = `Current: /${(2 ** boughtCount).toFixed(2)} Rebirth Cost, x${(1.3 ** boughtCount).toFixed(2)} Luck`;
@@ -2194,10 +2201,9 @@ function renderSkillTree() {
             else if (upg.id === "RL-1") effectText = `Current: ${upg.levels[boughtCount-1] || 0}% Upgrades Kept`;
             else if (upg.id === "RL-2") effectText = `Current: ${format(1 + (Math.log2(Math.log10(Math.max(game.totalLuck, 100)))/20*boughtCount), 4)}x Luck if Current Luck below Best Luck (Effect increases when Best Luck is higher)`; 
             else if (upg.id === "RL-3") effectText = `Current: ${upg.levels[boughtCount-1] || 0}% Rebirths Kept`;
-            else if (upg.id === "BST-2") effectText = `Current: ${boughtCount > 0 ? '30s' : '60s'} Cooldown`;
             else if (upg.id === "BST-5") effectText = `Current: +${boughtCount * 10}s Duration`;
             else if (upg.id === "SPW-1") effectText = `Current: +${boughtCount} Spawners`;
-            else if (upg.id === "SPW-2") effectText = `Current: +${boughtCount * 25} Capacity`;
+            else if (upg.id === "SPW-2") effectText = `Current: +${boughtCount * 20} Base Capacity, +${boughtCount * 2} Super Capacity`;
             else if (upg.id === "SPW-3") effectText = `Current: ${variantCount} Variants Unlocked`;
             else if (upg.id === "SPW-4") effectText = `Current: +${boughtCount * 10}% Chance`;
             else if (upg.id === "SPW-5") effectText = `Current: ${100 - (boughtCount * 5)}% Orb Size`;

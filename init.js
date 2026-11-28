@@ -1,5 +1,6 @@
 let game
 let currentOrbs = 0
+let currentOrbsSuper = 0
 
 function reset() {
     game = {
@@ -60,7 +61,7 @@ function reset() {
         tiers: 0,
         boostData: {
             1: { baseCost: 50, increment: 25, uses: 0 },
-            2: { baseCost: 250, increment: 150, uses: 0 },
+            2: { baseCost: 250, increment: 100, uses: 0 },
             3: { baseCost: 50, increment: 15, uses: 0 },
             4: { baseCost: 250, increment: 100, uses: 0 },
             5: { baseCost: 500, increment: 100, uses: 0 },
@@ -82,9 +83,9 @@ function reset() {
             rless: { 
                 name: "Reset Less",
                 upgrades: [
-                    { id: "RL-1", name: "Keep Upgrades", desc: "Keep % of Upgrade Levels on Rebirth", levels: [35, 60, 80, 86, 91], costs: [1, 1, 2, 2, 3], req: null },
+                    { id: "RL-1", name: "Keep Upgrades", desc: "Keep % of Upgrade Levels on Rebirth", levels: [35, 60, 76, 82, 90], costs: [1, 1, 2, 2, 3], req: null },
                     { id: "RL-2", name: "Faster Recovery", desc: "If your Current Luck is less than your Best Luck, increase Luck", levels: [1, 2, 3, 4, 6], costs: [1, 1, 1, 1, 3], req: null }, // levels multiply to the formula (log2(lg(Luck))*0.05)
-                    { id: "RL-3", name: "Rebirth Keeper", desc: "Keep % of Rebirths on Tier", levels: [30, 55, 70, 80, 84, 94], costs: [1, 1, 2, 3, 2, 5], req: null },
+                    { id: "RL-3", name: "Rebirth Keeper", desc: "Keep % of Rebirths on Tier", levels: [30, 55, 72, 84, 88, 96], costs: [1, 1, 2, 3, 2, 5], req: null },
                     { id: "RL-4", name: "Rebirth Booster", desc: "Allow you to keep your boost times on Rebirth", cost: 1, req: null },
                     { id: "RL-5", name: "Weather $$$", desc: "Allow you to keep the 'Weather Money' upgrade on Tier", cost: 2, req: null }
                 ],
@@ -94,8 +95,8 @@ function reset() {
             boost: { 
                 name: "Boosts++",
                 upgrades: [
-                    { id: "BST-1", name: "Efficient Boosts", desc: "ALL boosts are 50 Diamonds cheaper. x2 Money and Luck boosts are also 20% less scaled.", cost: 1, req: null },
-                    { id: "BST-2", name: "Quick Dupe", desc: "Duplicate cooldown is reduced by 20s", cost: 1, req: null },
+                    { id: "BST-1", name: "Efficient Boosts", desc: "x2 Money and Luck boosts are 50 Diamonds cheaper. x2 Money and Luck boosts are also 20% less scaled.", cost: 1, req: null },
+                    { id: "BST-2", name: "Easy Dupe", desc: "Duplicate boost cost is halved", cost: 1, req: null },
                     { id: "BST-3", name: "Obstacle Remover", desc: "Unlock a new boost to remove some obstacles. The second level strengthens it.", max: 2, costs: [1, 2], req: null },
                     { id: "BST-4", name: "Auto-Potion", desc: "Auto-Money/Luck Potion when said potion ends (Toggleable)", cost: 2, req: ["BST-2", "BST-3"] },
                     { id: "BST-5", name: "Weather Extender", desc: "Somehow you have the power of gods to extend weather duration. +10s/upgrade.", max: 3, costs: [1,1,1], req: null }
@@ -106,7 +107,7 @@ function reset() {
             main: { 
                 name: "Main Multipliers",
                 upgrades: [
-                    { id: "MN-1", name: "Cash Flow", desc: "x1.05 Money", cost: 1, req: null, infinite: true },
+                    { id: "MN-1", name: "Cash Flow", desc: "x1.07 Money", cost: 1, req: null, infinite: true },
                     { id: "MN-2", name: "Lucky Power", desc: "x1.1 Luck", cost: 1, req: null, infinite: true },
                     { id: "MN-3", name: "Gem Finder", desc: "x1.05 Diamonds", cost: 1, req: null, infinite: true },
                     { id: "MN-4", name: "Glimmering", desc: "+1% Shiny chance and +0.5% Glowing chance, unlock a new variant on 4th buy", cost: 1, req: ["SPW-3"], infinite: true },
@@ -119,10 +120,10 @@ function reset() {
                 name: "Spawner Upgrades",
                 upgrades: [
                     { id: "SPW-1", name: "New Spawner", desc: "Unlock 1 new Spawner", cost: 1, req: null, max: 2 },
-                    { id: "SPW-2", name: "Orb Capacity", desc: "+25 Orb Cap", levels: [25, 50, 75, 100], costs: [1, 1, 2, 5], req: null, max: 4 },
+                    { id: "SPW-2", name: "Orb Capacity", desc: "+20 Base Spawn Cap, +2 Super Spawn Cap", levels: [20, 40, 60, 80], costs: [1, 1, 2, 3], req: null, max: 4 },
                     { id: "SPW-3", name: "Orb Variants", desc: "Unlock Orb Variants (recommended to get)", cost: 2, req: null },
                     { id: "SPW-4", name: "Double Drop", desc: "+10% Chance to double-drop", cost: 1, req: null, max: 10 },
-                    { id: "SPW-5", name: "Size Down", desc: "Decrease Orb size by 5% per level, so it can flow through the course easier!", max: 5, costs: [1, 2,3,4,5], req: null }
+                    { id: "SPW-5", name: "Size Down", desc: "Decrease Orb size by 5% per level, so it can flow through the course easier!", max: 5, costs: [1,1,2,3,4], req: null }
                 ],
                 bought: [0,0,0,0,0], 
                 unlocked: [true,true,true,true,false], 
@@ -141,7 +142,8 @@ function reset() {
         qpRefunded: false,
         weatherPower: 0,
         weatherChance: 0,
-        spawnCap: 100,
+        spawnCap: 50,
+        superSpawnCap: 10,
         automationpts: 0,
         automation: {
             levels: [0, 0, 0, 0], // AUTO 1-4

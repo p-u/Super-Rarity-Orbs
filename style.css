@@ -104,6 +104,11 @@ button {
     font-size: 18px;
     color: #bff;
 }
+#SUPERorbCapText {
+    margin: 0;
+    font-size: 18px;
+    color: #efbf04;
+}
 
 #extraStatsMPS {
     margin: 0;
